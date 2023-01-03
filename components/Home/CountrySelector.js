@@ -4,7 +4,7 @@ import React, { Fragment, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { HiChevronUpDown } from "react-icons/hi2";
 
-const CountrySelector = ({selectedCountry, setSelectedCountry}) => {
+const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
   const [query, setQuery] = useState("");
 
   const filteredCountries =
@@ -23,6 +23,7 @@ const CountrySelector = ({selectedCountry, setSelectedCountry}) => {
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               onChange={(event) => setQuery(event.target.value)}
               displayValue={(country) => country.country}
+              placeholder="Start typing to search..."
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <div>
