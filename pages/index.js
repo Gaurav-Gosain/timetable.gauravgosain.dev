@@ -1,9 +1,13 @@
+import CountrySelector from "@/components/Home/CountrySelector";
 import zone4 from "@/data/zone4.json";
 import { useUser } from "@supabase/auth-helpers-react";
 import Head from "next/head";
+import { useState } from "react";
 
 export default function Home() {
   const user = useUser();
+
+  const [selectedCountry, setSelectedCountry] = useState({});
 
   return (
     <>
@@ -31,6 +35,17 @@ export default function Home() {
             </span>
           </>
         )}
+
+        <div>Country Selector</div>
+
+        <CountrySelector
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
+        />
+
+        <div>
+          Selected Country: {selectedCountry.country} ({selectedCountry.zone})
+        </div>
 
         <pre className="max-w-screen max-h-[50vh] overflow-scroll text-left text-xs">
           <code>{JSON.stringify(zone4, null, 2)}</code>
