@@ -1,4 +1,4 @@
-import timetable from "@/data/timetable.json";
+import zone4 from "@/data/zone4.json";
 import { useUser } from "@supabase/auth-helpers-react";
 import Head from "next/head";
 
@@ -33,7 +33,7 @@ export default function Home() {
         )}
 
         <pre className="max-w-screen max-h-[50vh] overflow-scroll text-left text-xs">
-          <code>{JSON.stringify(timetable, null, 2)}</code>
+          <code>{JSON.stringify(zone4, null, 2)}</code>
         </pre>
       </div>
     </>
