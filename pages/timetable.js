@@ -3,16 +3,17 @@ import React from "react";
 
 const TimetablePage = () => {
   const router = useRouter();
-  const { code } = router.query;
+  const { code, zone } = router.query;
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
-      Code list:{" "}
+      <div>Code list:</div>
       <div>
         <pre>
           <code>{JSON.stringify(code, null, 2)}</code>
         </pre>
       </div>
+      <div>Zone = Zone-{zone}</div>
       <button
         className="rounded-full bg-primary px-6 py-1 text-dark"
         onClick={() => {

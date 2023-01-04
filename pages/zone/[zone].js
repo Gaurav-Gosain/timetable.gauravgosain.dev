@@ -169,7 +169,9 @@ const ZonePage = () => {
             className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark transition-all duration-300 hover:bg-white "
             onClick={() =>
               router.push(
-                `/timetable?code=${selectedSubs.map((sub) => sub.code).join("&code=")}`
+                `/timetable?code=${selectedSubs
+                  .map((sub) => sub.code)
+                  .join("&code=")}?zone=${zone}`
               )
             }
           >
