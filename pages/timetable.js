@@ -1,3 +1,4 @@
+import Table from "@/components/Timetable/Table";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -14,6 +15,7 @@ const TimetablePage = () => {
         </pre>
       </div>
       <div>Zone = Zone-{zone}</div>
+      <Table />
       <button
         className="rounded-full bg-primary px-6 py-1 text-dark"
         onClick={() => {

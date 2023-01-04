@@ -171,7 +171,7 @@ const ZonePage = () => {
               router.push(
                 `/timetable?code=${selectedSubs
                   .map((sub) => sub.code)
-                  .join("&code=")}?zone=${zone}`
+                  .join("&code=")}&zone=${zone}`
               )
             }
           >
