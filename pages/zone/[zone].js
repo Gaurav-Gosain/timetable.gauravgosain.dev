@@ -262,8 +262,11 @@ const ZonePage = () => {
             whileTap={{
               scale: 0.9,
             }}
+            initial={{
+              scale: 0,
+            }}
             animate={{
-              scale: [0, 1.4, 1],
+              scale: 1,
               transition: {
                 duration: 0.6,
                 type: "spring",
