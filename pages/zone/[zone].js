@@ -100,7 +100,7 @@ const ZonePage = () => {
 
   //conditional rendering : the first screen. Selection between IGCSE, O-Level or A-Level
   return !typeSelected ? (
-    <>
+    <div className="w-screen overflow-x-clip">
       <div className="flex w-full flex-row p-4">
         <button
           className="text-6xl text-white transition-all duration-300 hover:text-primary"
@@ -111,10 +111,10 @@ const ZonePage = () => {
         <motion.div
           className="fixed right-4 z-50 flex justify-center"
           initial={{
-            scale: 0,
+            x: -100,
           }}
           animate={{
-            scale: 1,
+            x: 0,
             transition: {
               duration: 0.6,
               type: "spring",
@@ -137,7 +137,7 @@ const ZonePage = () => {
       {/** Absolute Positioned Main Div */}
       <div className="absolute top-[50%] bottom-[50%] left-[15%] right-[15%] flex flex-col justify-center text-center">
         {/** Responsive Buttons Grid */}
-        <motion.div className="relative my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
+        <motion.div className="absolute my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
           {/** Main Heading */}
           <motion.h1
             initial={{
@@ -214,8 +214,8 @@ const ZonePage = () => {
                 type: "spring",
               },
             }}
-            layoutId="alevel"
             className="flex justify-center"
+            layoutId="alevel"
           >
             <motion.button
               layoutId="alevel-button"
@@ -227,7 +227,7 @@ const ZonePage = () => {
           </motion.div>
         </motion.div>
       </div>
-    </>
+    </div>
   ) : (
     //conditional rendering : the second screen containing the search engine. When a exam type button is Clicked
     <>
