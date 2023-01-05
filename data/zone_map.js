@@ -13,3 +13,21 @@ export const ZoneMap = {
   5: zone5,
   6: zone6,
 };
+
+export const SubjectMap = {
+  igcse: "Cambridge IGCSE",
+  olevel: "Cambridge O Level",
+  alevel: "Cambridge International A Level",
+};
+
+export const SubjectTextMap = {
+  igcse: "Cambridge IGCSE",
+  olevel: "Cambridge O-Level",
+  alevel: "Cambridge A-Level",
+};
+
+export const SubjectReverseMap = {
+  "Cambridge IGCSE": "igcse",
+  "Cambridge O Level": "olevel",
+  "Cambridge International A Level": "alevel",
+};

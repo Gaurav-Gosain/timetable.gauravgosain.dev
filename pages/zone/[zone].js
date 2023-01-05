@@ -1,6 +1,14 @@
-import { ZoneMap } from "@/data/zone_map";
+import {
+  SubjectMap,
+  SubjectReverseMap,
+  SubjectTextMap,
+  ZoneMap,
+} from "@/data/zone_map";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { HiX } from "react-icons/hi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ZonePage = () => {
   const router = useRouter();
@@ -75,24 +83,12 @@ const ZonePage = () => {
     setSearchInput("");
 
     //on button click, the respective states are updated
-    if (subject === "igcse") {
-      setSubjectType("Cambridge IGCSE");
-      setTypeSelected(true);
-    }
-
-    if (subject === "olevel") {
-      setSubjectType("Cambridge O Level");
-      setTypeSelected(true);
-    }
-
-    if (subject === "alevel") {
-      setSubjectType("Cambridge International A Level");
-      setTypeSelected(true);
-    }
-
     if (subject === "") {
       setSubjectType("");
       setTypeSelected(false);
+    } else {
+      setSubjectType(SubjectMap[subject]);
+      setTypeSelected(true);
     }
   };
 
@@ -104,69 +100,176 @@ const ZonePage = () => {
 
   //conditional rendering : the first screen. Selection between IGCSE, O-Level or A-Level
   return !typeSelected ? (
-    <>
-      <button
-        className="my-6 mx-4 rounded-2xl bg-primary px-6 py-1 font-[600] text-dark transition-all duration-300 hover:bg-white "
-        onClick={() => router.push("/")}
-      >
-        Go Back
-      </button>
+    <div className="w-screen overflow-x-hidden">
+      <div className="flex w-full flex-row p-4">
+        <button
+          className="text-6xl text-white transition-all duration-300 hover:text-primary"
+          onClick={() => router.push("/")}
+        >
+          <IoMdArrowRoundBack />
+        </button>
+        <motion.div
+          className="fixed right-4 z-50 flex justify-center"
+          initial={{
+            x: -100,
+          }}
+          animate={{
+            x: 0,
+            transition: {
+              duration: 0.6,
+              type: "spring",
+            },
+          }}
+          exit={{
+            x: "100%",
+            transition: {
+              duration: 0.6,
+              type: "spring",
+            },
+          }}
+        >
+          <button className="rounded-2xl bg-primary px-4 py-3 text-2xl font-[600] text-dark">
+            Zone-{zone}
+          </button>
+        </motion.div>
+      </div>
+
       {/** Absolute Positioned Main Div */}
       <div className="absolute top-[50%] bottom-[50%] left-[15%] right-[15%] flex flex-col justify-center text-center">
-        {/** Main Heading */}
-        <h1 className="text-2xl font-[600] text-white sm:text-3xl lg:text-5xl">
-          Select Your Examination Type
-        </h1>
-
         {/** Responsive Buttons Grid */}
-        <div className="my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:grid-cols-3 lg:gap-x-4 lg:text-3xl">
+        <motion.div className="absolute my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
+          {/** Main Heading */}
+          <motion.h1
+            initial={{
+              y: 100,
+            }}
+            animate={{
+              y: 0,
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="col-span-1 text-2xl font-[600] text-white sm:text-3xl lg:text-5xl xl:col-span-3"
+          >
+            Select Your Examination Type
+          </motion.h1>
           {/** IGCSE Button */}
-          <div className="flex justify-center">
-            <button
-              className="rounded-2xl bg-primary px-6 py-1 font-[600] text-dark transition-all duration-300 hover:bg-white"
+          <motion.div
+            initial={{
+              x: -100,
+            }}
+            animate={{
+              x: 0,
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="flex justify-center"
+            layoutId="igcse"
+          >
+            <motion.button
+              layoutId="igcse-button"
+              className="rounded-2xl bg-primary px-14 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("igcse")}
             >
               Cambridge IGCSE
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/** O-Level Button */}
-          <div className="flex justify-center">
-            <button
-              className="rounded-2xl bg-primary px-6 py-1 font-[600] text-dark transition-all duration-300 hover:bg-white"
+          <motion.div
+            initial={{
+              y: 100,
+            }}
+            animate={{
+              y: 0,
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="flex justify-center"
+            layoutId="olevel"
+          >
+            <motion.button
+              layoutId="olevel-button"
+              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("olevel")}
             >
               Cambridge O-Level
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/** A-Level Button */}
-          <div className="flex justify-center">
-            <button
-              className="rounded-2xl bg-primary px-6 py-1 font-[600] text-dark transition-all duration-300 hover:bg-white"
+          <motion.div
+            initial={{
+              x: 100,
+            }}
+            animate={{
+              x: 0,
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="flex justify-center"
+            layoutId="alevel"
+          >
+            <motion.button
+              layoutId="alevel-button"
+              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("alevel")}
             >
               Cambridge A-Level
-            </button>
-          </div>
-        </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
       </div>
-    </>
+    </div>
   ) : (
     //conditional rendering : the second screen containing the search engine. When a exam type button is Clicked
     <>
       {/** Go Back Button on Top Left */}
-      <button
-        className="my-6 mx-4 rounded-2xl bg-primary px-6 py-1 font-[600] text-dark transition-all duration-300 hover:bg-white "
-        onClick={() => backClickHandler()}
-      >
-        Go Back
-      </button>
+      <div className="flex w-full flex-row justify-between p-4">
+        <button
+          className="text-6xl text-white transition-all duration-300 hover:text-primary"
+          onClick={() => backClickHandler()}
+        >
+          <IoMdArrowRoundBack />
+        </button>
+        <motion.div
+          className="fixed right-4 z-50 flex justify-center"
+          layoutId={SubjectReverseMap[subjectType]}
+          onClick={() => setTypeSelected(false)}
+        >
+          <motion.button
+            layoutId={SubjectReverseMap[subjectType] + "-button"}
+            className="rounded-2xl bg-primary px-4 py-3 text-xl font-[600] text-dark"
+          >
+            {SubjectTextMap[SubjectReverseMap[subjectType]]}
+          </motion.button>
+        </motion.div>
+      </div>
 
       <div className="absolute bottom-10 flex w-full flex-col items-center justify-center gap-2">
         {selectedSubs.length > 0 && (
-          <button
-            className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark transition-all duration-300 hover:bg-white "
+          <motion.button
+            whileHover={{
+              scale: 1.1,
+            }}
+            whileTap={{
+              scale: 0.9,
+            }}
+            animate={{
+              scale: [0, 1.4, 1],
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark hover:bg-white "
             onClick={() =>
               router.push(
                 `/timetable?code=${selectedSubs
@@ -176,7 +279,7 @@ const ZonePage = () => {
             }
           >
             Done
-          </button>
+          </motion.button>
         )}
         <div className="text-center text-xs">
           You can add more subjects by searching and selecting in the search bar
@@ -185,38 +288,114 @@ const ZonePage = () => {
       </div>
 
       {/** Div Containing list of selected subjects on Top Left */}
-      <div className="">
+      <div>
         <h1 className="px-6 font-[500] text-primary">Selected Subjects :</h1>
-        {selectedSubs.map((currVal) => {
-          return (
-            <div className="my-2 mx-6 flex" key={currVal.zone}>
-              <button
-                className="rounded-full bg-red-500 px-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
-                onClick={() =>
-                  setSelectedSubs(
-                    selectedSubs.filter((arrItem) => arrItem !== currVal)
-                  )
-                }
-              >
-                -
-              </button>
-              <h1 id={currVal.code} className="text-md px-6 text-white">
-                {currVal.commonSubstring}
-              </h1>
-            </div>
-          );
-        })}
+        {/* Old vertical list layout */}
+        {/* <div className="max-h-96 overflow-auto">
+          {selectedSubs.map((currVal) => {
+            return (
+              <div className="my-2 mx-6 flex" key={currVal.code}>
+                <button
+                  className="rounded-full bg-red-500 px-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
+                  onClick={() =>
+                    setSelectedSubs(
+                      selectedSubs.filter((arrItem) => arrItem !== currVal)
+                    )
+                  }
+                >
+                  -
+                </button>
+                <h1 id={currVal.code} className="text-md px-6 text-white">
+                  {currVal.commonSubstring}
+                </h1>
+              </div>
+            );
+          })}
+        </div> */}
+        <motion.div
+          className="flex max-h-52 flex-wrap justify-center overflow-auto"
+          layout="position"
+        >
+          {
+            // map over reversed array to display the latest selected subject on top
+            selectedSubs
+              .slice()
+              .reverse()
+              .map((currVal) => {
+                return (
+                  <motion.div
+                    layout="position"
+                    initial={{
+                      scale: 0,
+                    }}
+                    animate={{
+                      scale: 1,
+                      transition: {
+                        duration: 0.6,
+                        type: "spring",
+                      },
+                    }}
+                    className="my-2 mx-6 flex items-center rounded-full bg-white/20 p-2"
+                    key={currVal.code}
+                  >
+                    <motion.h1
+                      id={currVal.code}
+                      className="lg:text-md px-4 text-sm font-semibold text-white"
+                    >
+                      {currVal.commonSubstring}
+                    </motion.h1>
+                    <motion.button
+                      className="flex items-center justify-center rounded-full bg-red-500 p-1 font-bold text-white transition-all duration-300 hover:bg-red-500 md:bg-red-500/70 lg:text-xl"
+                      onClick={() =>
+                        setSelectedSubs(
+                          selectedSubs.filter((arrItem) => arrItem !== currVal)
+                        )
+                      }
+                    >
+                      <HiX />
+                    </motion.button>
+                  </motion.div>
+                );
+              })
+          }
+        </motion.div>
       </div>
 
       {/** Absolute Positioned Main Div containing Search Engine Front End*/}
       <div className="absolute top-[40%] bottom-[50%] left-4 right-4 flex flex-col justify-center text-center lg:left-[15%] lg:right-[15%]">
         {/** Heading above Search Bar */}
-        <h1 className="text-2xl font-[600] text-white sm:text-3xl lg:text-5xl">
+        <motion.h1
+          initial={{
+            y: 100,
+          }}
+          animate={{
+            y: 0,
+            transition: {
+              duration: 0.6,
+              type: "spring",
+            },
+          }}
+          className="text-2xl font-[600] text-white sm:text-3xl lg:text-5xl"
+        >
           Search Your Subjects
-        </h1>
+        </motion.h1>
 
         {/** Search Bar */}
-        <div className="mt-10 flex flex-col items-center justify-center">
+        <motion.div
+          className="mt-10 flex flex-col items-center justify-center"
+          initial={{
+            opacity: 0,
+            width: 0,
+          }}
+          animate={{
+            width: "100%",
+            opacity: 1,
+            transition: {
+              duration: 0.5,
+              type: "spring",
+            },
+          }}
+        >
           <div className="relative flex h-12 w-full items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">
             <div className="grid h-full w-12 place-items-center text-gray-300">
               <svg
@@ -243,7 +422,7 @@ const ZonePage = () => {
               }}
               className="w-full"
             >
-              <input
+              <motion.input
                 className="peer h-full w-full pr-2 text-lg font-[400] text-dark outline-none"
                 type="text"
                 id="search"
@@ -293,7 +472,7 @@ const ZonePage = () => {
               })}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import CountriesToZoneMap from "@/data/countries_to_zone_map.json";
 import { Combobox, Transition } from "@headlessui/react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import React, { Fragment, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
@@ -18,19 +19,36 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="w-full px-4 lg:px-[15%]">
       <Combobox
         value={selectedCountry}
-        onChange={(value) =>
-          router.push(
-            `/zone/${value.zone.slice(-1)}`
-          )
-        }
+        onChange={(value) => router.push(`/zone/${value.zone.slice(-1)}`)}
       >
-        <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+        <div className="relative mt-1 w-full">
+          <div className="relative mx-auto flex h-12 w-full items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">
+            <Combobox.Button className="absolute inset-y-0 left-0 flex items-center pr-2">
+              <motion.div
+                className="grid h-full w-12 place-items-center text-gray-300"
+                layoutId="zone"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </motion.div>
+            </Combobox.Button>
             <Combobox.Input
-              className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+              className="w-full border-none py-2 pl-12 pr-10 text-lg leading-5 text-gray-900 focus:outline-none focus:ring-0"
               onChange={(event) => setQuery(event.target.value)}
               displayValue={(country) => country.country}
               placeholder="Start typing to search..."
@@ -51,49 +69,51 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredCountries.length === 0 && query !== "" ? (
-                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredCountries.map((country) => (
-                  <Combobox.Option
-                    key={country.country}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-teal-600 text-white" : "text-gray-900"
-                      }`
-                    }
-                    value={country}
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <span
-                          className={` block truncate text-left ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          {country.country}
-                        </span>
-                        {selected ? (
+            <div className="mt-4 flex w-full justify-center">
+              <Combobox.Options className="text-md absolute mt-1 max-h-96 w-[95%] overflow-auto rounded-2xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none lg:w-[60%] lg:text-lg">
+                {filteredCountries.length === 0 && query !== "" ? (
+                  <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    Nothing found.
+                  </div>
+                ) : (
+                  filteredCountries.map((country) => (
+                    <Combobox.Option
+                      key={country.country}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-4 pl-10 pr-4 ${
+                          active ? "bg-teal-600 text-white" : "text-gray-900"
+                        }`
+                      }
+                      value={country}
+                    >
+                      {({ selected, active }) => (
+                        <>
                           <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-teal-600"
+                            className={` block truncate text-left ${
+                              selected ? "font-semibold" : "font-medium"
                             }`}
                           >
-                            <AiOutlineCheck
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
+                            {country.country}
                           </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Combobox.Option>
-                ))
-              )}
-            </Combobox.Options>
+                          {selected ? (
+                            <span
+                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                active ? "text-white" : "text-teal-600"
+                              }`}
+                            >
+                              <AiOutlineCheck
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Combobox.Option>
+                  ))
+                )}
+              </Combobox.Options>
+            </div>
           </Transition>
         </div>
       </Combobox>

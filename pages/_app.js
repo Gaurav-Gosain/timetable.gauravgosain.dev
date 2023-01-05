@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
         supabaseClient={supabase}
         initialSession={pageProps.initialSession}
       >
-        <div className="min-h-screen bg-dark font-poppins text-white">
+        <div className="min-h-screen w-screen overflow-x-hidden bg-dark font-poppins text-white">
           <Component {...pageProps} />
         </div>
       </SessionContextProvider>
