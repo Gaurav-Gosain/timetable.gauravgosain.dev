@@ -81,7 +81,7 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
                       key={country.country}
                       className={({ active }) =>
                         `relative cursor-default select-none py-4 pl-10 pr-4 ${
-                          active ? "bg-teal-600 text-white" : "text-gray-900"
+                          active ? "bg-primary text-dark" : "text-gray-900"
                         }`
                       }
                       value={country}
@@ -98,7 +98,7 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
                           {selected ? (
                             <span
                               className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                active ? "text-white" : "text-teal-600"
+                                active ? "text-white" : "text-dark"
                               }`}
                             >
                               <AiOutlineCheck
