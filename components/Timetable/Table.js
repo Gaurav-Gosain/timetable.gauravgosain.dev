@@ -1,32 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
-import { motion, Reorder, useDragControls } from "framer-motion";
-import React, { Fragment, useEffect, useRef } from "react";
+import { motion, Reorder } from "framer-motion";
+import React, { Fragment } from "react";
 import { HiChevronDown } from "react-icons/hi2";
-import { ReorderIcon } from "./ReorderIcon";
 
 const Table = ({ subjects, setSubjects }) => {
-  const dragControls = useDragControls();
-
-  const iRef = useRef();
-
-  useEffect(() => {
-    const touchHandler = (e) => e.preventDefault();
-
-    const iTag = iRef.current;
-
-    if (iTag) {
-      //@ts-ignore
-      iTag.addEventListener("touchstart", touchHandler, { passive: false });
-
-      return () => {
-        //@ts-ignore
-        iTag.removeEventListener("touchstart", touchHandler, {
-          passive: false,
-        });
-      };
-    }
-  }, [iRef]);
-
   const SortByMenu = () => {
     return (
       <div>
@@ -201,12 +178,9 @@ const Table = ({ subjects, setSubjects }) => {
         >
           <motion.thead
             layout
-            className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+            className="sticky z-20 top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
-              <th scope="col" className="block px-6 py-3 md:hidden">
-                Reorder
-              </th>
               <th scope="col" className="px-6 py-3">
                 Subject Name
               </th>
@@ -244,12 +218,6 @@ const Table = ({ subjects, setSubjects }) => {
                 layout
                 whileDrag={{ opacity: 0.5 }}
               >
-                <th
-                  scope="col"
-                  className="m-auto flex w-full items-center justify-center h-24 text-center md:hidden"
-                >
-                  <ReorderIcon ref={iRef} dragControls={dragControls} />
-                </th>
                 <th
                   scope="row"
                   className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
