@@ -1,5 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import { motion } from "framer-motion";
+import { motion, Reorder } from "framer-motion";
 import React, { Fragment } from "react";
 import { HiChevronDown } from "react-icons/hi2";
 
@@ -38,6 +38,24 @@ const Table = ({ subjects, setSubjects }) => {
           >
             <Menu.Items className="absolute left-1/2 z-50 mt-2 w-60 -translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1 ">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-primary" : ""
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900`}
+                      onClick={() => {
+                        // sort by subject code
+                        const sortedSubjects = subjects.sort((a, b) => {
+                          return a.code.localeCompare(b.code);
+                        });
+                        setSubjects([...sortedSubjects]);
+                      }}
+                    >
+                      Subject Code
+                    </button>
+                  )}
+                </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
                     <button
@@ -184,12 +202,21 @@ const Table = ({ subjects, setSubjects }) => {
             </tr>
           </motion.thead>
 
-          <tbody>
+          <Reorder.Group
+            as={"tbody"}
+            values={subjects}
+            onReorder={setSubjects}
+            axis="y"
+            className="cursor-grab"
+          >
             {subjects.map((subject) => (
-              <motion.tr
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              <Reorder.Item
                 key={subject.code}
+                value={subject}
+                as="tr"
+                className="relative border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                 layout
+                whileDrag={{ opacity: 0.5 }}
               >
                 <th
                   scope="row"
@@ -213,9 +240,9 @@ const Table = ({ subjects, setSubjects }) => {
                     -
                   </button>
                 </td>
-              </motion.tr>
+              </Reorder.Item>
             ))}
-          </tbody>
+          </Reorder.Group>
         </motion.table>
       </div>
     </>
