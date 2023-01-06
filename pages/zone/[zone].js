@@ -293,30 +293,8 @@ const ZonePage = () => {
       {/** Div Containing list of selected subjects on Top Left */}
       <div>
         <h1 className="px-6 font-[500] text-primary">Selected Subjects :</h1>
-        {/* Old vertical list layout */}
-        {/* <div className="max-h-96 overflow-auto">
-          {selectedSubs.map((currVal) => {
-            return (
-              <div className="my-2 mx-6 flex" key={currVal.code}>
-                <button
-                  className="rounded-full bg-red-500 px-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
-                  onClick={() =>
-                    setSelectedSubs(
-                      selectedSubs.filter((arrItem) => arrItem !== currVal)
-                    )
-                  }
-                >
-                  -
-                </button>
-                <h1 id={currVal.code} className="text-md px-6 text-white">
-                  {currVal.commonSubstring}
-                </h1>
-              </div>
-            );
-          })}
-        </div> */}
         <motion.div
-          className="flex max-h-52 flex-wrap justify-center overflow-auto"
+          className="max-h-48 flex flex-wrap justify-center overflow-auto"
           layout="position"
         >
           {
@@ -343,7 +321,7 @@ const ZonePage = () => {
                   >
                     <motion.h1
                       id={currVal.code}
-                      className="lg:text-md px-4 text-sm font-semibold text-white"
+                      className="lg:text-md px-4 text-center text-sm font-semibold text-white"
                     >
                       {currVal.commonSubstring}
                     </motion.h1>
@@ -443,7 +421,7 @@ const ZonePage = () => {
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
           <div
-            className={`absolute top-[8rem] mt-2 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[60%] ${
+            className={`absolute top-[7.5rem] mt-2 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[60%] ${
               searchInput === "" ? "hidden" : "visible"
             } `}
           >

@@ -1,18 +1,167 @@
-import React from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { motion } from "framer-motion";
+import React, { Fragment } from "react";
+import { HiChevronDown } from "react-icons/hi2";
 
 const Table = ({ subjects, setSubjects }) => {
+  const SortByMenu = () => {
+    return (
+      <div>
+        <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button>
+              {({ open }) => (
+                <div className="inline-flex w-full justify-center rounded-md bg-primary bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  <div className="mr-2">Sort By</div>
+                  <motion.div
+                    animate={{
+                      rotate: open ? -180 : 0,
+                    }}
+                  >
+                    <HiChevronDown
+                      className="h-5 w-5 text-violet-200 hover:text-violet-100"
+                      aria-hidden="true"
+                    />
+                  </motion.div>
+                </div>
+              )}
+            </Menu.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute left-1/2 z-50 mt-2 w-60 -translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="px-1 py-1 ">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-primary" : ""
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900`}
+                      onClick={() => {
+                        // sort subject by duration
+                        // duration is a string, so we need to convert it to number'
+                        // parse duration from 1h 30m to 90 or 30m to 30
+                        const sortedSubjects = subjects.sort((a, b) => {
+                          const aDuration = a.duration
+                            .split(" ")
+                            .map((x) => {
+                              if (x.includes("h")) {
+                                return parseInt(x) * 60;
+                              } else {
+                                return parseInt(x);
+                              }
+                            })
+                            .reduce((a, b) => a + b);
+                          const bDuration = b.duration
+                            .split(" ")
+                            .map((x) => {
+                              if (x.includes("h")) {
+                                return parseInt(x) * 60;
+                              } else {
+                                return parseInt(x);
+                              }
+                            })
+                            .reduce((a, b) => a + b);
+                          return aDuration - bDuration;
+                        });
+                        setSubjects([...sortedSubjects]);
+                      }}
+                    >
+                      Duration (smallest to largest)
+                    </button>
+                  )}
+                </Menu.Item>
+
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-primary" : ""
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900`}
+                      onClick={() => {
+                        // sort subject by duration
+                        // duration is a string, so we need to convert it to number'
+                        // parse duration from 1h 30m to 90 or 30m to 30
+                        const sortedSubjects = subjects.sort((a, b) => {
+                          const aDuration = a.duration
+                            .split(" ")
+                            .map((x) => {
+                              if (x.includes("h")) {
+                                return parseInt(x) * 60;
+                              } else {
+                                return parseInt(x);
+                              }
+                            })
+                            .reduce((a, b) => a + b);
+                          const bDuration = b.duration
+                            .split(" ")
+                            .map((x) => {
+                              if (x.includes("h")) {
+                                return parseInt(x) * 60;
+                              } else {
+                                return parseInt(x);
+                              }
+                            })
+                            .reduce((a, b) => a + b);
+                          return aDuration - bDuration;
+                        });
+                        setSubjects([...sortedSubjects.slice().reverse()]);
+                      }}
+                    >
+                      Duration (largest to smallest)
+                    </button>
+                  )}
+                </Menu.Item>
+
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-primary" : ""
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900`}
+                      onClick={() => {
+                        // sort subject by date
+                        // parse date from Tuesday 25 April 2023 AM to 2023-04-25
+                        const sortedSubjects = subjects.sort((a, b) => {
+                          const aDate = a.date.split(" ").slice(1, 4).join("-");
+                          const bDate = b.date.split(" ").slice(1, 4).join("-");
+                          return new Date(aDate) - new Date(bDate);
+                        });
+                        setSubjects([...sortedSubjects]);
+                      }}
+                    >
+                      Date
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
+      </div>
+    );
+  };
+
   return (
     <>
-      {/* <div className="mt-12 flex flex-col items-center justify-center space-y-3 overflow-hidden">
-        <h1 className="text-3xl font-[500] text-white">My Exam Timetable</h1>
-        <button className="rounded-xl bg-black px-2 py-1 text-white">
-          Sort by Date
-        </button>
-      </div> */}
+      <SortByMenu />
 
       <div className="relative mx-32 my-8 max-h-[45rem] max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
-        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-          <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+        <motion.table
+          className="w-full text-left text-sm text-gray-500 dark:text-gray-400"
+          layout
+        >
+          <motion.thead
+            layout
+            className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+          >
             <tr>
               <th scope="col" className="px-6 py-3">
                 Subject Name
@@ -33,13 +182,14 @@ const Table = ({ subjects, setSubjects }) => {
                 Remove
               </th>
             </tr>
-          </thead>
+          </motion.thead>
 
           <tbody>
             {subjects.map((subject) => (
-              <tr
+              <motion.tr
                 className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                 key={subject.code}
+                layout
               >
                 <th
                   scope="row"
@@ -63,10 +213,10 @@ const Table = ({ subjects, setSubjects }) => {
                     -
                   </button>
                 </td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
-        </table>
+        </motion.table>
       </div>
     </>
   );
