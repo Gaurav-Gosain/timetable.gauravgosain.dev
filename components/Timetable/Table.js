@@ -10,7 +10,7 @@ const Table = ({ subjects, setSubjects }) => {
         </button>
       </div> */}
 
-      <div className="relative mx-32 my-8 max-h-96 max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
+      <div className="relative mx-32 my-8 max-h-[45rem] max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
           <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -55,8 +55,8 @@ const Table = ({ subjects, setSubjects }) => {
                   <button
                     className="mx-4 rounded-full bg-red-500 px-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
                     onClick={() =>
-                      setSelectedSubs(
-                        selectedSubs.filter((arrItem) => arrItem !== currVal)
+                      setSubjects(
+                        subjects.filter((arrItem) => arrItem !== subject)
                       )
                     }
                   >
