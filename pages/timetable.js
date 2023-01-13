@@ -14,8 +14,8 @@ const TimetablePage = () => {
   }, [timetableData]);
 
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center justify-center gap-4">
-      <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 py-16">
+      <div className="flex max-h-[80vh] flex-col items-center justify-center gap-4">
         <h1 className="text-3xl font-bold text-white">My Timetable</h1>
         <Table subjects={selectedSubjects} setSubjects={setSelectedSubjects} />
       </div>

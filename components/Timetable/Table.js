@@ -171,7 +171,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
     <>
       <SortByMenu />
 
-      <div className="relative mx-32 my-8 max-h-[45rem] max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
+      <div className="relative mx-32 my-8 max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
         <motion.table
           className="w-full select-none text-left text-sm text-gray-500 dark:text-gray-400"
           layout

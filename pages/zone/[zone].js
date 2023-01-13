@@ -17,7 +17,7 @@ const ZonePage = () => {
   const router = useRouter();
   const { zone } = router.query;
 
-  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
+  const [_, setTimetableData] = useSessionStorage("timetable", {});
 
   const data = ZoneMap[zone];
 
@@ -135,14 +135,14 @@ const ZonePage = () => {
   const List = () => {
     return (
       <>
-        <div className="grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl bg-black/20 py-4 px-4">
+        <div className="lg:text-md grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl bg-black/20 py-4 px-4 text-sm">
           <div className="col-span-4">Subject</div>
           <div>Type</div>
           <div>Code</div>
         </div>
         {filteredSubject.group?.map((subject, idx) => (
           <div
-            className="grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl py-4 px-4 hover:bg-black/10"
+            className="grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl py-4 px-4 text-xs hover:bg-black/10 lg:text-sm"
             key={idx}
             onClick={() => {
               setFilteredSubject({
@@ -180,13 +180,13 @@ const ZonePage = () => {
                   })
                 }
               />
-              <span className="ml-2 text-sm">{subject.subject}</span>
+              <span className="ml-2 ">{subject.subject}</span>
             </div>
             <div>
-              <span className="text-sm">{subject.type.slice(24)}</span>
+              <span>{subject.type.slice(24)}</span>
             </div>
             <div className="col-span-1">
-              <span className="text-sm">{subject.code}</span>
+              <span>{subject.code}</span>
             </div>
           </div>
         ))}
@@ -199,13 +199,13 @@ const ZonePage = () => {
     <div className="h-auto w-screen">
       <div className="flex w-full flex-row p-4">
         <button
-          className="text-6xl text-white transition-all duration-300 hover:text-primary"
+          className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
           onClick={() => router.push("/")}
         >
           <IoMdArrowRoundBack />
         </button>
         <motion.div
-          className="fixed right-4 z-50 flex justify-center"
+          className="absolute right-4 z-30 flex justify-center"
           initial={{
             x: -100,
           }}
@@ -370,7 +370,7 @@ const ZonePage = () => {
                           <Tab
                             className={({ selected }) =>
                               classNames(
-                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                "w-full rounded-lg py-2.5 text-xs font-medium leading-5 text-dark focus-visible:outline-none md:text-sm",
                                 selected
                                   ? "bg-primary text-white shadow"
                                   : "text-green-100 hover:bg-white/[0.12] hover:text-white"
@@ -393,7 +393,7 @@ const ZonePage = () => {
                           <Tab
                             className={({ selected }) =>
                               classNames(
-                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                "w-full rounded-lg py-2.5 text-xs font-medium leading-5 text-dark focus-visible:outline-none md:text-sm",
                                 selected
                                   ? "bg-primary text-white shadow"
                                   : "text-green-100 hover:bg-white/[0.12] hover:text-white"
@@ -416,7 +416,7 @@ const ZonePage = () => {
                           <Tab
                             className={({ selected }) =>
                               classNames(
-                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                "w-full rounded-lg py-2.5 text-xs font-medium leading-5 text-dark focus-visible:outline-none md:text-sm",
                                 selected
                                   ? "bg-primary text-white shadow"
                                   : "text-green-100 hover:bg-white/[0.12] hover:text-white"
@@ -568,13 +568,13 @@ const ZonePage = () => {
       {/** Go Back Button on Top Left */}
       <div className="flex w-full flex-row justify-between p-4">
         <button
-          className="text-6xl text-white transition-all duration-300 hover:text-primary"
+          className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
           onClick={() => backClickHandler()}
         >
           <IoMdArrowRoundBack />
         </button>
         <motion.div
-          className="fixed right-4 z-50 flex justify-center"
+          className="absolute right-4 z-30 flex justify-center"
           layoutId={SubjectReverseMap[subjectType]}
           onClick={backClickHandler}
         >
@@ -707,7 +707,7 @@ const ZonePage = () => {
       </div>
 
       {/** Absolute Positioned Main Div containing Search Engine Front End*/}
-      <div className="absolute top-[40%] bottom-[50%] left-4 right-4 flex flex-col justify-center text-center lg:left-[15%] lg:right-[15%]">
+      <div className="top-[40%] bottom-[50%] left-4 right-4 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%]">
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
@@ -720,7 +720,7 @@ const ZonePage = () => {
               type: "spring",
             },
           }}
-          className="text-2xl font-[600] text-white sm:text-3xl lg:text-5xl"
+          className="mt-4 text-2xl font-[600] text-white sm:text-3xl md:mt-0 lg:text-5xl"
         >
           Search Your Subjects
         </motion.h1>
@@ -801,7 +801,7 @@ const ZonePage = () => {
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
           <div
-            className={`absolute top-[7.5rem] mt-2 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[60%] ${
+            className={`top-[7.5rem] mt-2 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark md:absolute lg:w-[60%] ${
               searchInput === "" ? "hidden" : "visible"
             } `}
           >
