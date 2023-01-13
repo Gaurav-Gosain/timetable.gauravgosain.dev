@@ -1,36 +1,20 @@
 import Table from "@/components/Timetable/Table";
-import { ZoneMap } from "@/data/zone_map";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { useSessionStorage } from "usehooks-ts";
 
 const TimetablePage = () => {
   const router = useRouter();
-  const { code, zone } = router.query;
+  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
 
-  const [zoneData, setZoneData] = React.useState(null);
   const [selectedSubjects, setSelectedSubjects] = React.useState([]);
 
   useEffect(() => {
-    setZoneData(ZoneMap[parseInt(zone)]);
-  }, [zone]);
-
-  useEffect(() => {
-    if (zoneData) {
-      let filteredSubjects = [];
-      if (typeof code === "string") {
-        filteredSubjects = zoneData.filter((x) => x.code === code);
-      } else {
-        filteredSubjects = zoneData.filter((x) => code.includes(x.code));
-      }
-
-      // flatten the array
-      const subjects = filteredSubjects.map((x) => x.group).flat();
-      setSelectedSubjects(subjects);
-    }
-  }, [zoneData, code]);
+    setSelectedSubjects(timetableData.selectedSubs.map((x) => x.group).flat());
+  }, [timetableData]);
 
   return (
-    <div className="mt-12 flex min-h-screen w-screen flex-col items-center justify-center gap-4">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-3xl font-bold text-white">My Timetable</h1>
         <Table subjects={selectedSubjects} setSubjects={setSelectedSubjects} />

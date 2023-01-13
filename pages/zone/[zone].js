@@ -4,15 +4,20 @@ import {
   SubjectTextMap,
   ZoneMap,
 } from "@/data/zone_map";
+import { Dialog, Tab, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { HiX } from "react-icons/hi";
+import { HiPencil } from "react-icons/hi2";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useSessionStorage } from "usehooks-ts";
 
 const ZonePage = () => {
   const router = useRouter();
   const { zone } = router.query;
+
+  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
 
   const data = ZoneMap[zone];
 
@@ -31,7 +36,31 @@ const ZonePage = () => {
   //the final array containing the objects of selected subjects only
   const [selectedSubs, setSelectedSubs] = useState([]);
 
-  //storing the whole data.js array of objects in tempFilteredData.
+  //only show modal when the selected exam type is A-Level (derived state is always better than an effect)
+  const showModal = subjectType === SubjectMap.alevel;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const [filteredSubject, setFilteredSubject] = useState({});
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeEditModal() {
+    setIsEditOpen(false);
+  }
+
+  function openEditModal() {
+    setIsEditOpen(true);
+  }
+
+  //storing the whole data.js array of objects in filteredData.
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
@@ -97,6 +126,72 @@ const ZonePage = () => {
   const backClickHandler = () => {
     setSelectedSubs([]);
     clickHandler("");
+  };
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+  const List = () => {
+    return (
+      <>
+        <div className="grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl bg-black/20 py-4 px-4">
+          <div className="col-span-4">Subject</div>
+          <div>Type</div>
+          <div>Code</div>
+        </div>
+        {filteredSubject.group?.map((subject, idx) => (
+          <div
+            className="grid w-full cursor-pointer select-none grid-cols-6 items-center justify-between rounded-xl py-4 px-4 hover:bg-black/10"
+            key={idx}
+            onClick={() => {
+              setFilteredSubject({
+                ...filteredSubject,
+                group: filteredSubject.group?.map((sub) => {
+                  if (sub.code === subject.code) {
+                    return {
+                      ...sub,
+                      selected: !subject.selected,
+                    };
+                  }
+                  return sub;
+                }),
+              });
+            }}
+          >
+            <div className="col-span-4 flex items-center">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-primary"
+                checked={subject.selected}
+                onChange={() =>
+                  // select the subject
+                  setFilteredSubject({
+                    ...filteredSubject,
+                    group: filteredSubject.group?.map((sub) => {
+                      if (sub.code === subject.code) {
+                        return {
+                          ...sub,
+                          selected: !sub.selected,
+                        };
+                      }
+                      return sub;
+                    }),
+                  })
+                }
+              />
+              <span className="ml-2 text-sm">{subject.subject}</span>
+            </div>
+            <div>
+              <span className="text-sm">{subject.type.slice(24)}</span>
+            </div>
+            <div className="col-span-1">
+              <span className="text-sm">{subject.code}</span>
+            </div>
+          </div>
+        ))}
+      </>
+    );
   };
 
   //conditional rendering : the first screen. Selection between IGCSE, O-Level or A-Level
@@ -232,6 +327,244 @@ const ZonePage = () => {
   ) : (
     //conditional rendering : the second screen containing the search engine. When a exam type button is Clicked
     <>
+      {/* modal shown before adding a new subject */}
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-dark py-6 px-1 text-left align-middle text-white shadow-xl transition-all md:px-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="flex flex-col items-center text-lg font-medium leading-6"
+                  >
+                    <span>Select your components for</span>
+                    <span className="font-bold">
+                      {filteredSubject.commonSubstring} - {filteredSubject.code}
+                    </span>
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <div className="w-full px-2 py-8 sm:px-0">
+                      <Tab.Group>
+                        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                          <Tab
+                            className={({ selected }) =>
+                              classNames(
+                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                selected
+                                  ? "bg-primary text-white shadow"
+                                  : "text-green-100 hover:bg-white/[0.12] hover:text-white"
+                              )
+                            }
+                            onClick={() => {
+                              setFilteredSubject({
+                                ...filteredSubject,
+                                // set selected to true for subjects with "AS" level only
+                                group: filteredSubject.group.map((subject) =>
+                                  subject.type.includes("AS")
+                                    ? { ...subject, selected: true }
+                                    : { ...subject, selected: false }
+                                ),
+                              });
+                            }}
+                          >
+                            AS-Level Only
+                          </Tab>
+                          <Tab
+                            className={({ selected }) =>
+                              classNames(
+                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                selected
+                                  ? "bg-primary text-white shadow"
+                                  : "text-green-100 hover:bg-white/[0.12] hover:text-white"
+                              )
+                            }
+                            onClick={() => {
+                              setFilteredSubject({
+                                ...filteredSubject,
+                                // set selected to true for subjects with "AS" level only
+                                group: filteredSubject.group.map((subject) =>
+                                  subject.type.includes("A Level")
+                                    ? { ...subject, selected: true }
+                                    : { ...subject, selected: false }
+                                ),
+                              });
+                            }}
+                          >
+                            A2-Level Only
+                          </Tab>
+                          <Tab
+                            className={({ selected }) =>
+                              classNames(
+                                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark",
+                                selected
+                                  ? "bg-primary text-white shadow"
+                                  : "text-green-100 hover:bg-white/[0.12] hover:text-white"
+                              )
+                            }
+                            onClick={() => {
+                              setFilteredSubject({
+                                ...filteredSubject,
+                                // set selected to true for subjects with "AS" level only
+                                group: filteredSubject.group.map((subject) => {
+                                  return { ...subject, selected: true };
+                                }),
+                              });
+                            }}
+                          >
+                            Customize
+                          </Tab>
+                        </Tab.List>
+                        <Tab.Panels className="mt-2">
+                          <Tab.Panel className={"rounded-xl md:p-3"}>
+                            <List />
+                          </Tab.Panel>
+                          <Tab.Panel className={"rounded-xl md:p-3"}>
+                            <List />
+                          </Tab.Panel>
+                          <Tab.Panel className={"rounded-xl md:p-3"}>
+                            <List />
+                          </Tab.Panel>
+                        </Tab.Panels>
+                      </Tab.Group>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex w-full items-center justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-primary/80 px-4 py-2 text-sm font-semibold text-dark hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      onClick={() => {
+                        // check the count of selected subjects
+                        const selectedCount = filteredSubject.group.filter(
+                          (subject) => subject.selected
+                        ).length;
+
+                        // if the count is 0, then remove the subject from the selected subjects array
+
+                        if (selectedCount === 0) {
+                          closeModal();
+                          return;
+                        }
+                        addSubject(filteredSubject);
+                        closeModal();
+                      }}
+                    >
+                      Done
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      {/* modal shown when the edit button is clicked */}
+      <Transition appear show={isEditOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={closeEditModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-dark py-6 px-1 text-left align-middle text-white shadow-xl transition-all md:px-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="flex flex-col items-center text-lg font-medium leading-6"
+                  >
+                    <span>Edit your components for</span>
+                    <span className="font-bold">
+                      {filteredSubject.commonSubstring} - {filteredSubject.code}
+                    </span>
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <div className="w-full px-2 py-8 sm:px-0">
+                      <List />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex w-full items-center justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-primary/80 px-4 py-2 text-sm font-semibold text-dark hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      onClick={() => {
+                        // updated the current subject in the selected subjects array
+                        const selectedSubjects = selectedSubs;
+
+                        // check the count of selected subjects
+                        const selectedCount = filteredSubject.group.filter(
+                          (subject) => subject.selected
+                        ).length;
+
+                        // if the count is 0, then remove the subject from the selected subjects array
+
+                        if (selectedCount === 0) {
+                          setSelectedSubs(
+                            selectedSubjects.filter(
+                              (subject) => subject.code !== filteredSubject.code
+                            )
+                          );
+                          closeEditModal();
+                          return;
+                        }
+
+                        const index = selectedSubjects.findIndex(
+                          (subject) => subject.code === filteredSubject.code
+                        );
+                        selectedSubjects[index] = filteredSubject;
+                        setSelectedSubs(selectedSubjects);
+                        closeEditModal();
+                      }}
+                    >
+                      Done
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
       {/** Go Back Button on Top Left */}
       <div className="flex w-full flex-row justify-between p-4">
         <button
@@ -243,7 +576,7 @@ const ZonePage = () => {
         <motion.div
           className="fixed right-4 z-50 flex justify-center"
           layoutId={SubjectReverseMap[subjectType]}
-          onClick={() => setTypeSelected(false)}
+          onClick={backClickHandler}
         >
           <motion.button
             layoutId={SubjectReverseMap[subjectType] + "-button"}
@@ -274,14 +607,32 @@ const ZonePage = () => {
               },
             }}
             className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark hover:bg-white "
-            onClick={() =>
+            onClick={() => {
+              // save the selected subjects in the session storage
+              setTimetableData({
+                selectedSubs: selectedSubs.map((sub) => {
+                  return {
+                    code: sub.code,
+                    // remove the selected property from the sub group
+                    group: sub.group
+                      .filter((sub) => sub.selected)
+                      .map((sub) => {
+                        delete sub.selected;
+                        return sub;
+                      }),
+                  };
+                }),
+                zone,
+              });
+
               // router.push(
               //   `/timetable?code=${selectedSubs
               //     .map((sub) => sub.code)
               //     .join("&code=")}&zone=${zone}`
-              // )
-              console.log(selectedSubs)
-            }
+              // );
+              
+              router.push(`/timetable`);
+            }}
           >
             Done
           </motion.button>
@@ -327,6 +678,17 @@ const ZonePage = () => {
                     >
                       {currVal.commonSubstring}
                     </motion.h1>
+                    {showModal && (
+                      <motion.button
+                        className="mr-2 flex items-center justify-center rounded-full bg-green-500 p-1 font-bold text-white transition-all duration-300 hover:bg-green-500 md:bg-green-500/70 lg:text-xl"
+                        onClick={() => {
+                          setFilteredSubject(currVal);
+                          openEditModal();
+                        }}
+                      >
+                        <HiPencil />
+                      </motion.button>
+                    )}
                     <motion.button
                       className="flex items-center justify-center rounded-full bg-red-500 p-1 font-bold text-white transition-all duration-300 hover:bg-red-500 md:bg-red-500/70 lg:text-xl"
                       onClick={() =>
@@ -400,8 +762,24 @@ const ZonePage = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (searchInput !== "" && filteredData.length)
-                  addSubject(filteredData[0]);
+                if (searchInput !== "" && filteredData.length) {
+                  let selectedSubject = filteredData[0];
+                  if (showModal) {
+                    selectedSubject.group = selectedSubject.group.map(
+                      (group) => {
+                        return {
+                          ...group,
+                          // set the selected group to true if the group type includes AS
+                          selected: group.type.includes("AS") ? true : false,
+                        };
+                      }
+                    );
+                    setFilteredSubject(selectedSubject);
+                    openModal();
+                  } else {
+                    addSubject(selectedSubject);
+                  }
+                }
               }}
               className="w-full"
             >
@@ -443,12 +821,26 @@ const ZonePage = () => {
                 return (
                   <button
                     key={currVal.code}
-                    className={`min-h-96 duration-300ms flex w-full flex-row justify-between py-2 text-sm font-[500] transition-colors ease-in-out hover:bg-gray-100 active:bg-primary lg:text-lg ${
-                      selectedSubs.includes(currVal)
-                        ? "bg-primary/80 hover:bg-primary"
-                        : "bg-white"
-                    }`}
-                    onClick={() => addSubject(currVal)}
+                    className={
+                      "min-h-96 duration-300ms flex w-full flex-row justify-between bg-white py-2 text-sm font-[500] transition-colors ease-in-out hover:bg-gray-100 active:bg-primary lg:text-lg"
+                    }
+                    onClick={() => {
+                      if (showModal) {
+                        let selectedSubject = currVal;
+                        selectedSubject.group = selectedSubject.group.map(
+                          (group) => {
+                            return {
+                              ...group,
+                              selected: group.type.includes("AS")
+                                ? true
+                                : false,
+                            };
+                          }
+                        );
+                        setFilteredSubject(selectedSubject);
+                        openModal();
+                      } else addSubject(currVal);
+                    }}
                   >
                     <h1 className="max-w-[50%] pl-[5%] text-left">
                       {currVal.commonSubstring}
