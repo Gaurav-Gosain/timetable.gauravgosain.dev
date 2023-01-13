@@ -200,7 +200,10 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
                 Session
               </th>
               {editable && (
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="sticky right-0 bg-gray-700 px-1 py-3"
+                >
                   Remove
                 </th>
               )}
@@ -228,7 +231,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
                   {subject.date.split(" ").slice(-1)}
                 </td>
                 {editable && (
-                  <td className="px-6 py-4">
+                  <td className="sticky right-0 bg-gray-800 px-1 py-4">
                     <button
                       className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
                       onClick={() =>
