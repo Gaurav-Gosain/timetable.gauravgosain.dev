@@ -162,7 +162,7 @@ const ZonePage = () => {
             <div className="col-span-4 flex items-center">
               <input
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-primary"
+                className="h-4 w-4 rounded border-gray-300 accent-primary"
                 checked={subject.selected}
                 onChange={() =>
                   // select the subject
@@ -630,7 +630,7 @@ const ZonePage = () => {
               //     .map((sub) => sub.code)
               //     .join("&code=")}&zone=${zone}`
               // );
-              
+
               router.push(`/timetable`);
             }}
           >
