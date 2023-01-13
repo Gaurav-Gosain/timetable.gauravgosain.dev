@@ -610,18 +610,20 @@ const ZonePage = () => {
             onClick={() => {
               // save the selected subjects in the session storage
               setTimetableData({
-                selectedSubs: selectedSubs.map((sub) => {
-                  return {
-                    code: sub.code,
-                    // remove the selected property from the sub group
-                    group: sub.group
-                      .filter((sub) => sub.selected)
-                      .map((sub) => {
-                        delete sub.selected;
-                        return sub;
-                      }),
-                  };
-                }),
+                selectedSubs: showModal
+                  ? selectedSubs.map((sub) => {
+                      return {
+                        code: sub.code,
+                        // remove the selected property from the sub group
+                        group: sub.group
+                          .filter((sub) => sub.selected)
+                          .map((sub) => {
+                            delete sub.selected;
+                            return sub;
+                          }),
+                      };
+                    })
+                  : selectedSubs,
                 zone,
               });
 

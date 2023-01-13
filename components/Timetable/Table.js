@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
 import React, { Fragment } from "react";
+import { CgScrollH } from "react-icons/cg";
 import { HiChevronDown, HiTrash } from "react-icons/hi2";
 
 const Table = ({ subjects, setSubjects, editable = true }) => {
@@ -248,6 +249,9 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
             ))}
           </tbody>
         </motion.table>
+      </div>
+      <div className="flex items-center gap-x-4 text-sm text-gray-400 md:hidden">
+        Scroll <CgScrollH /> to see more content
       </div>
     </>
   );
