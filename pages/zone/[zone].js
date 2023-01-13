@@ -40,7 +40,8 @@ const ZonePage = () => {
   const searchInputRef = useRef(null);
 
   const addSubject = (currVal) => {
-    if (selectedSubs.includes(currVal) === false) {
+    // check by currValue.code if the subject is already selected
+    if (!selectedSubs.some((el) => el.code == currVal.code)) {
       setSelectedSubs([...selectedSubs, currVal]);
     }
     // clear the search bar
@@ -100,7 +101,7 @@ const ZonePage = () => {
 
   //conditional rendering : the first screen. Selection between IGCSE, O-Level or A-Level
   return !typeSelected ? (
-    <div className="w-screen overflow-x-clip">
+    <div className="h-auto w-screen">
       <div className="flex w-full flex-row p-4">
         <button
           className="text-6xl text-white transition-all duration-300 hover:text-primary"
@@ -274,11 +275,12 @@ const ZonePage = () => {
             }}
             className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark hover:bg-white "
             onClick={() =>
-              router.push(
-                `/timetable?code=${selectedSubs
-                  .map((sub) => sub.code)
-                  .join("&code=")}&zone=${zone}`
-              )
+              // router.push(
+              //   `/timetable?code=${selectedSubs
+              //     .map((sub) => sub.code)
+              //     .join("&code=")}&zone=${zone}`
+              // )
+              console.log(selectedSubs)
             }
           >
             Done
@@ -294,7 +296,7 @@ const ZonePage = () => {
       <div>
         <h1 className="px-6 font-[500] text-primary">Selected Subjects :</h1>
         <motion.div
-          className="max-h-48 flex flex-wrap justify-center overflow-auto"
+          className="flex max-h-48 flex-wrap justify-center overflow-auto"
           layout="position"
         >
           {
@@ -434,6 +436,10 @@ const ZonePage = () => {
             {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
             <div className="max-h-96 overflow-y-auto py-2">
               {filteredData?.map((currVal) => {
+                if (
+                  selectedSubs.some((arrItem) => arrItem.code == currVal.code)
+                )
+                  return null;
                 return (
                   <button
                     key={currVal.code}

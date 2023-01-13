@@ -1,9 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
-import { motion, Reorder } from "framer-motion";
+import { motion } from "framer-motion";
 import React, { Fragment } from "react";
-import { HiChevronDown } from "react-icons/hi2";
+import { HiChevronDown, HiTrash } from "react-icons/hi2";
 
-const Table = ({ subjects, setSubjects }) => {
+const Table = ({ subjects, setSubjects, editable = true }) => {
   const SortByMenu = () => {
     return (
       <div>
@@ -173,12 +173,12 @@ const Table = ({ subjects, setSubjects }) => {
 
       <div className="relative mx-32 my-8 max-h-[45rem] max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
         <motion.table
-          className="w-full text-left text-sm text-gray-500 dark:text-gray-400"
+          className="w-full select-none text-left text-sm text-gray-500 dark:text-gray-400"
           layout
         >
           <motion.thead
             layout
-            className="sticky z-20 top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+            className="sticky top-0 z-20 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -197,26 +197,22 @@ const Table = ({ subjects, setSubjects }) => {
                 Date
               </th>
               <th scope="col" className="px-6 py-3">
-                Remove
+                Session
               </th>
+              {editable && (
+                <th scope="col" className="px-6 py-3">
+                  Remove
+                </th>
+              )}
             </tr>
           </motion.thead>
 
-          <Reorder.Group
-            as={"tbody"}
-            values={subjects}
-            onReorder={setSubjects}
-            axis="y"
-            className="cursor-grab"
-          >
+          <tbody>
             {subjects.map((subject) => (
-              <Reorder.Item
+              <motion.tr
                 key={subject.code}
-                value={subject}
-                as="tr"
                 className="relative border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                 layout
-                whileDrag={{ opacity: 0.5 }}
               >
                 <th
                   scope="row"
@@ -229,20 +225,25 @@ const Table = ({ subjects, setSubjects }) => {
                 <td className="px-6 py-4">{subject.duration}</td>
                 <td className="px-6 py-4">{subject.date}</td>
                 <td className="px-6 py-4">
-                  <button
-                    className="mx-4 rounded-full bg-red-500 px-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
-                    onClick={() =>
-                      setSubjects(
-                        subjects.filter((arrItem) => arrItem !== subject)
-                      )
-                    }
-                  >
-                    -
-                  </button>
+                  {subject.date.split(" ").slice(-1)}
                 </td>
-              </Reorder.Item>
+                {editable && (
+                  <td className="px-6 py-4">
+                    <button
+                      className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
+                      onClick={() =>
+                        setSubjects(
+                          subjects.filter((arrItem) => arrItem !== subject)
+                        )
+                      }
+                    >
+                      <HiTrash />
+                    </button>
+                  </td>
+                )}
+              </motion.tr>
             ))}
-          </Reorder.Group>
+          </tbody>
         </motion.table>
       </div>
     </>
