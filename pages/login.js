@@ -30,4 +30,4 @@ const Login = () => {
 
 export default Login;
 
-export const getServerSideProps = VerifySession;
+export const getServerSideProps = VerifySession();

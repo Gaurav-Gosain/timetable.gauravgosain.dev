@@ -862,4 +862,4 @@ const ZonePage = () => {
 
 export default ZonePage;
 
-export const getServerSideProps = VerifySession;
+export const getServerSideProps = VerifySession();
