@@ -302,7 +302,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
             {subjects.map((subject) => (
               <motion.tr
                 key={subject.code}
-                className="relative border-b border-gray-700 bg-white dark:bg-gray-800"
+                className="relative border-b border-gray-700 bg-gray-800"
                 layout
               >
                 <th
