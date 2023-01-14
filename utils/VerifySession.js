@@ -1,4 +1,4 @@
-export const VerifySession = async (ctx) => {
+const VerifySession = async (ctx) => {
   if (!ctx.req.cookies["sb:token"])
     if (process.env.NODE_ENV === "production")
       return {
@@ -39,3 +39,5 @@ export const VerifySession = async (ctx) => {
     props: {},
   };
 };
+
+export default VerifySession;
