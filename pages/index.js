@@ -1,4 +1,5 @@
 import CountrySelector from "@/components/Home/CountrySelector";
+import VerifySession from "@/utils/VerifySession";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useState } from "react";
@@ -52,3 +53,5 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = VerifySession;

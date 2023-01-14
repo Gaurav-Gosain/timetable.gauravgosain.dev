@@ -4,6 +4,7 @@ import {
   SubjectTextMap,
   ZoneMap,
 } from "@/data/zone_map";
+import VerifySession from "@/utils/VerifySession";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -11,7 +12,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { HiX } from "react-icons/hi";
 import { HiPencil } from "react-icons/hi2";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useSessionStorage, useWindowSize } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 
 const ZonePage = () => {
   const router = useRouter();
@@ -132,8 +133,6 @@ const ZonePage = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const size = useWindowSize();
-
   const List = () => {
     return (
       <>
@@ -235,7 +234,7 @@ const ZonePage = () => {
       {/** Absolute Positioned Main Div */}
       <div className="absolute top-[50%] bottom-[50%] left-[15%] right-[15%] flex flex-col justify-center text-center">
         {/** Responsive Buttons Grid */}
-        <motion.div className="absolute my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
+        <motion.div className="absolute my-8 grid h-[50vh] grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl md:h-[10vh] lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
           {/** Main Heading */}
           <motion.h1
             initial={{
@@ -255,7 +254,7 @@ const ZonePage = () => {
           {/** IGCSE Button */}
           <motion.div
             initial={{
-              x: size.height > 780 && -100,
+              x: -100,
             }}
             animate={{
               x: 0,
@@ -279,7 +278,7 @@ const ZonePage = () => {
           {/** O-Level Button */}
           <motion.div
             initial={{
-              y: size.height > 780 && 100,
+              y: 100,
             }}
             animate={{
               y: 0,
@@ -303,7 +302,7 @@ const ZonePage = () => {
           {/** A-Level Button */}
           <motion.div
             initial={{
-              x: size.height > 780 && 100,
+              x: 100,
             }}
             animate={{
               x: 0,
@@ -862,3 +861,5 @@ const ZonePage = () => {
 };
 
 export default ZonePage;
+
+export const getServerSideProps = VerifySession;
