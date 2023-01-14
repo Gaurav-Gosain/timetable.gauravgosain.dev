@@ -54,4 +54,4 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = VerifySession();
+export const getServerSideProps = VerifySession;
