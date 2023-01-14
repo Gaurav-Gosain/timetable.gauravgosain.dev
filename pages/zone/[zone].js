@@ -11,7 +11,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { HiX } from "react-icons/hi";
 import { HiPencil } from "react-icons/hi2";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useSessionStorage } from "usehooks-ts";
+import { useSessionStorage, useWindowSize } from "usehooks-ts";
 
 const ZonePage = () => {
   const router = useRouter();
@@ -131,6 +131,8 @@ const ZonePage = () => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  const size = useWindowSize();
 
   const List = () => {
     return (
@@ -253,7 +255,7 @@ const ZonePage = () => {
           {/** IGCSE Button */}
           <motion.div
             initial={{
-              x: -100,
+              x: size.height > 780 && -100,
             }}
             animate={{
               x: 0,
@@ -277,7 +279,7 @@ const ZonePage = () => {
           {/** O-Level Button */}
           <motion.div
             initial={{
-              y: 100,
+              y: size.height > 780 && 100,
             }}
             animate={{
               y: 0,
@@ -301,7 +303,7 @@ const ZonePage = () => {
           {/** A-Level Button */}
           <motion.div
             initial={{
-              x: 100,
+              x: size.height > 780 && 100,
             }}
             animate={{
               x: 0,
