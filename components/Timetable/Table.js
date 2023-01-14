@@ -1,10 +1,13 @@
-import { Menu, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
-import React, { Fragment } from "react";
-import { CgScrollH } from "react-icons/cg";
+import React, { Fragment, useState } from "react";
+import { CgInfo, CgScrollH } from "react-icons/cg";
 import { HiChevronDown, HiTrash } from "react-icons/hi2";
 
 const Table = ({ subjects, setSubjects, editable = true }) => {
+  const [subject, setSubject] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+
   const SortByMenu = () => {
     return (
       <div>
@@ -170,40 +173,124 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
 
   return (
     <>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-dark py-6 px-1 text-left align-middle text-white shadow-xl transition-all md:px-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="flex flex-col items-center text-lg font-medium leading-6"
+                  >
+                    <span className="px-4 text-center font-bold">
+                      {subject.subject} - {subject.code}
+                    </span>
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <div className="w-full px-4 py-8 sm:px-16">
+                      <div className="mb-2 text-2xl">Details</div>
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Subject</div>
+                          <div>{subject.subject}</div>
+                        </div>
+                        <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Code</div>
+                          <div>{subject.code}</div>
+                        </div>
+                        <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Duration</div>
+                          <div>{subject.duration}</div>
+                        </div>
+                        <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Date</div>
+                          <div>{subject.date}</div>
+                        </div>
+                        <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Session</div>
+                          <div>{subject.date?.split(" ").slice(-1)}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex w-full items-center justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-primary/80 px-4 py-2 text-sm font-semibold text-dark hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      onClick={() => {
+                        setIsOpen(false);
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
       <SortByMenu />
 
-      <div className="relative mx-32 my-8 max-w-[95vw] overflow-x-auto rounded-2xl shadow-md">
+      <div className="relative mx-32 my-8 overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
         <motion.table
-          className="w-full select-none text-left text-sm text-gray-500 dark:text-gray-400"
+          className="w-[95vw] select-none text-left text-sm text-gray-400 md:w-full"
           layout
         >
           <motion.thead
             layout
-            className="sticky top-0 z-20 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+            className="sticky top-0 z-20 bg-gray-700 text-xs uppercase text-gray-400"
           >
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="py-3 px-6">
                 Subject Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
                 Type
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-2 py-3 md:px-6">
                 Code
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
                 Duration
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
                 Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
                 Session
               </th>
               {editable && (
                 <th
                   scope="col"
-                  className="sticky right-0 bg-gray-700 px-1 py-3"
+                  className="bg-gray-700 px-1 py-3 md:sticky md:right-0"
                 >
                   Remove
                 </th>
@@ -215,24 +302,39 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
             {subjects.map((subject) => (
               <motion.tr
                 key={subject.code}
-                className="relative border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="relative border-b border-gray-700 bg-white dark:bg-gray-800"
                 layout
               >
                 <th
                   scope="row"
-                  className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                  className="flex items-center gap-4 px-2 py-4 text-xs font-medium text-white md:whitespace-nowrap md:px-6 md:text-base"
+                  onClick={() => {
+                    setSubject(subject);
+                    setIsOpen(true);
+                  }}
                 >
+                  <div className="text-lg md:text-2xl lg:hidden">
+                    <CgInfo />
+                  </div>
                   {subject.subject}
                 </th>
-                <td className="px-6 py-4">{subject.type}</td>
-                <td className="px-6 py-4">{subject.code}</td>
-                <td className="px-6 py-4">{subject.duration}</td>
-                <td className="px-6 py-4">{subject.date}</td>
-                <td className="px-6 py-4">
+                <td className="hidden px-6 py-4 lg:table-cell">
+                  {subject.type}
+                </td>
+                <td className="px-2 py-4 text-xs md:px-6 md:text-base">
+                  {subject.code}
+                </td>
+                <td className="hidden px-6 py-4 lg:table-cell">
+                  {subject.duration}
+                </td>
+                <td className="hidden px-6 py-4 lg:table-cell">
+                  {subject.date}
+                </td>
+                <td className="hidden px-6 py-4 lg:table-cell">
                   {subject.date.split(" ").slice(-1)}
                 </td>
                 {editable && (
-                  <td className="sticky right-0 bg-gray-800 px-1 py-4">
+                  <td className="bg-gray-800 px-1 py-4 md:sticky md:right-0">
                     <button
                       className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
                       onClick={() =>
@@ -249,9 +351,6 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
             ))}
           </tbody>
         </motion.table>
-      </div>
-      <div className="flex items-center gap-x-4 text-sm text-gray-400 md:hidden">
-        Scroll <CgScrollH /> to see more content
       </div>
     </>
   );
