@@ -5,9 +5,11 @@ import { useRouter } from "next/router";
 import React, { Fragment, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { HiChevronUpDown } from "react-icons/hi2";
+import { useSessionStorage } from "usehooks-ts";
 
 const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
   const [query, setQuery] = useState("");
+  const [timetableDate, setTimetableData] = useSessionStorage("timetable", {});
 
   const filteredCountries =
     query === ""
@@ -22,7 +24,14 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
     <div className="w-full px-4 lg:px-[15%]">
       <Combobox
         value={selectedCountry}
-        onChange={(value) => router.push(`/zone/${value.zone.slice(-1)}`)}
+        onChange={(value) => {
+          setTimetableData({
+            ...timetableDate,
+            country: value.country,
+            zone: value.zone.slice(-1),
+          });
+          router.push(`/zone/${value.zone.slice(-1)}`);
+        }}
       >
         <div className="relative mt-1 w-full">
           <div className="relative mx-auto flex h-12 w-full items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">

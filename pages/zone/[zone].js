@@ -18,7 +18,7 @@ const ZonePage = () => {
   const router = useRouter();
   const { zone } = router.query;
 
-  const [_, setTimetableData] = useSessionStorage("timetable", {});
+  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
 
   const data = ZoneMap[zone];
 
@@ -201,7 +201,7 @@ const ZonePage = () => {
       <div className="flex w-full flex-row p-4">
         <button
           className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/search")}
         >
           <IoMdArrowRoundBack />
         </button>
@@ -611,6 +611,7 @@ const ZonePage = () => {
             onClick={() => {
               // save the selected subjects in the session storage
               setTimetableData({
+                ...timetableData,
                 selectedSubs: showModal
                   ? selectedSubs.map((sub) => {
                       return {
@@ -625,7 +626,6 @@ const ZonePage = () => {
                       };
                     })
                   : selectedSubs,
-                zone,
               });
 
               // router.push(

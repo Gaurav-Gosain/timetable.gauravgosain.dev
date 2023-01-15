@@ -6,6 +6,9 @@ import zone5 from "@/data/zone5.json";
 import zone6 from "@/data/zone6.json";
 
 export const ZoneMap = {
+  0: [],
+  null: [],
+  undefined: [],
   1: zone1,
   2: zone2,
   3: zone3,

@@ -1,57 +1,82 @@
-import CountrySelector from "@/components/Home/CountrySelector";
-import VerifySession from "@/utils/VerifySession";
-import { motion } from "framer-motion";
-import Head from "next/head";
-import { useState } from "react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Home() {
-  const [selectedCountry, setSelectedCountry] = useState({});
-
   return (
-    <>
-      <Head>
-        <title>Timetable</title>
-        <meta name="description" content="Knowfly Timetable" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/logo_light.png" />
-      </Head>
-      <div className="flex min-h-screen w-screen items-center justify-center py-8 text-center lg:text-5xl">
-        <div className="-mt-28 flex w-full flex-col gap-8">
-          <motion.h1
-            initial={{
-              y: 100,
-            }}
-            animate={{
-              y: 0,
-              transition: {
-                duration: 0.6,
-                type: "spring",
-              },
-            }}
-            className="z-50 text-2xl font-[600] text-white sm:text-3xl lg:text-5xl"
-          >
-            Select Your Country
-          </motion.h1>
-          <motion.div
-            initial={{ opacity: 0, width: 0 }}
-            animate={{
-              opacity: 1,
-              width: "100%",
-              transition: {
-                duration: 0.5,
-                type: "spring",
-              },
-            }}
-          >
-            <CountrySelector
-              selectedCountry={selectedCountry}
-              setSelectedCountry={setSelectedCountry}
-            />
-          </motion.div>
-        </div>
-      </div>
-    </>
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 px-8 text-center text-xl md:text-4xl">
+      Timetable
+    </div>
   );
 }
 
-export const getServerSideProps = VerifySession;
+export const getServerSideProps = async (ctx) => {
+  if (!ctx.req.cookies["sb:token"])
+    if (process.env.NODE_ENV === "production")
+      return {
+        redirect: {
+          destination: "https://www.knowfly.org/signin?to=timetable",
+          permanent: false,
+        },
+      };
+
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx, {
+    cookieOptions: {
+      // check if we are in production
+      name: "sb:token",
+      domain:
+        process.env.NODE_ENV === "production" ? "knowfly.org" : "localhost",
+      path: "/",
+      sameSite: "lax",
+      secure: "secure",
+    },
+  });
+
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    if (process.env.NODE_ENV === "production")
+      return {
+        redirect: {
+          destination: "https://www.knowfly.org/signin?to=timetable",
+          permanent: false,
+        },
+      };
+
+  let session_id;
+
+  if (process.env.NODE_ENV === "production") {
+    session_id = session.user.id;
+
+    let { data: timetable, error } = await supabase
+      .from("timetables")
+      .select("id")
+      .eq("user_id", session_id)
+      .single();
+
+    if (error) {
+      return {
+        redirect: {
+          destination: "/search",
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      redirect: {
+        destination: `/timetable/${timetable.id}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    redirect: {
+      destination: "/search",
+      permanent: false,
+    },
+  };
+};
