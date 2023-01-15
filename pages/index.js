@@ -53,7 +53,7 @@ export const getServerSideProps = async (ctx) => {
     let { data: timetable, error } = await supabase
       .from("timetables")
       .select("id")
-      .eq("user_id", session_id)
+      .eq("id", session_id)
       .single();
 
     if (error) {
