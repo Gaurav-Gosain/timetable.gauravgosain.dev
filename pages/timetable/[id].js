@@ -18,7 +18,7 @@ const TimetablePage = ({ id, zone, codes }) => {
     <div className="flex h-screen flex-col items-center justify-center">
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div>
-        Shareable Link: {`https://knowfly.org/timetable/${id}`}
+        Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`}
       </div>
     </div>
   );
