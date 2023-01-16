@@ -17,6 +17,33 @@ const TimetablePage = () => {
     setSelectedSubjects(timetableData.selectedSubs.map((x) => x.group).flat());
   }, [timetableData]);
 
+  const saveTimetable = () => {
+    setIsLoading(true);
+    supabase
+      .from("timetables")
+      .upsert([
+        {
+          id: user?.id,
+          codes: selectedSubjects.map((x) => x.code),
+          country: timetableData.country,
+          zone: timetableData.zone,
+        },
+      ])
+      .then((response) => {
+        const { error } = response;
+
+        // TODO: check response and do error handling
+        if (error) {
+          // TODO: show error message
+          console.log(error);
+        } else {
+          router.push(`/timetable/${user?.id}`);
+        }
+
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 py-16">
       {/* loading overlay */}
@@ -32,32 +59,7 @@ const TimetablePage = () => {
       </div>
       <button
         className="mb-12 rounded-full bg-primary px-6 py-1 text-dark"
-        onClick={() => {
-          setIsLoading(true);
-          supabase
-            .from("timetables")
-            .upsert([
-              {
-                id: user?.id,
-                codes: selectedSubjects.map((x) => x.code),
-                country: timetableData.country,
-                zone: timetableData.zone,
-              },
-            ])
-            .then((response) => {
-              const { error } = response;
-
-              // TODO: check response and do error handling
-              if (error) {
-                // TODO: show error message
-                console.log(error);
-              } else {
-                router.push(`/timetable/${user?.id}`);
-              }
-
-              setIsLoading(false);
-            });
-        }}
+        onClick={saveTimetable}
       >
         Save
       </button>
