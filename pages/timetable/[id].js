@@ -14,11 +14,16 @@ const TimetablePage = ({ id, zone, codes }) => {
     }
   }, [id, codes, zone]);
 
+  const copyLink = async () => {
+    await navigator.clipboard.writeText(id);
+    console.log("link copied")
+  }
+
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div>
-      <button class="text-dark bg-primary px-3 py-1 rounded-full">Copy Sharing Link</button>
+      <button class="text-dark bg-primary px-3 py-1 rounded-full" onClick={copyLink}>Copy Sharing Link</button>
         Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`}
       </div>
     </div>
