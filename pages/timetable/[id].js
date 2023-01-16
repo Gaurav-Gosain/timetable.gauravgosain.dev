@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 const TimetablePage = ({ id, zone, codes }) => {
   const [subjects, setSubjects] = useState([]);
   const [buttonTitle, setButtonTitle] = useState("Copy Sharing Link")
+  const buttonClick = false;
 
   useEffect(() => {
     if (id && codes && zone) {
@@ -19,13 +20,25 @@ const TimetablePage = ({ id, zone, codes }) => {
     await navigator.clipboard.writeText(`https://timetable.knowfly.org/timetable/${id}`);
     console.log("link copied")
     setButtonTitle("Copied in Clipboard")
+    buttonClick = true
   }
+
+  useEffect(() => {
+    if (buttonClick === true) {
+
+      setTimeout( () => {
+        buttonClick = false
+        setButtonTitle("Copy Sharing Link")
+      }, 5000)
+      
+    }
+  }, [buttonClick])
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div>
-      <button class="text-dark bg-primary px-3 py-1 rounded-full hover:bg-white" onClick={copyLink}>{buttonTitle}</button>
+      <button class={`text-dark bg-primary px-3 py-1 rounded-full hover:bg-white focus:bg-white ${buttonClick ? "bg-white" : "bg-primary"}`} onClick={copyLink}>{buttonTitle}</button>
         {/* Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`} */}
       </div>
     </div>
