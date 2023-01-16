@@ -18,8 +18,7 @@ const TimetablePage = ({ id, zone, codes }) => {
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(`https://timetable.knowfly.org/timetable/${id}`);
-    console.log("link copied")
-    setButtonTitle("Copied in Clipboard")
+    setButtonTitle("Copied to Clipboard")
     setButtonClick(true)
   }
 
