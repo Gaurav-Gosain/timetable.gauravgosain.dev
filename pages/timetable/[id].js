@@ -24,7 +24,7 @@ const TimetablePage = ({ id, zone, codes }) => {
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div>
       <button class="text-dark bg-primary px-3 py-1 rounded-full" onClick={copyLink}>Copy Sharing Link</button>
-        Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`}
+        {/* Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`} */}
       </div>
     </div>
   );
