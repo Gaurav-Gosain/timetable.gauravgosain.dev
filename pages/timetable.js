@@ -45,13 +45,17 @@ const TimetablePage = () => {
               },
             ])
             .then((response) => {
+              const { error } = response;
+
               // TODO: check response and do error handling
+              if (error) {
+                // TODO: show error message
+                console.log(error);
+              } else {
+                router.push(`/timetable/${user?.id}`);
+              }
+
               setIsLoading(false);
-              router.push(
-                `/timetable/${
-                  user?.id
-                }`
-              );
             });
         }}
       >
