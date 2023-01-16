@@ -55,7 +55,6 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
-  console.log(timetable);
 
   return {
     props: {
