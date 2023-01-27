@@ -30,6 +30,11 @@ const ZonePage = ({
   //subjectType handles if its a IGCSE, O-level or A-level subject
   const [subjectType, setSubjectType] = useState(type);
 
+  useEffect(() => {
+    setTypeSelected(true);
+    setSubjectType(type);
+  }, [type]);
+
   //typeSelected boolean for conditional rendering (see below)
   const [typeSelected, setTypeSelected] = useState(false);
 
@@ -878,10 +883,15 @@ const ZonePage = ({
               })}
             </div>
           </div>
-          
-          {/**Recommendations Component */}
-          <Recommendation subjectType={subjectType} selectedSubs={selectedSubs} setSelectedSubs={setSelectedSubs} filteredData={filteredData} setFilteredData={setFilteredData}/>
 
+          {/**Recommendations Component */}
+          {/* <Recommendation
+            subjectType={subjectType}
+            selectedSubs={selectedSubs}
+            setSelectedSubs={setSelectedSubs}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+          /> */}
         </motion.div>
       </div>
     </>
@@ -891,7 +901,10 @@ const ZonePage = ({
 export default ZonePage;
 
 export const getServerSideProps = async (ctx) => {
-  const { id } = ctx.params;
+  const { id } = ctx.query;
+  const { zone } = ctx.query;
+
+  console.log("hello", id);
 
   if (!id) {
     return {
@@ -929,7 +942,7 @@ export const getServerSideProps = async (ctx) => {
   }
 
   // get the json file from the zone
-  let currentZone = ZoneMap[parseInt(id)];
+  let currentZone = ZoneMap[parseInt(zone)];
 
   // get the subjects from the timetable codes 1234/11 -> 1234
   let timetableSubjects = timetable.codes.map((code) => {
@@ -964,7 +977,12 @@ export const getServerSideProps = async (ctx) => {
     };
   }
 
-  const selectedType = filteredSubjects[0].group[0].type;
+  let selectedType = filteredSubjects[0].group[0].type;
+
+  // replace "AS Level" with "A Level"
+  selectedType = selectedType.replace("AS Level", "A Level");
+
+  console.log("filteredSubjects", filteredSubjects);
 
   return {
     props: {

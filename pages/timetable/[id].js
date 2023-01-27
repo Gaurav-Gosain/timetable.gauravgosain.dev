@@ -1,12 +1,14 @@
 import Table from "@/components/Timetable/Table";
 import { ZoneMap } from "@/data/zone_map";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { HiPencil } from "react-icons/hi2";
 
-const TimetablePage = ({ id, zone, codes }) => {
+const TimetablePage = ({ id, zone, codes, canEdit = false }) => {
   const [subjects, setSubjects] = useState([]);
-  const [buttonTitle, setButtonTitle] = useState("Copy Sharing Link")
-  const [buttonClick, setButtonClick] = useState(false)
+  const [buttonTitle, setButtonTitle] = useState("Copy Sharing Link");
+  const [buttonClick, setButtonClick] = useState(false);
 
   useEffect(() => {
     if (id && codes && zone) {
@@ -17,17 +19,35 @@ const TimetablePage = ({ id, zone, codes }) => {
   }, [id, codes, zone]);
 
   const copyLink = async () => {
-    await navigator.clipboard.writeText(`https://timetable.knowfly.org/timetable/${id}`);
-    setButtonTitle("Copied to Clipboard")
-    setButtonClick(true)
-  }
-
+    await navigator.clipboard.writeText(
+      `https://timetable.knowfly.org/timetable/${id}`
+    );
+    setButtonTitle("Copied to Clipboard");
+    setButtonClick(true);
+  };
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
-      <div>
-      <button class={`text-dark bg-primary px-3 py-1 rounded-full transition-all duration-300ms hover:bg-white focus:bg-white ${buttonClick ? "bg-white" : "bg-primary"}`} onClick={copyLink}>{buttonTitle}</button>
+      <div className="flex flex-row gap-4">
+        {canEdit && (
+          <Link href={`/zone/${zone}?id=${id}`}>
+            <button
+              class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+            >
+              <HiPencil className="text-sm" />
+              <div>Edit</div>
+            </button>
+          </Link>
+        )}
+        <button
+          class={`duration-300ms rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
+            buttonClick ? "bg-white" : "bg-primary"
+          }`}
+          onClick={copyLink}
+        >
+          {buttonTitle}
+        </button>
         {/* Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`} */}
       </div>
     </div>
@@ -66,9 +86,15 @@ export const getServerSideProps = async (ctx) => {
     };
   }
 
+  let { data: user, user_error } = await supabase
+    .from("users")
+    .select("id")
+    .single();
+
   return {
     props: {
       id,
+      canEdit: user.id === id,
       ...timetable,
     },
   };
