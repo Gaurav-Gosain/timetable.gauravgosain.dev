@@ -1,9 +1,11 @@
 import Table from "@/components/Timetable/Table";
 import { ZoneMap } from "@/data/zone_map";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { HiPencil } from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 import { IoCopy } from "react-icons/io5";
 import { useSessionStorage } from "usehooks-ts";
 
@@ -12,6 +14,8 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const [buttonTitle, setButtonTitle] = useState("Copy Sharing Link");
   const [buttonClick, setButtonClick] = useState(false);
   const [_, setTimetableData] = useSessionStorage("timetable", {});
+
+  const supabase = useSupabaseClient();
 
   useEffect(() => {
     if (id && codes && zone) {
@@ -39,6 +43,8 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
 
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       {/* loading overlay */}
@@ -64,6 +70,24 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
               <div>Edit</div>
             </button>
           </Link>
+        )}
+        {canEdit && (
+          <button
+            class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+            onClick={() => {
+              setLoading(true);
+              supabase
+                .from("timetables")
+                .delete()
+                .eq("id", id)
+                .then(() => {
+                  router.push("/");
+                });
+            }}
+          >
+            <HiTrash className="text-sm" />
+            <div>Reset Timetable</div>
+          </button>
         )}
         <button
           class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${

@@ -982,8 +982,6 @@ export const getServerSideProps = async (ctx) => {
   // replace "AS Level" with "A Level"
   selectedType = selectedType.replace("AS Level", "A Level");
 
-  console.log("filteredSubjects", filteredSubjects);
-
   return {
     props: {
       selectedSubjects: filteredSubjects,
