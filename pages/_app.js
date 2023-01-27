@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { Analytics } from "@vercel/analytics/react";
+import NextNProgress from "nextjs-progressbar";
 import { Fragment, useState } from "react";
 
 function MyApp({ Component, pageProps }) {
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Fragment>
+      <NextNProgress color="#00ff85" />
       <SessionContextProvider
         supabaseClient={supabase}
         initialSession={pageProps.initialSession}

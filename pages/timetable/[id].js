@@ -26,12 +26,26 @@ const TimetablePage = ({ id, zone, codes, canEdit = false }) => {
     setButtonClick(true);
   };
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="flex h-screen flex-col items-center justify-center">
+      {/* loading overlay */}
+      {loading && (
+        <div className="absolute top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+          <div className="h-32 w-32 animate-spin rounded-full border-b-4 border-white" />
+        </div>
+      )}
+
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div className="flex flex-row gap-4">
         {canEdit && (
-          <Link href={`/zone/${zone}?id=${id}`}>
+          <Link
+            href={`/zone/${zone}?id=${id}`}
+            onClick={() => {
+              setLoading(true);
+            }}
+          >
             <button
               class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
             >
