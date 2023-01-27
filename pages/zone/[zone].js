@@ -101,6 +101,8 @@ const ZonePage = ({
                 currVal.group[0].type === "Cambridge International AS Level" ||
                 currVal.group[0].type === "Cambridge International A Level"
               );
+            } else if (subjectType == "custom") {
+              return true;
             }
 
             return currVal.group[0].type === subjectType;
@@ -332,8 +334,31 @@ const ZonePage = ({
               Cambridge A-Level
             </motion.button>
           </motion.div>
+          <motion.div
+            initial={{
+              y: 100,
+            }}
+            animate={{
+              y: 0,
+              transition: {
+                duration: 0.6,
+                type: "spring",
+              },
+            }}
+            className="flex justify-center xl:col-span-3"
+            layoutId="custom"
+          >
+            <motion.button
+              layoutId="custom-button"
+              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
+              onClick={() => clickHandler("custom")}
+            >
+              Custom
+            </motion.button>
+          </motion.div>
         </motion.div>
       </div>
+      {/** A-Level Button */}
     </div>
   ) : (
     //conditional rendering : the second screen containing the search engine. When a exam type button is Clicked
@@ -591,10 +616,16 @@ const ZonePage = ({
             onClick={backClickHandler}
           >
             <motion.button
-              layoutId={SubjectReverseMap[subjectType] + "-button"}
+              layoutId={
+                subjectType === "custom"
+                  ? "custom-button"
+                  : SubjectReverseMap[subjectType] + "-button"
+              }
               className="rounded-2xl bg-primary px-4 py-3 text-xl font-[600] text-dark"
             >
-              {SubjectTextMap[SubjectReverseMap[subjectType]]}
+              {subjectType === "custom"
+                ? "Custom"
+                : SubjectTextMap[SubjectReverseMap[subjectType]]}
             </motion.button>
           </motion.div>
         </div>
@@ -874,8 +905,13 @@ const ZonePage = ({
                       }
                     }}
                   >
-                    <h1 className="max-w-[50%] pl-[5%] text-left">
-                      {currVal.commonSubstring}
+                    <h1 className="flex max-w-[50%] flex-col pl-[5%] text-left">
+                      <span>{currVal.commonSubstring}</span>
+                      {subjectType === "custom" && (
+                        <span className="text-sm text-gray-500">
+                          {currVal.group[0].type}
+                        </span>
+                      )}
                     </h1>
                     <h1 className="pr-[5%]">{currVal.code}</h1>
                   </button>
@@ -975,10 +1011,14 @@ export const getServerSideProps = async (ctx) => {
     };
   }
 
-  let selectedType = filteredSubjects[0].group[0].type;
+  let selectedTypesList = filteredSubjects.map((subject) => {
+    return subject.group[0].type.replace("AS Level", "A Level");
+  });
 
-  // replace "AS Level" with "A Level"
-  selectedType = selectedType.replace("AS Level", "A Level");
+  // check if all the types are the same
+  let selectedType = selectedTypesList.every((val, _i, arr) => val === arr[0])
+    ? selectedTypesList[0]
+    : "custom";
 
   return {
     props: {

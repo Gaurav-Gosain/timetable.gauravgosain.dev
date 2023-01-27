@@ -21,12 +21,14 @@ export const SubjectMap = {
   igcse: "Cambridge IGCSE",
   olevel: "Cambridge O Level",
   alevel: "Cambridge International A Level",
+  custom: "custom",
 };
 
 export const SubjectTextMap = {
   igcse: "Cambridge IGCSE",
   olevel: "Cambridge O-Level",
   alevel: "Cambridge A-Level",
+  custom: "custom",
 };
 
 export const SubjectReverseMap = {
