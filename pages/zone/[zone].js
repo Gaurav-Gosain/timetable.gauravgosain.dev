@@ -353,7 +353,7 @@ const ZonePage = ({
               className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("custom")}
             >
-              Custom
+              Custom (Multiple Exam Types) 
             </motion.button>
           </motion.div>
         </motion.div>
@@ -688,8 +688,8 @@ const ZonePage = ({
       </div>
 
       {/** Div Containing list of selected subjects on Top Left */}
-      <div>
-        <h1 className="px-6 font-[500] text-primary">Selected Subjects :</h1>
+      <div className="flex flex-col items-center">
+        <h1 className="px-6 font-[500] text-primary pb-2">Selected Subjects :</h1>
         <motion.div
           className="flex max-h-48 flex-wrap justify-center overflow-auto"
           layout="position"
@@ -716,12 +716,7 @@ const ZonePage = ({
                     className="my-2 mx-6 flex items-center rounded-full bg-white/20 p-2"
                     key={currVal.code}
                   >
-                    <motion.h1
-                      id={currVal.code}
-                      className="lg:text-md px-4 text-center text-sm font-semibold text-white"
-                    >
-                      {currVal.commonSubstring}
-                    </motion.h1>
+
                     {/* {showModal && ( */}
                     <motion.button
                       className="mr-2 flex items-center justify-center rounded-full bg-green-500 p-1 font-bold text-white transition-all duration-300 hover:bg-green-500 md:bg-green-500/70 lg:text-xl"
@@ -732,6 +727,14 @@ const ZonePage = ({
                     >
                       <HiPencil />
                     </motion.button>
+
+                    <motion.h1
+                      id={currVal.code}
+                      className="lg:text-md px-2 mx-2 sm:mx-0 sm:px-4 text-center text-xs sm:text-sm font-semibold text-white"
+                    >
+                      {currVal.commonSubstring}
+                    </motion.h1>
+                    
                     {/* )} */}
                     <motion.button
                       className="flex items-center justify-center rounded-full bg-red-500 p-1 font-bold text-white transition-all duration-300 hover:bg-red-500 md:bg-red-500/70 lg:text-xl"
@@ -785,7 +788,7 @@ const ZonePage = ({
             },
           }}
         >
-          <div className="relative flex h-12 w-full items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">
+          <div className="relative flex h-12 w-11/12 items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">
             <div className="grid h-full w-12 place-items-center text-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -803,6 +806,7 @@ const ZonePage = ({
               </svg>
             </div>
 
+            {/** Search Your Subjects Search Input Form */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -834,7 +838,7 @@ const ZonePage = ({
                   }
                 }
               }}
-              className="w-full"
+              className="w-full bg-red-400"
             >
               <motion.input
                 className="peer h-full w-full pr-2 text-lg font-[400] text-dark outline-none"
