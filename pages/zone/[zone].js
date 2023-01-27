@@ -603,9 +603,9 @@ const ZonePage = ({
 
       {/** Go Back Button on Top Left */}
       {allowChangingType && (
-        <div className="flex w-full flex-row justify-between p-4">
+        <div className="flex w-full flex-row justify-between items-center p-4">
           <button
-            className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
+            className="z-50 bg-dark text-4xl text-white transition-all duration-300 hover:text-primary"
             onClick={() => backClickHandler()}
           >
             <IoMdArrowRoundBack />
@@ -621,7 +621,7 @@ const ZonePage = ({
                   ? "custom-button"
                   : SubjectReverseMap[subjectType] + "-button"
               }
-              className="rounded-2xl bg-primary px-4 py-3 text-xl font-[600] text-dark"
+              className="rounded-2xl bg-primary px-2 py-1 sm:px-4 sm:py-3 text-sm sm:text-xl font-[600] text-dark"
             >
               {subjectType === "custom"
                 ? "Custom"
