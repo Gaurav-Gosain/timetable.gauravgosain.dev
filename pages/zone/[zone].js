@@ -5,8 +5,8 @@ import {
   SubjectTextMap,
   ZoneMap,
 } from "@/data/zone_map";
-import VerifySession from "@/utils/VerifySession";
 import { Dialog, Tab, Transition } from "@headlessui/react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -15,7 +15,11 @@ import { HiPencil } from "react-icons/hi2";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSessionStorage } from "usehooks-ts";
 
-const ZonePage = () => {
+const ZonePage = ({
+  selectedSubjects = [],
+  type = "",
+  allowChangingType = true,
+}) => {
   const router = useRouter();
   const { zone } = router.query;
 
@@ -24,7 +28,7 @@ const ZonePage = () => {
   const data = ZoneMap[zone];
 
   //subjectType handles if its a IGCSE, O-level or A-level subject
-  const [subjectType, setSubjectType] = useState("");
+  const [subjectType, setSubjectType] = useState(type);
 
   //typeSelected boolean for conditional rendering (see below)
   const [typeSelected, setTypeSelected] = useState(false);
@@ -36,7 +40,7 @@ const ZonePage = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   //the final array containing the objects of selected subjects only
-  const [selectedSubs, setSelectedSubs] = useState([]);
+  const [selectedSubs, setSelectedSubs] = useState(selectedSubjects);
 
   //only show modal when the selected exam type is A-Level (derived state is always better than an effect)
   const showModal = subjectType === SubjectMap.alevel;
@@ -568,26 +572,28 @@ const ZonePage = () => {
       </Transition>
 
       {/** Go Back Button on Top Left */}
-      <div className="flex w-full flex-row justify-between p-4">
-        <button
-          className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
-          onClick={() => backClickHandler()}
-        >
-          <IoMdArrowRoundBack />
-        </button>
-        <motion.div
-          className="absolute right-4 z-30 flex justify-center"
-          layoutId={SubjectReverseMap[subjectType]}
-          onClick={backClickHandler}
-        >
-          <motion.button
-            layoutId={SubjectReverseMap[subjectType] + "-button"}
-            className="rounded-2xl bg-primary px-4 py-3 text-xl font-[600] text-dark"
+      {allowChangingType && (
+        <div className="flex w-full flex-row justify-between p-4">
+          <button
+            className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
+            onClick={() => backClickHandler()}
           >
-            {SubjectTextMap[SubjectReverseMap[subjectType]]}
-          </motion.button>
-        </motion.div>
-      </div>
+            <IoMdArrowRoundBack />
+          </button>
+          <motion.div
+            className="absolute right-4 z-30 flex justify-center"
+            layoutId={SubjectReverseMap[subjectType]}
+            onClick={backClickHandler}
+          >
+            <motion.button
+              layoutId={SubjectReverseMap[subjectType] + "-button"}
+              className="rounded-2xl bg-primary px-4 py-3 text-xl font-[600] text-dark"
+            >
+              {SubjectTextMap[SubjectReverseMap[subjectType]]}
+            </motion.button>
+          </motion.div>
+        </div>
+      )}
 
       <div className="absolute bottom-10 flex w-full flex-col items-center justify-center gap-2">
         {selectedSubs.length > 0 && (
@@ -613,20 +619,18 @@ const ZonePage = () => {
               // save the selected subjects in the session storage
               setTimetableData({
                 ...timetableData,
-                selectedSubs: showModal
-                  ? selectedSubs.map((sub) => {
-                      return {
-                        code: sub.code,
-                        // remove the selected property from the sub group
-                        group: sub.group
-                          .filter((sub) => sub.selected)
-                          .map((sub) => {
-                            delete sub.selected;
-                            return sub;
-                          }),
-                      };
-                    })
-                  : selectedSubs,
+                selectedSubs: selectedSubs.map((sub) => {
+                  return {
+                    code: sub.code,
+                    // remove the selected property from the sub group
+                    group: sub.group
+                      .filter((sub) => sub.selected)
+                      .map((sub) => {
+                        delete sub.selected;
+                        return sub;
+                      }),
+                  };
+                }),
               });
 
               // router.push(
@@ -682,17 +686,17 @@ const ZonePage = () => {
                     >
                       {currVal.commonSubstring}
                     </motion.h1>
-                    {showModal && (
-                      <motion.button
-                        className="mr-2 flex items-center justify-center rounded-full bg-green-500 p-1 font-bold text-white transition-all duration-300 hover:bg-green-500 md:bg-green-500/70 lg:text-xl"
-                        onClick={() => {
-                          setFilteredSubject(currVal);
-                          openEditModal();
-                        }}
-                      >
-                        <HiPencil />
-                      </motion.button>
-                    )}
+                    {/* {showModal && ( */}
+                    <motion.button
+                      className="mr-2 flex items-center justify-center rounded-full bg-green-500 p-1 font-bold text-white transition-all duration-300 hover:bg-green-500 md:bg-green-500/70 lg:text-xl"
+                      onClick={() => {
+                        setFilteredSubject(currVal);
+                        openEditModal();
+                      }}
+                    >
+                      <HiPencil />
+                    </motion.button>
+                    {/* )} */}
                     <motion.button
                       className="flex items-center justify-center rounded-full bg-red-500 p-1 font-bold text-white transition-all duration-300 hover:bg-red-500 md:bg-red-500/70 lg:text-xl"
                       onClick={() =>
@@ -781,6 +785,15 @@ const ZonePage = () => {
                     setFilteredSubject(selectedSubject);
                     openModal();
                   } else {
+                    selectedSubject.group = selectedSubject.group.map(
+                      (group) => {
+                        return {
+                          ...group,
+                          // set the selected group to true if the group type includes AS
+                          selected: true,
+                        };
+                      }
+                    );
                     addSubject(selectedSubject);
                   }
                 }
@@ -829,8 +842,8 @@ const ZonePage = () => {
                       "min-h-96 duration-300ms flex w-full flex-row justify-between bg-white py-2 text-sm font-[500] transition-colors ease-in-out hover:bg-gray-100 active:bg-primary lg:text-lg"
                     }
                     onClick={() => {
+                      let selectedSubject = currVal;
                       if (showModal) {
-                        let selectedSubject = currVal;
                         selectedSubject.group = selectedSubject.group.map(
                           (group) => {
                             return {
@@ -843,7 +856,17 @@ const ZonePage = () => {
                         );
                         setFilteredSubject(selectedSubject);
                         openModal();
-                      } else addSubject(currVal);
+                      } else {
+                        selectedSubject.group = selectedSubject.group.map(
+                          (group) => {
+                            return {
+                              ...group,
+                              selected: true,
+                            };
+                          }
+                        );
+                        addSubject(selectedSubject);
+                      }
                     }}
                   >
                     <h1 className="max-w-[50%] pl-[5%] text-left">
@@ -867,4 +890,87 @@ const ZonePage = () => {
 
 export default ZonePage;
 
-export const getServerSideProps = VerifySession;
+export const getServerSideProps = async (ctx) => {
+  const { id } = ctx.params;
+
+  if (!id) {
+    return {
+      props: {
+        filteredSubjects: [],
+      },
+    };
+  }
+
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx, {
+    cookieOptions: {
+      // check if we are in production
+      name: "sb:token",
+      domain:
+        process.env.NODE_ENV === "production" ? "knowfly.org" : "localhost",
+      path: "/",
+      sameSite: "lax",
+      secure: "secure",
+    },
+  });
+
+  let { data: timetable, error } = await supabase
+    .from("timetables")
+    .select("zone, codes")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    return {
+      props: {
+        filteredSubjects: [],
+      },
+    };
+  }
+
+  // get the json file from the zone
+  let currentZone = ZoneMap[parseInt(id)];
+
+  // get the subjects from the timetable codes 1234/11 -> 1234
+  let timetableSubjects = timetable.codes.map((code) => {
+    return code.split("/")[0];
+  });
+
+  // get all the main subjects from currentZone
+  let filteredSubjects = currentZone.filter((subject) => {
+    // check if the subject is in the timetable
+    return timetableSubjects.includes(subject.code);
+  });
+
+  // add a selected property to each child in the group array inside each subject
+  filteredSubjects = filteredSubjects.map((subject) => {
+    return {
+      ...subject,
+      group: subject.group.map((group) => {
+        return {
+          ...group,
+          // set selected to true if the subject is in the timetable
+          selected: timetable.codes.includes(group.code),
+        };
+      }),
+    };
+  });
+
+  if (filteredSubjects.length === 0) {
+    return {
+      props: {
+        filteredSubjects: [],
+      },
+    };
+  }
+
+  const selectedType = filteredSubjects[0].group[0].type;
+
+  return {
+    props: {
+      selectedSubjects: filteredSubjects,
+      type: selectedType,
+      allowChangingType: false,
+    },
+  };
+};
