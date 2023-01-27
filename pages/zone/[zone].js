@@ -909,7 +909,7 @@ const ZonePage = ({
                       <span>{currVal.commonSubstring}</span>
                       {subjectType === "custom" && (
                         <span className="text-sm text-gray-500">
-                          {currVal.group[0].type}
+                          {currVal.group[0].type.replace("AS Level", "A Level")}
                         </span>
                       )}
                     </h1>
