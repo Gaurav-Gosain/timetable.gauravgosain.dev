@@ -1,8 +1,15 @@
 import React from 'react'
 
-export default function Recommendation() {
+export default function Recommendation(props) {
 
 // const [subjectType, setSubjectType] = useState("");
+
+console.log(props.subjectType)
+// console.log(props.selectedSubs)
+// console.log(props.setSelectedSubs)
+// console.log(props.filteredData)
+// console.log(props.setFilteredData)
+
 
 //score calculator function
 const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
@@ -25,20 +32,20 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
 }
 
 //conditional scoring based upon subjectType
-if (subjectType === "Cambridge IGCSE") {
+if (props.subjectType === "Cambridge IGCSE") {
     let igcseScores = []
-    scoringFunc(igcseSubs, selectedSubjects, igcseScores)
+    scoringFunc(igcseSubs, props.selectedSubjects, igcseScores)
 }
 
-else if (subjectType === "Cambridge O Level" ) {
+else if (props.subjectType === "Cambridge O Level" ) {
     let olevelScores = []
-    scoringFunc(olevelSubs, selectedSubjects, olevelScores)
+    scoringFunc(olevelSubs, props.selectedSubjects, olevelScores)
 
 }
 
-else if (subjectType === "Cambridge International A Level") {
+else if (props.subjectType === "Cambridge International A Level") {
     let alevelScores = []
-    scoringFunc(alevelSubs, selectedSubjects, alevelScores)
+    scoringFunc(alevelSubs, props.selectedSubjects, alevelScores)
 }
 
 

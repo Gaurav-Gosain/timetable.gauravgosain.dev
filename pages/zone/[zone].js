@@ -1,3 +1,4 @@
+import Recommendation from "@/components/Zone/Recommendation";
 import {
   SubjectMap,
   SubjectReverseMap,
@@ -854,6 +855,10 @@ const ZonePage = () => {
               })}
             </div>
           </div>
+          
+          {/**Recommendations Component */}
+          <Recommendation subjectType={subjectType} selectedSubs={selectedSubs} setSelectedSubs={setSelectedSubs} filteredData={filteredData} setFilteredData={setFilteredData}/>
+
         </motion.div>
       </div>
     </>
