@@ -605,7 +605,7 @@ const ZonePage = ({
       {allowChangingType && (
         <div className="flex w-full flex-row justify-between items-center p-4">
           <button
-            className="z-50 bg-dark text-4xl text-white transition-all duration-300 hover:text-primary"
+            className="z-50 bg-dark text-4xl sm:text-4xl text-white transition-all duration-300 hover:text-primary"
             onClick={() => backClickHandler()}
           >
             <IoMdArrowRoundBack />
