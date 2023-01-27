@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi2";
+import { IoCopy } from "react-icons/io5";
 import { useSessionStorage } from "usehooks-ts";
 
 const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
@@ -65,12 +66,13 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
           </Link>
         )}
         <button
-          class={`duration-300ms rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
+          class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
             buttonClick ? "bg-white" : "bg-primary"
           }`}
           onClick={copyLink}
         >
-          {buttonTitle}
+          <IoCopy className="text-sm" />
+          <div>{buttonTitle}</div>
         </button>
         {/* Shareable Link: {`https://timetable.knowfly.org/timetable/${id}`} */}
       </div>
