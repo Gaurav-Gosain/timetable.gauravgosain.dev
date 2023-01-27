@@ -31,7 +31,7 @@ const ZonePage = ({
   const [subjectType, setSubjectType] = useState(type);
 
   useEffect(() => {
-    setTypeSelected(true);
+    if (type !== "") setTypeSelected(true);
     setSubjectType(type);
   }, [type]);
 
@@ -903,8 +903,6 @@ export default ZonePage;
 export const getServerSideProps = async (ctx) => {
   const { id } = ctx.query;
   const { zone } = ctx.query;
-
-  console.log("hello", id);
 
   if (!id) {
     return {
