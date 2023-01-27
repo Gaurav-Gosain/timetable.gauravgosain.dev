@@ -91,10 +91,18 @@ export const getServerSideProps = async (ctx) => {
     .select("id")
     .single();
 
+  let canEdit = false;
+
+  if (user_error) {
+    canEdit = false;
+  } else if (user.id === id) {
+    canEdit = true;
+  }
+
   return {
     props: {
       id,
-      canEdit: user.id === id,
+      canEdit,
       ...timetable,
     },
   };
