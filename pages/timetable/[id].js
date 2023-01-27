@@ -4,17 +4,27 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi2";
+import { useSessionStorage } from "usehooks-ts";
 
-const TimetablePage = ({ id, zone, codes, canEdit = false }) => {
+const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const [subjects, setSubjects] = useState([]);
   const [buttonTitle, setButtonTitle] = useState("Copy Sharing Link");
   const [buttonClick, setButtonClick] = useState(false);
+  const [_, setTimetableData] = useSessionStorage("timetable", {});
 
   useEffect(() => {
     if (id && codes && zone) {
       const zoneData = ZoneMap[parseInt(zone)];
       const flatZoneData = zoneData.map((x) => x.group).flat();
       setSubjects(flatZoneData.filter((x) => codes.includes(x.code)));
+    }
+    if (canEdit) {
+      // save stuff to session storage
+      setTimetableData({
+        selectedSubs: subjects,
+        country: country,
+        zone: zone,
+      });
     }
   }, [id, codes, zone]);
 
@@ -88,7 +98,7 @@ export const getServerSideProps = async (ctx) => {
 
   let { data: timetable, error } = await supabase
     .from("timetables")
-    .select("zone, codes")
+    .select("zone, codes, country")
     .eq("id", id)
     .single();
 
@@ -107,9 +117,7 @@ export const getServerSideProps = async (ctx) => {
 
   let canEdit = false;
 
-  if (user_error) {
-    canEdit = false;
-  } else if (user === null) {
+  if (user_error || user === null) {
     canEdit = false;
   } else if (user.id === id) {
     canEdit = true;
