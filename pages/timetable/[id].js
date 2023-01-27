@@ -95,6 +95,8 @@ export const getServerSideProps = async (ctx) => {
 
   if (user_error) {
     canEdit = false;
+  } else if (user === null) {
+    canEdit = false;
   } else if (user.id === id) {
     canEdit = true;
   }
