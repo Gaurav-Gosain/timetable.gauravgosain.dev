@@ -1,16 +1,31 @@
 import VerifySession from "@/utils/VerifySession";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Login = () => {
   const session = useSession();
   const router = useRouter();
+  const supabase = useSupabaseClient();
 
   useEffect(() => {
     if (session) {
       router.push("/");
     }
+    supabase.auth.onAuthStateChange(async (event) => {
+      // on forgot password, we get a "PASSWORD_RECOVERY" event
+      if (event === "PASSWORD_RECOVERY") {
+        const newPassword = prompt(
+          "What would you like your new password to be?"
+        );
+        const { data, error } = await supabase.auth.updateUser({
+          password: newPassword,
+        });
+
+        if (data) alert("Password updated successfully!");
+        if (error) alert("There was an error updating your password.");
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
