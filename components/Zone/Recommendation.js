@@ -60,7 +60,7 @@ const alevelSubs = [
 
 // const [subjectType, setSubjectType] = useState("");
 
-console.log(props.subjectType)
+//console.log(props.subjectType)
 // console.log(props.selectedSubs)
 // console.log(props.setSelectedSubs)
 // console.log(props.filteredData)
@@ -94,21 +94,56 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
         return scoresArr
 }
 
+
+let recArr = []
+
+//function to filter, clean, sort and map data
+const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
+    for (i=0; i<scoresArr.length; i++) {
+        
+        
+        recArr = [...recArr, subjComb[scoresArr[i].key] ]
+ 
+    }
+    //flatten the array from 2d to 1d mantaining the original order
+    recArr = recArr.flat()
+
+    //remove repeated values from the data
+    recArr = [...new Set(recArr)]
+    
+    //remove selected subjects values from the data
+    recArr = recArr.filter(code => {
+      for (let i = 0; i < selectedSubjects.length; i++) {
+        if (selectedSubjects[i].code === code) {
+          return false;
+        }
+      }
+      return true;
+    });
+    
+    console.log(recArr)
+}
+
+
+
 //conditional scoring based upon subjectType
 if (props.subjectType === "Cambridge IGCSE") {
     let igcseScores = []
-    scoringFunc(igcseSubs, props.selectedSubjects, igcseScores)
+    igcseScores = scoringFunc(igcseSubs, props.selectedSubjects, igcseScores)
+    valueFindFunc(igcseScores, igcseSubs, props.selectedSubjects)
 }
 
 else if (props.subjectType === "Cambridge O Level" ) {
     let olevelScores = []
-    scoringFunc(olevelSubs, props.selectedSubjects, olevelScores)
+    olevelScores = scoringFunc(olevelSubs, props.selectedSubjects, olevelScores)
+    valueFindFunc(olevelScores, olevelSubs, props.selectedSubjects)
 
 }
 
 else if (props.subjectType === "Cambridge International A Level") {
     let alevelScores = []
-    scoringFunc(alevelSubs, props.selectedSubjects, alevelScores)
+    alevelScores = scoringFunc(alevelSubs, props.selectedSubjects, alevelScores)
+    valueFindFunc(alevelScores, alevelSubs, props.selectedSubjects)
 }
 
 
