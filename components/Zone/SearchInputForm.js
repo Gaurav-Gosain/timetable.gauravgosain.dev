@@ -18,9 +18,9 @@ export default function SearchInputForm({
     if (searchInputRef.current) {
       searchInputRef.current.addEventListener("focus", () => {
         // scroll to the search bar
-        document.getElementById("search-bar").scrollIntoView({
-          behavior: "smooth",
-        });
+        document.body.scrollTop +=
+          document.getElementById("search-bar").getBoundingClientRect().top -
+          10;
       });
     }
 
@@ -205,6 +205,8 @@ export default function SearchInputForm({
               })}
             </div>
           </div>
+
+          {searchInput !== "" && <div className="h-96 md:hidden"></div>}
 
           {/**Recommendations Component */}
           {/* <Recommendation
