@@ -259,7 +259,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
 
       <SortByMenu />
 
-      <div className="relative mx-32 my-8 overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
+      <div className="relative mx-32 my-8 overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto max-h-[80vh]">
         <motion.table
           className="w-[95vw] select-none text-left text-sm text-gray-400 md:w-full"
           layout
