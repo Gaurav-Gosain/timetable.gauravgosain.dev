@@ -18,17 +18,10 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
         <motion.div
           className="absolute right-4 z-30 flex justify-center"
           initial={{
-            x: -100,
+            y: -100,
           }}
           animate={{
-            x: 0,
-            transition: {
-              duration: 0.6,
-              type: "spring",
-            },
-          }}
-          exit={{
-            x: "100%",
+            y: 0,
             transition: {
               duration: 0.6,
               type: "spring",
@@ -65,9 +58,11 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           <motion.div
             initial={{
               x: -100,
+              width: 0,
             }}
             animate={{
               x: 0,
+              width: "100%",
               transition: {
                 duration: 0.6,
                 type: "spring",
@@ -113,9 +108,11 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           <motion.div
             initial={{
               x: 100,
+              width: 0,
             }}
             animate={{
               x: 0,
+              width: "100%",
               transition: {
                 duration: 0.6,
                 type: "spring",
