@@ -57,11 +57,9 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           {/** IGCSE Button */}
           <motion.div
             initial={{
-              x: -100,
-              width: 0,
+              width: "80%",
             }}
             animate={{
-              x: 0,
               width: "100%",
               transition: {
                 duration: 0.6,
@@ -108,7 +106,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           <motion.div
             initial={{
               x: 100,
-              width: 0,
+              width: "80%",
             }}
             animate={{
               x: 0,
