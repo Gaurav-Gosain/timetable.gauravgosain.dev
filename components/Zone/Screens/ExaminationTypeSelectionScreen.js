@@ -57,12 +57,12 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           {/** IGCSE Button */}
           <motion.div
             initial={{
-              opacity: 0,
+              rotate: -5,
             }}
             animate={{
-              opacity: 1,
+              rotate: 0,
               transition: {
-                duration: 0.8,
+                duration: 0.6,
                 type: "spring",
               },
             }}
@@ -71,18 +71,6 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           >
             <motion.button
               layoutId="igcse-button"
-              initial={{
-                paddingLeft: "0px",
-                paddingRight: "0px",
-              }}
-              animate={{
-                paddingLeft: "56px",
-                paddingRight: "56px",
-                transition: {
-                  duration: 0.8,
-                  type: "spring",
-                },
-              }}
               className="rounded-2xl bg-primary px-14 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("igcse")}
             >
@@ -116,32 +104,20 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
 
           {/** A-Level Button */}
           <motion.div
+            className="flex justify-center"
+            layoutId="alevel"
             initial={{
-              opacity: 0.8,
+              rotate: 5,
             }}
             animate={{
-              opacity: 1,
+              rotate: 0,
               transition: {
                 duration: 0.6,
                 type: "spring",
               },
             }}
-            className="flex justify-center"
-            layoutId="alevel"
           >
             <motion.button
-              initial={{
-                paddingLeft: "0px",
-                paddingRight: "0px",
-              }}
-              animate={{
-                paddingLeft: "56px",
-                paddingRight: "56px",
-                transition: {
-                  duration: 0.8,
-                  type: "spring",
-                },
-              }}
               layoutId="alevel-button"
               className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("alevel")}
@@ -165,6 +141,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           >
             <motion.button
               layoutId="custom-button"
+              layout="position"
               className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("custom")}
             >
