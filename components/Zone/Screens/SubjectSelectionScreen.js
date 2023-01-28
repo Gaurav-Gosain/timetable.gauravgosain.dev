@@ -76,7 +76,7 @@ const SubjectSelectionScreen = ({
         )}
 
         <motion.div
-          className="absolute right-4 z-30 flex justify-center"
+          className="absolute right-4 top-2 z-30 flex justify-center"
           layoutId={SubjectReverseMap[subjectType]}
           // onClick={backClickHandler}
         >

@@ -13,7 +13,7 @@ export default function SelectedSubsDiv({
   return (
     <>
       <div
-        className={`flex flex-col items-center ${defaultVisiblity} sm:${responsiveVisiblity} pb-28 md:pb-0`}
+        className={`flex flex-col items-center ${defaultVisiblity} sm:${responsiveVisiblity} pt-8 pb-28 md:pb-0`}
       >
         <h1 className="px-6 pb-2 font-[500] text-primary">
           Selected Subjects :
