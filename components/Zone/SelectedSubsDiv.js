@@ -13,13 +13,13 @@ export default function SelectedSubsDiv({
   return (
     <>
       <div
-        className={`flex flex-col items-center ${defaultVisiblity} sm:${responsiveVisiblity}`}
+        className={`flex flex-col items-center ${defaultVisiblity} sm:${responsiveVisiblity} pb-28 md:pb-0`}
       >
         <h1 className="px-6 pb-2 font-[500] text-primary">
           Selected Subjects :
         </h1>
         <motion.div
-          className="flex max-h-80 flex-wrap justify-center overflow-auto md:max-h-48"
+          className="flex flex-wrap justify-center overflow-auto md:max-h-48"
           layout="position"
         >
           {

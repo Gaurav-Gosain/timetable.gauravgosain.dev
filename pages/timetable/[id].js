@@ -77,7 +77,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
             }}
           >
             <button
-              className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+              className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 font-semibold text-dark transition-all hover:bg-white focus:bg-white`}
             >
               <HiPencil className="text-sm" />
               <div>Edit</div>
@@ -86,7 +86,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
         )}
         {canEdit && (
           <button
-            className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+            className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 font-semibold text-dark transition-all hover:bg-white focus:bg-white`}
             onClick={() => {
               setLoading(true);
               supabase
@@ -103,7 +103,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
           </button>
         )}
         <button
-          className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
+          className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 font-semibold text-dark transition-all hover:bg-white focus:bg-white ${
             buttonClick ? "bg-white" : "bg-primary"
           }`}
           onClick={copyLink}

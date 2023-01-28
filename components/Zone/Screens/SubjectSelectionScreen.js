@@ -130,7 +130,7 @@ const SubjectSelectionScreen = ({
         openEditModal={openEditModal}
       />
 
-      <div className="absolute bottom-10 flex w-full flex-col items-center justify-center gap-2">
+      <div className="fixed bottom-0 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:absolute md:py-8">
         {selectedSubs.length > 0 && (
           <motion.button
             whileHover={{
@@ -149,7 +149,7 @@ const SubjectSelectionScreen = ({
                 type: "spring",
               },
             }}
-            className="rounded-2xl bg-primary px-6 py-1  font-[600] text-dark hover:bg-white "
+            className="rounded-2xl bg-primary px-6 py-1 font-[600] text-dark hover:bg-white "
             onClick={() => {
               // save the selected subjects in the session storage
               setTimetableData({

@@ -58,12 +58,11 @@ const TimetablePage = () => {
         <Table subjects={selectedSubjects} setSubjects={setSelectedSubjects} />
       </div>
       <button
-        className="mb-12 rounded-full bg-primary px-6 py-1 text-dark"
+        className="mb-12 rounded-full bg-primary px-6 py-1 font-semibold text-dark"
         onClick={saveTimetable}
       >
         Save
       </button>
-      
     </div>
   );
 };
