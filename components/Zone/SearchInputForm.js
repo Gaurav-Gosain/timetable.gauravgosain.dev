@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function SearchInputForm({
   showModal,
@@ -13,6 +13,26 @@ export default function SearchInputForm({
   setSearchInput,
   selectedSubs,
 }) {
+  useEffect(() => {
+    // whenever searchInput is in focus
+    if (searchInputRef.current) {
+      searchInputRef.current.addEventListener("focus", () => {
+        // scroll to the search bar
+        document.getElementById("search-bar").scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    }
+
+    return () => {
+      if (searchInputRef.current) {
+        searchInputRef.current.removeEventListener("focus", () => {
+          console.log("focus removed");
+        });
+      }
+    };
+  }, []);
+
   return (
     <>
       <div className="top-[40%] bottom-[50%] left-4 right-4 mb-8 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%]">
@@ -36,6 +56,7 @@ export default function SearchInputForm({
         {/** Search Bar */}
         <motion.div
           className="mt-10 flex flex-col items-center justify-center"
+          id="search-bar"
           initial={{
             opacity: 0,
             width: 0,

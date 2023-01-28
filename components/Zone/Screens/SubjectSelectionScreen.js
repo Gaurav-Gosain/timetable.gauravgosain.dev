@@ -86,7 +86,7 @@ const SubjectSelectionScreen = ({
           <motion.button
             layoutId={
               subjectType === "custom"
-                ? "custom-button"
+                ? "custom"
                 : (SubjectReverseMap[subjectType] || "custom") + "-button"
             }
             className="rounded-2xl bg-primary px-2 py-1 text-sm font-[600] text-dark sm:px-4 sm:py-3 sm:text-xl"
