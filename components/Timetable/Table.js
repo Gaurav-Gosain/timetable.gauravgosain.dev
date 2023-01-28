@@ -220,6 +220,10 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
                           <div>{subject.subject}</div>
                         </div>
                         <div className="flex flex-col space-x-2 md:flex-row">
+                          <div className="font-bold">Type</div>
+                          <div>{subject.type}</div>
+                        </div>
+                        <div className="flex flex-col space-x-2 md:flex-row">
                           <div className="font-bold">Code</div>
                           <div>{subject.code}</div>
                         </div>
@@ -259,7 +263,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
 
       <SortByMenu />
 
-      <div className="relative mx-32 my-8 overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto max-h-[80vh]">
+      <div className="relative mx-32 my-8 max-h-[80vh] overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
         <motion.table
           className="w-[95vw] select-none text-left text-sm text-gray-400 md:w-full"
           layout
