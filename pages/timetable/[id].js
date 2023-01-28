@@ -59,7 +59,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
     <div className="flex min-h-screen flex-col items-center justify-center py-8">
       {/* loading overlay */}
       {loading && (
-        <div className="absolute top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
           <div className="h-32 w-32 animate-spin rounded-full border-b-4 border-white" />
         </div>
       )}
