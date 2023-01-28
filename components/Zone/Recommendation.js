@@ -83,8 +83,15 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
         }
         
         finalscore = (score / subjComb[i].length) * 100
-        scoresArr[i].push(finalscore)
+        //scoresArr[i].push(finalscore)
+
+        //key-value pair where key is the index of the subject-combination array and value is score.
+        scoresArr = [...scoresArr, {key:i, score:finalscore}]
     }
+        //sorts the array according to scores (high to low)
+        scoresArr = scoresArr.sort(
+        (p1, p2) => (p1.score < p2.score) ? 1 : (p1.score > p2.score) ? -1 : 0);
+        return scoresArr
 }
 
 //conditional scoring based upon subjectType
