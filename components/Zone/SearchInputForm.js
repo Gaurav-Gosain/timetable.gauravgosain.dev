@@ -90,7 +90,7 @@ export default function SearchInputForm({showModal, openModal,
                   }
                 }
               }}
-              className="w-full bg-red-400"
+              className="w-full"
             >
               <motion.input
                 className="peer h-full w-full pr-2 text-lg font-[400] text-dark outline-none"
