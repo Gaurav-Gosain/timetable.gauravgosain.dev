@@ -1,12 +1,21 @@
-import React from 'react'
 import { motion } from "framer-motion";
+import React from "react";
 
-export default function SearchInputForm({showModal, openModal, 
-    subjectType, addSubject, selectedSubject, setFilteredSubject, filteredData, searchInput, searchInputRef, setSearchInput, setFilteredData, selectedSubs}) {
+export default function SearchInputForm({
+  showModal,
+  openModal,
+  subjectType,
+  addSubject,
+  setFilteredSubject,
+  filteredData,
+  searchInput,
+  searchInputRef,
+  setSearchInput,
+  selectedSubs,
+}) {
   return (
-   <>
-   
-   <div className="top-[40%] bottom-[50%] left-4 right-4 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%] mb-8">
+    <>
+      <div className="top-[40%] bottom-[50%] left-4 right-4 mb-8 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%]">
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
@@ -186,8 +195,6 @@ export default function SearchInputForm({showModal, openModal,
           /> */}
         </motion.div>
       </div>
-
-
-   </>
-  )
+    </>
+  );
 }

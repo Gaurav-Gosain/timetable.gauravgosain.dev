@@ -4,7 +4,8 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import QRCode from "qrcode";
+import React, { useEffect, useRef, useState } from "react";
 import { HiPencil, HiTrash } from "react-icons/hi2";
 import { IoCopy } from "react-icons/io5";
 import { useSessionStorage } from "usehooks-ts";
@@ -16,6 +17,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const [_, setTimetableData] = useSessionStorage("timetable", {});
 
   const supabase = useSupabaseClient();
+  const canvasRef = useRef();
 
   useEffect(() => {
     if (id && codes && zone) {
@@ -23,6 +25,14 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
       const flatZoneData = zoneData.map((x) => x.group).flat();
       setSubjects(flatZoneData.filter((x) => codes.includes(x.code)));
     }
+    QRCode.toCanvas(
+      canvasRef.current,
+      // QR code doesn't work with an empty string
+      // so we are using a blank space as a fallback
+      `https://timetable.knowfly.org/timetable/${id}` || " ",
+      (error) => error && console.error(error)
+    );
+
     if (canEdit) {
       // save stuff to session storage
       setTimetableData({
@@ -46,7 +56,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const router = useRouter();
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center py-8">
       {/* loading overlay */}
       {loading && (
         <div className="absolute top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
@@ -55,7 +65,10 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
       )}
 
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
-      <div className="flex flex-row gap-4">
+      <div className="flex items-center p-4">
+        <canvas ref={canvasRef} />
+      </div>
+      <div className="flex flex-col items-center gap-4 pb-16 md:flex-row">
         {canEdit && (
           <Link
             href={`/zone/${zone}?id=${id}`}
@@ -64,7 +77,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
             }}
           >
             <button
-              class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+              className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
             >
               <HiPencil className="text-sm" />
               <div>Edit</div>
@@ -73,7 +86,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
         )}
         {canEdit && (
           <button
-            class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
+            className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white`}
             onClick={() => {
               setLoading(true);
               supabase
@@ -90,7 +103,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
           </button>
         )}
         <button
-          class={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
+          className={`duration-300ms flex flex-row items-center gap-1 rounded-full bg-primary px-3 py-1 text-dark transition-all hover:bg-white focus:bg-white ${
             buttonClick ? "bg-white" : "bg-primary"
           }`}
           onClick={copyLink}

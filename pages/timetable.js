@@ -45,7 +45,7 @@ const TimetablePage = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 py-16">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center gap-4 py-16">
       {/* loading overlay */}
       {isLoading && (
         <div className="absolute top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">

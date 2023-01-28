@@ -1,9 +1,8 @@
-import React from 'react'
 import CountrySelector from "@/components/Home/CountrySelector";
 import VerifySession from "@/utils/VerifySession";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const SearchPage = () => {
   const [selectedCountry, setSelectedCountry] = useState({});
@@ -55,6 +54,6 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage
+export default SearchPage;
 
 export const getServerSideProps = VerifySession;
