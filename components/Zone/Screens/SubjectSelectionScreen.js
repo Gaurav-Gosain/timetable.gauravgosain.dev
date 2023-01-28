@@ -130,7 +130,7 @@ const SubjectSelectionScreen = ({
         openEditModal={openEditModal}
       />
 
-      <div className="absolute bottom-10 flex w-full flex-col items-center justify-center gap-2">
+      <div className="md:absolute bottom-10 flex w-full flex-col items-center justify-center gap-2">
         {selectedSubs.length > 0 && (
           <motion.button
             whileHover={{
