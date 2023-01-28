@@ -34,10 +34,7 @@ const SubjectSelectionScreen = ({
   searchInput,
   setSearchInput,
 }) => {
-  const [timetableData, setTimetableData] = useSessionStorage(
-    "timetable",
-    {}
-  );
+  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
 
   const router = useRouter();
 

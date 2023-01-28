@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useEffect } from "react";
+import React from "react";
 
 export default function SearchInputForm({
   showModal,
@@ -13,26 +13,6 @@ export default function SearchInputForm({
   setSearchInput,
   selectedSubs,
 }) {
-  useEffect(() => {
-    // whenever searchInput is in focus
-    if (searchInputRef.current) {
-      searchInputRef.current.addEventListener("focus", () => {
-        // scroll to the search bar
-        document.body.scrollTop +=
-          document.getElementById("search-bar").getBoundingClientRect().top -
-          10;
-      });
-    }
-
-    return () => {
-      if (searchInputRef.current) {
-        searchInputRef.current.removeEventListener("focus", () => {
-          console.log("focus removed");
-        });
-      }
-    };
-  }, []);
-
   return (
     <>
       <div className="top-[40%] bottom-[50%] left-4 right-4 mb-8 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%]">
@@ -55,7 +35,11 @@ export default function SearchInputForm({
 
         {/** Search Bar */}
         <motion.div
-          className="mt-10 flex flex-col items-center justify-center"
+          className={`mt-10 flex flex-col items-center justify-center md:relative ${
+            searchInput !== ""
+              ? "fixed top-0 z-50 mt-0 bg-dark md:mt-10"
+              : "mt-10"
+          }`}
           id="search-bar"
           initial={{
             opacity: 0,
@@ -140,12 +124,12 @@ export default function SearchInputForm({
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
           <div
-            className={`top-[7.5rem] mt-2 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark md:absolute lg:w-[60%] ${
+            className={`top-[7rem] mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark md:absolute md:-mt-10 lg:w-[60%] ${
               searchInput === "" ? "hidden" : "visible"
             } `}
           >
             {/**Header inside the div containing two headings */}
-            <div className=" flex flex-row justify-between font-[500] text-gray-500 ">
+            <div className="flex flex-row justify-between text-sm text-gray-500 md:text-lg md:font-[500]">
               <h1 className="pl-[5%]">Name</h1>
               <h1 className="pr-[5%]">Code</h1>
             </div>
@@ -205,8 +189,6 @@ export default function SearchInputForm({
               })}
             </div>
           </div>
-
-          {searchInput !== "" && <div className="h-96 md:hidden"></div>}
 
           {/**Recommendations Component */}
           {/* <Recommendation

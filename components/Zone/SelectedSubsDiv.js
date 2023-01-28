@@ -19,7 +19,7 @@ export default function SelectedSubsDiv({
           Selected Subjects :
         </h1>
         <motion.div
-          className="flex max-h-48 flex-wrap justify-center overflow-auto"
+          className="flex md:max-h-48 flex-wrap justify-center overflow-auto"
           layout="position"
         >
           {
