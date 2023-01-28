@@ -82,7 +82,7 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
                     
         }
         
-        finalscore = (score / subjComb.length) * 100
+        finalscore = (score / subjComb[i].length) * 100
         scoresArr[i].push(finalscore)
     }
 }
