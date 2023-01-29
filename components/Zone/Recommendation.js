@@ -1,6 +1,17 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Recommendation(props) {
+
+const [finalRecArr, setFinalRecArr] = useState([])
+let finalArr = []
+
+
+useEffect(()=> {
+    console.log(finalArr)
+    setFinalRecArr(finalArr)
+}, [finalArr])
+
 
 const olevelSubs = [
     [ '2058', '2059', '3247' ],
@@ -145,10 +156,13 @@ const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
     recArr.forEach(code => {
         const foundData = props.filteredData.find(data => data.code === code);
         if (foundData) {
-          console.log(foundData.commonSubstring);
+          //console.log(foundData.commonSubstring);
+          finalArr = [...finalArr, {subject:foundData.commonSubstring,code:foundData.code}]
         }
       });
-    
+
+      
+    return finalArr
     //console.log(recArr)
 }
 
@@ -161,27 +175,32 @@ if (props.selectedSubs.length !== 0) {
 
         let igcseScores = []
         igcseScores = scoringFunc(igcseSubs, props.selectedSubs, igcseScores)
-        valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
+        finalArr = valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
     }
 
     else if (props.subjectType === "Cambridge O Level" ) {
         let olevelScores = []
         olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
-        valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
+        finalArr = valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
 
     }
 
     else if (props.subjectType === "Cambridge International A Level") {
         let alevelScores = []
         alevelScores = scoringFunc(alevelSubs, props.selectedSubs, alevelScores)
-        valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
+        finalArr = valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
     }
 }
 
   
     return (
     <>
-    
+    {finalRecArr.map((currVal) =>
+        <div key={currVal.code} className="text-yellow-400">
+        <h1>{currVal.commonSubstring}</h1>
+        <h1>{currVal.code}</h1>
+        </div>
+      )}
     
     </>
   )
