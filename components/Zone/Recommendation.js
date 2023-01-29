@@ -63,7 +63,7 @@ const alevelSubs = [
 //console.log(props.subjectType)
 // console.log(props.selectedSubs)
 // console.log(props.setSelectedSubs)
-// console.log(props.filteredData)
+//console.log(props.filteredData)
 // console.log(props.setFilteredData)
 
 
@@ -72,9 +72,9 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
 
     let finalscore = 0;
 
-    for (i = 0; i < subjComb.length; i++) {
+    for (let i = 0; i < subjComb.length; i++) {
         let score = 0
-        for (j = 0; j<selectedSubjects.length; j++) {
+        for (let j = 0; j<selectedSubjects.length; j++) {
             
             if ( subjComb[i].includes(selectedSubjects[j].code )) {
                 score = score  + 1
@@ -99,7 +99,7 @@ let recArr = []
 
 //function to filter, clean, sort and map data
 const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
-    for (i=0; i<scoresArr.length; i++) {
+    for (let i=0; i<scoresArr.length; i++) {
         
         
         recArr = [...recArr, subjComb[scoresArr[i].key] ]
@@ -120,32 +120,42 @@ const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
       }
       return true;
     });
+
+    recArr.forEach(code => {
+        const foundData = props.filteredData.find(data => data.code === code);
+        if (foundData) {
+          console.log(foundData.commonSubstring);
+        }
+      });
     
-    console.log(recArr)
+    //console.log(recArr)
 }
 
 
 
 //conditional scoring based upon subjectType
-if (props.subjectType === "Cambridge IGCSE") {
-    let igcseScores = []
-    igcseScores = scoringFunc(igcseSubs, props.selectedSubjects, igcseScores)
-    valueFindFunc(igcseScores, igcseSubs, props.selectedSubjects)
+
+if (props.selectedSubs.length !== 0) {
+    if (props.subjectType === "Cambridge IGCSE") {
+
+        let igcseScores = []
+        igcseScores = scoringFunc(igcseSubs, props.selectedSubs, igcseScores)
+        valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
+    }
+
+    else if (props.subjectType === "Cambridge O Level" ) {
+        let olevelScores = []
+        olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
+        valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
+
+    }
+
+    else if (props.subjectType === "Cambridge International A Level") {
+        let alevelScores = []
+        alevelScores = scoringFunc(alevelSubs, props.selectedSubs, alevelScores)
+        valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
+    }
 }
-
-else if (props.subjectType === "Cambridge O Level" ) {
-    let olevelScores = []
-    olevelScores = scoringFunc(olevelSubs, props.selectedSubjects, olevelScores)
-    valueFindFunc(olevelScores, olevelSubs, props.selectedSubjects)
-
-}
-
-else if (props.subjectType === "Cambridge International A Level") {
-    let alevelScores = []
-    alevelScores = scoringFunc(alevelSubs, props.selectedSubjects, alevelScores)
-    valueFindFunc(alevelScores, alevelSubs, props.selectedSubjects)
-}
-
 
   
     return (

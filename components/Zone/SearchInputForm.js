@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import Recommendation from "./Recommendation";
 
 export default function SearchInputForm({
   showModal,
@@ -12,6 +13,7 @@ export default function SearchInputForm({
   searchInputRef,
   setSearchInput,
   selectedSubs,
+  setSelectedSubs
 }) {
   return (
     <>
@@ -191,13 +193,13 @@ export default function SearchInputForm({
           </div>
 
           {/**Recommendations Component */}
-          {/* <Recommendation
+          <Recommendation
             subjectType={subjectType}
             selectedSubs={selectedSubs}
-            setSelectedSubs={setSelectedSubs}
+            //setSelectedSubs={setSelectedSubs}
             filteredData={filteredData}
-            setFilteredData={setFilteredData}
-          /> */}
+            //setFilteredData={setFilteredData}
+          />
         </motion.div>
       </div>
     </>

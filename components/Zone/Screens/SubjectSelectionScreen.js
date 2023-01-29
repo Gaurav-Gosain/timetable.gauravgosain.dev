@@ -119,6 +119,7 @@ const SubjectSelectionScreen = ({
         searchInputRef={searchInputRef}
         setFilteredData={setFilteredData}
         selectedSubs={selectedSubs}
+        setSelectedSubs={setSelectedSubs}
       />
 
       <SelectedSubsDiv
