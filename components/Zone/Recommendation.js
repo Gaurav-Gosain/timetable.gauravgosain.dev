@@ -7,12 +7,6 @@ const [finalRecArr, setFinalRecArr] = useState([])
 let finalArr = []
 
 
-useEffect(()=> {
-    console.log(finalArr)
-    setFinalRecArr(finalArr)
-}, [finalArr])
-
-
 const olevelSubs = [
     [ '2058', '2059', '3247' ],
     [ '2058', '2059', '3248' ],
@@ -182,7 +176,6 @@ if (props.selectedSubs.length !== 0) {
         let olevelScores = []
         olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
         finalArr = valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
-
     }
 
     else if (props.subjectType === "Cambridge International A Level") {
@@ -191,6 +184,15 @@ if (props.selectedSubs.length !== 0) {
         finalArr = valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
     }
 }
+
+    {/**
+    ERROR :
+    Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, 
+    but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    */}
+    useEffect(() => {
+        setFinalRecArr(finalArr)
+    }, [finalArr])
 
   
     return (
