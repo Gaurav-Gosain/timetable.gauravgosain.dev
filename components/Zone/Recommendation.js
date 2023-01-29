@@ -91,6 +91,27 @@ const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
         //sorts the array according to scores (high to low)
         scoresArr = scoresArr.sort(
         (p1, p2) => (p1.score < p2.score) ? 1 : (p1.score > p2.score) ? -1 : 0);
+        
+        //function to remove zero-score values
+        scoresArr = scoresArr.filter( (currVal) => {
+            if (currVal.score > 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        })
+        
+        //function to keep the top 8 recommendations only
+        for (let i=0; i<scoresArr.length; i++) {
+            if (scoresArr.length <= 8) {
+                break
+            }
+            else {
+                scoresArr.pop()
+            }
+        }
+        
         return scoresArr
 }
 
