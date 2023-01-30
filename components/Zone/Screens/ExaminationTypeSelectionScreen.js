@@ -35,9 +35,9 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
       </div>
 
       {/** Absolute Positioned Main Div */}
-      <div className="absolute top-[50%] bottom-[50%] left-[15%] right-[15%] flex flex-col justify-center text-center">
+      <div className="-mt-24 flex h-screen w-full flex-col items-center justify-center px-8 text-center">
         {/** Responsive Buttons Grid */}
-        <motion.div className="absolute my-8 grid h-[50vh] grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl md:h-[10vh] lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
+        <motion.div className=" my-8 grid grid-cols-1 gap-y-6 text-xl sm:mx-16 sm:text-2xl lg:my-16 lg:mx-6 lg:gap-x-4 lg:text-3xl xl:grid-cols-3">
           {/** Main Heading */}
           <motion.h1
             initial={{
@@ -71,7 +71,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           >
             <motion.button
               layoutId="igcse-button"
-              className="rounded-2xl bg-primary px-14 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
+              className="w-full rounded-2xl bg-primary px-14 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("igcse")}
             >
               Cambridge IGCSE
@@ -95,7 +95,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           >
             <motion.button
               layoutId="olevel-button"
-              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
+              className="w-full rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("olevel")}
             >
               Cambridge O-Level
@@ -119,7 +119,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
           >
             <motion.button
               layoutId="alevel-button"
-              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
+              className="w-full rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
               onClick={() => clickHandler("alevel")}
             >
               Cambridge A-Level
@@ -142,7 +142,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
             <motion.button
               layoutId="custom-button"
               layout="position"
-              className="rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white"
+              className="w-full rounded-2xl bg-primary px-12 py-3 font-[600] text-dark transition-all duration-300 hover:bg-white xl:w-auto"
               onClick={() => clickHandler("custom")}
             >
               Custom (Multiple Exam Types)

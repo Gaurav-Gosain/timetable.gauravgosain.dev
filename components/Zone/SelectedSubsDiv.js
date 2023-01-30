@@ -10,10 +10,10 @@ export default function SelectedSubsDiv({
 }) {
   return (
     <>
-      <div className={`flex flex-col items-center pt-8 pb-28 md:pb-0`}>
-        <h1 className="px-6 pb-2 font-[500] text-primary">
+      <motion.div className={`flex flex-col items-center pt-8 pb-28 md:pb-0`} layout>
+        <motion.h1 className="px-6 pb-2 font-[500] text-primary">
           {selectedSubs.length ? <>Selected Subjects :</> : <></>}
-        </h1>
+        </motion.h1>
         <motion.div
           className="flex flex-wrap justify-center overflow-auto"
           layout="position"
@@ -72,7 +72,7 @@ export default function SelectedSubsDiv({
               })
           }
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }

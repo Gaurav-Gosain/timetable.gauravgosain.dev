@@ -148,7 +148,7 @@ const SubjectSelectionScreen = ({
 
       {/** Div Containing list of selected subjects on Top Left */}
 
-      <div className="flex flex-col pb-28">
+      <motion.div className="flex flex-col pb-28" layout="position">
         {/** Absolute Positioned Main Div containing Search Engine Front End*/}
         <SearchInputForm
           showModal={showModal}
@@ -173,7 +173,7 @@ const SubjectSelectionScreen = ({
           setSelectedSubs={setSelectedSubs}
           openEditModal={openEditModal}
         />
-      </div>
+      </motion.div>
     </Fragment>
   );
 };

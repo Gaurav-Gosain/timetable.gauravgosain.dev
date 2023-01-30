@@ -28,7 +28,14 @@ export default function SearchInputForm({
 
   return (
     <>
-      <div className="left-4 right-4 flex flex-col text-center lg:left-[15%] lg:right-[15%] lg:mb-8 lg:pt-14">
+      <motion.div
+        className={`flex flex-col text-center ${
+          selectedSubs.length === 0 && searchInput === ""
+            ? "absolute top-1/2 -mt-24 w-full"
+            : "mt-0"
+        }`}
+        layout="position"
+      >
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
@@ -182,7 +189,7 @@ export default function SearchInputForm({
             </div>
           )}
         </motion.div>
-      </div>
+      </motion.div>
     </>
   );
 }
