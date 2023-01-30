@@ -96,7 +96,7 @@ const SubjectSelectionScreen = ({
         </motion.div>
       </div>
 
-      <div className="fixed bottom-0 z-0 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:py-8">
+      <div className="fixed bottom-0 z-50 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:py-8">
         {selectedSubs.length > 0 && (
           <motion.button
             whileHover={{

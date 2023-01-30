@@ -14,7 +14,7 @@ const SubjectListContainer = ({
   return (
     <div
       className={`z-50 ${
-        isRecommended ? "max-h-32" : "max-h-72"
+        isRecommended ? "max-h-[25vh]" : "max-h-[40vh]"
       } overflow-y-auto py-2 ${visible ? "visible" : "hidden"}`}
     >
       {filteredData?.map((currVal) => {
