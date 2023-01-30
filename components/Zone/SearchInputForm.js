@@ -31,8 +31,8 @@ export default function SearchInputForm({
       <motion.div
         className={`flex flex-col text-center ${
           selectedSubs.length === 0 && searchInput === ""
-            ? "absolute top-1/2 -mt-24 w-full"
-            : "mt-0"
+            ? "md:absolute md:top-1/2 md:-mt-24 md:w-full"
+            : "md:mt-0"
         }`}
         layout="position"
       >
