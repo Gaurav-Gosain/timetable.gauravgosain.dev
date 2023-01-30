@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
+import { Switch } from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import { HiLightBulb } from "react-icons/hi";
 import Recommendation from "./Recommendation";
 import SubjectListContainer from "./SubjectListContainer";
 
@@ -17,6 +19,8 @@ export default function SearchInputForm({
   setSelectedSubs,
   data,
 }) {
+  const [showRecommendation, setShowRecommendation] = React.useState(true);
+
   const RecommendedSubjects =
     subjectType === "Custom"
       ? []
@@ -140,54 +144,110 @@ export default function SearchInputForm({
               {/* submit hidden button */}
               <input type="submit" hidden />
             </form>
+            {subjectType !== "custom" && RecommendedSubjects.length > 0 && (
+              <motion.div
+                className="flex items-center gap-1 text-2xl text-gray-600"
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                exit={{
+                  opacity: 0,
+                }}
+              >
+                <Switch
+                  checked={showRecommendation}
+                  onChange={setShowRecommendation}
+                  className={`${
+                    showRecommendation
+                      ? "border-green-600 bg-primary"
+                      : "border-gray-600 bg-gray-400"
+                  } relative mr-2 inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2  transition-colors duration-200 ease-in-out focus:outline-none  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                >
+                  <span className="sr-only">Show Recommendations</span>
+                  <span
+                    className={`${
+                      showRecommendation ? "translate-x-9" : "translate-x-0"
+                    } pointer-events-none flex h-[34px] w-[34px] transform items-center justify-center rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                  >
+                    <HiLightBulb
+                      className={`${
+                        showRecommendation ? "text-dark" : "text-gray-400"
+                      }`}
+                    />
+                  </span>
+                </Switch>
+              </motion.div>
+            )}
           </div>
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
-          {(filteredData.length > 0 || RecommendedSubjects.length > 0) && (
-            <div
-              className={`mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[50%] `}
-            >
-              {RecommendedSubjects.length > 0 && searchInput === "" && (
-                <div className="text-xs text-gray-400">Recommended</div>
-              )}
-              {/**Header inside the div containing two headings */}
-              <div className="flex flex-row justify-between text-sm text-gray-500 md:text-lg md:font-[500]">
-                <h1 className="pl-[5%]">Name</h1>
-                <h1 className="pr-[5%]">Code</h1>
-              </div>
-
-              {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
-
-              <SubjectListContainer
-                {...{
-                  visible: filteredData.length > 0 && searchInput !== "",
-                  filteredData,
-                  selectedSubs,
-                  showModal,
-                  setFilteredSubject,
-                  addSubject,
-                  subjectType,
-                  openModal,
-                  isRecommended: false,
+          <AnimatePresence mode="popLayout">
+            {((showRecommendation && RecommendedSubjects.length > 0) ||
+              (filteredData.length > 0 && searchInput !== "")) && (
+              <motion.div
+                className={`mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[50%] `}
+                initial={{
+                  y: 100,
                 }}
-              />
-
-              <SubjectListContainer
-                {...{
-                  visible: RecommendedSubjects.length > 0 && searchInput === "",
-                  filteredData: RecommendedSubjects,
-                  selectedSubs,
-                  showModal,
-                  setFilteredSubject,
-                  addSubject,
-                  subjectType,
-                  openModal,
-                  isRecommended: true,
+                animate={{
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    type: "spring",
+                    bounce: 0.2,
+                  },
                 }}
-              />
-              {/**Recommendations Component */}
-            </div>
-          )}
+                exit={{
+                  opacity: 0,
+                }}
+              >
+                {RecommendedSubjects.length > 0 &&
+                  searchInput === "" &&
+                  showRecommendation && (
+                    <div className="text-xs text-gray-400">Recommended</div>
+                  )}
+                {/**Header inside the div containing two headings */}
+                <div className="flex flex-row justify-between text-sm text-gray-500 md:text-lg md:font-[500]">
+                  <h1 className="pl-[5%]">Name</h1>
+                  <h1 className="pr-[5%]">Code</h1>
+                </div>
+                {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
+                <SubjectListContainer
+                  {...{
+                    visible: filteredData.length > 0 && searchInput !== "",
+                    filteredData,
+                    selectedSubs,
+                    showModal,
+                    setFilteredSubject,
+                    addSubject,
+                    subjectType,
+                    openModal,
+                    isRecommended: false,
+                  }}
+                />
+                {/**Recommendations Component */}
+                {showRecommendation && (
+                  <SubjectListContainer
+                    {...{
+                      visible:
+                        RecommendedSubjects.length > 0 && searchInput === "",
+                      filteredData: RecommendedSubjects,
+                      selectedSubs,
+                      showModal,
+                      setFilteredSubject,
+                      addSubject,
+                      subjectType,
+                      openModal,
+                      isRecommended: true,
+                    }}
+                  />
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </motion.div>
     </>
