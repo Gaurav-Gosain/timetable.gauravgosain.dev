@@ -185,7 +185,9 @@ export default function SearchInputForm({
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
           <AnimatePresence mode="popLayout">
-            {((showRecommendation && RecommendedSubjects.length > 0) ||
+            {((showRecommendation &&
+              RecommendedSubjects.length > 0 &&
+              searchInput === "") ||
               (filteredData.length > 0 && searchInput !== "")) && (
               <motion.div
                 className={`mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[50%] `}

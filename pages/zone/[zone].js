@@ -100,13 +100,18 @@ const ZonePage = ({
               .toLowerCase()
               .includes(searchInput.toLowerCase())
           )
+          .filter((currElem) => {
+            // check if the subject is already selected
+            if (selectedSubs.some((el) => el.code == currElem.code)) {
+              return false;
+            }
+            return true;
+          })
       );
     } else {
       setFilteredData([]);
     }
-
-    //console.log(tempFilteredData)
-  }, [searchInput]);
+  }, [searchInput, selectedSubs]);
 
   //this function is called when a user selects a choice between O-Level, IGCSE or A-Level
   const clickHandler = (subject) => {
