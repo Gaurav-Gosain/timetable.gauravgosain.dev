@@ -67,7 +67,7 @@ const ZonePage = ({
   // input field for searches reference
   const searchInputRef = useRef(null);
 
-  const addSubject = (currVal) => {
+  const addSubject = (currVal, isRecommended = false) => {
     // check by currValue.code if the subject is already selected
     if (!selectedSubs.some((el) => el.code == currVal.code)) {
       setSelectedSubs([...selectedSubs, currVal]);
@@ -75,7 +75,7 @@ const ZonePage = ({
     // clear the search bar
     setSearchInput("");
     // focus on the search bar again
-    searchInputRef.current.focus();
+    if (!isRecommended) searchInputRef.current.focus();
   };
 
   //real-time search results after user types something inside the search input

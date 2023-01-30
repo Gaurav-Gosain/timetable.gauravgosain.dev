@@ -161,6 +161,7 @@ export default function SearchInputForm({
                   addSubject,
                   subjectType,
                   openModal,
+                  isRecommended: false,
                 }}
               />
 
@@ -174,6 +175,7 @@ export default function SearchInputForm({
                   addSubject,
                   subjectType,
                   openModal,
+                  isRecommended: true,
                 }}
               />
               {/**Recommendations Component */}

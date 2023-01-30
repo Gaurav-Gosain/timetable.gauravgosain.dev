@@ -9,10 +9,11 @@ const SubjectListContainer = ({
   addSubject,
   subjectType,
   openModal,
+  isRecommended,
 }) => {
   return (
     <div
-      className={`max-h-72 overflow-y-auto py-2 z-50 ${
+      className={`z-50 max-h-72 overflow-y-auto py-2 ${
         visible ? "visible" : "hidden"
       }`}
     >
@@ -43,7 +44,7 @@ const SubjectListContainer = ({
                     selected: true,
                   };
                 });
-                addSubject(selectedSubject);
+                addSubject(selectedSubject, isRecommended);
               }
             }}
           >
