@@ -28,7 +28,7 @@ export default function SearchInputForm({
 
   return (
     <>
-      <div className="left-4 right-4 mb-8 flex flex-col pt-14 text-center lg:left-[15%] lg:right-[15%]">
+      <div className="left-4 right-4 flex flex-col text-center lg:left-[15%] lg:right-[15%] lg:mb-8 lg:pt-14">
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
