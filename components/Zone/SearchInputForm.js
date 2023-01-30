@@ -123,7 +123,7 @@ export default function SearchInputForm({
                 className="peer h-full w-full pr-2 text-lg font-[400] text-dark outline-none"
                 type="text"
                 id="search"
-                placeholder="Search something.."
+                placeholder="Search a subject..."
                 autoComplete="off"
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
