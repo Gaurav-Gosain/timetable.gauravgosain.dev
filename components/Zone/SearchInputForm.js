@@ -193,13 +193,13 @@ export default function SearchInputForm({
           </div>
 
           {/**Recommendations Component */}
-          {/* <Recommendation
+          <Recommendation
             subjectType={subjectType}
             selectedSubs={selectedSubs}
             //setSelectedSubs={setSelectedSubs}
             filteredData={filteredData}
             //setFilteredData={setFilteredData}
-          /> */}
+          />
         </motion.div>
       </div>
     </>

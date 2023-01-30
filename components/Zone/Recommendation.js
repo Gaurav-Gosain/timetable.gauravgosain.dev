@@ -163,46 +163,55 @@ const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
 
 
 //conditional scoring based upon subjectType
+useEffect(()=> {
 
-if (props.selectedSubs.length !== 0) {
-    if (props.subjectType === "Cambridge IGCSE") {
-
-        let igcseScores = []
-        igcseScores = scoringFunc(igcseSubs, props.selectedSubs, igcseScores)
-        finalArr = valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
+    console.log("asads")
+    if (props.selectedSubs.length !== 0) {
+        if (props.subjectType === "Cambridge IGCSE") {
+    
+            let igcseScores = []
+            igcseScores = scoringFunc(igcseSubs, props.selectedSubs, igcseScores)
+            finalArr = valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
+        }
+    
+        else if (props.subjectType === "Cambridge O Level" ) {
+            let olevelScores = []
+            olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
+            finalArr = valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
+        }
+    
+        else if (props.subjectType === "Cambridge International A Level") {
+            let alevelScores = []
+            alevelScores = scoringFunc(alevelSubs, props.selectedSubs, alevelScores)
+            finalArr = valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
+        }
     }
 
-    else if (props.subjectType === "Cambridge O Level" ) {
-        let olevelScores = []
-        olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
-        finalArr = valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
-    }
+    console.log(finalArr)
+    setFinalRecArr(finalArr)
+}, [props.selectedSubs])
 
-    else if (props.subjectType === "Cambridge International A Level") {
-        let alevelScores = []
-        alevelScores = scoringFunc(alevelSubs, props.selectedSubs, alevelScores)
-        finalArr = valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
-    }
-}
+
 
     {/**
     ERROR :
     Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, 
     but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
     */}
-    useEffect(() => {
-        setFinalRecArr(finalArr)
-    }, [finalArr])
+    // useEffect(() => {
+    //     setFinalRecArr(finalArr)
+    // }, [finalArr])
 
   
     return (
     <>
+
     {finalRecArr.map((currVal) =>
-        <div key={currVal.code} className="text-yellow-400">
-        <h1>{currVal.commonSubstring}</h1>
+        <div key={currVal.code} className="flex space-x-4 text-yellow-400">
+        <h1>{currVal.subject}</h1>
         <h1>{currVal.code}</h1>
         </div>
-      )}
+    )}
     
     </>
   )
