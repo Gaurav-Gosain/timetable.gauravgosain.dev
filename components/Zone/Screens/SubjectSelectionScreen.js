@@ -148,13 +148,7 @@ const SubjectSelectionScreen = ({
 
       {/** Div Containing list of selected subjects on Top Left */}
 
-      <div className="flex flex-col-reverse md:flex-col pb-28">
-        <SelectedSubsDiv
-          selectedSubs={selectedSubs}
-          setFilteredSubject={setFilteredSubject}
-          setSelectedSubs={setSelectedSubs}
-          openEditModal={openEditModal}
-        />
+      <div className="flex flex-col pb-28">
         {/** Absolute Positioned Main Div containing Search Engine Front End*/}
         <SearchInputForm
           showModal={showModal}
@@ -171,6 +165,13 @@ const SubjectSelectionScreen = ({
           selectedSubs={selectedSubs}
           setSelectedSubs={setSelectedSubs}
           data={data}
+        />
+
+        <SelectedSubsDiv
+          selectedSubs={selectedSubs}
+          setFilteredSubject={setFilteredSubject}
+          setSelectedSubs={setSelectedSubs}
+          openEditModal={openEditModal}
         />
       </div>
     </Fragment>
