@@ -96,35 +96,7 @@ const SubjectSelectionScreen = ({
         </motion.div>
       </div>
 
-      {/** Div Containing list of selected subjects on Top Left */}
-  
-      <div className="flex flex-col-reverse md:flex-col">
-        <SelectedSubsDiv
-          selectedSubs={selectedSubs}
-          setFilteredSubject={setFilteredSubject}
-          setSelectedSubs={setSelectedSubs}
-          openEditModal={openEditModal}
-        />
-        {/** Absolute Positioned Main Div containing Search Engine Front End*/}
-        <SearchInputForm
-          showModal={showModal}
-          openModal={openModal}
-          subjectType={subjectType}
-          addSubject={addSubject}
-          selectedSubject={selectedSubjects}
-          setFilteredSubject={setFilteredSubject}
-          filteredData={filteredData}
-          searchInput={searchInput}
-          setSearchInput={setSearchInput}
-          searchInputRef={searchInputRef}
-          setFilteredData={setFilteredData}
-          selectedSubs={selectedSubs}
-          setSelectedSubs={setSelectedSubs}
-          data={data}
-        />
-      </div>
-
-      <div className="fixed bottom-0 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:absolute md:py-8">
+      <div className="fixed bottom-0 z-0 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:py-8">
         {selectedSubs.length > 0 && (
           <motion.button
             whileHover={{
@@ -172,6 +144,34 @@ const SubjectSelectionScreen = ({
           You can add more subjects by searching and selecting in the search bar
           above
         </div>
+      </div>
+
+      {/** Div Containing list of selected subjects on Top Left */}
+
+      <div className="flex flex-col-reverse md:flex-col pb-28">
+        <SelectedSubsDiv
+          selectedSubs={selectedSubs}
+          setFilteredSubject={setFilteredSubject}
+          setSelectedSubs={setSelectedSubs}
+          openEditModal={openEditModal}
+        />
+        {/** Absolute Positioned Main Div containing Search Engine Front End*/}
+        <SearchInputForm
+          showModal={showModal}
+          openModal={openModal}
+          subjectType={subjectType}
+          addSubject={addSubject}
+          selectedSubject={selectedSubjects}
+          setFilteredSubject={setFilteredSubject}
+          filteredData={filteredData}
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          searchInputRef={searchInputRef}
+          setFilteredData={setFilteredData}
+          selectedSubs={selectedSubs}
+          setSelectedSubs={setSelectedSubs}
+          data={data}
+        />
       </div>
     </Fragment>
   );

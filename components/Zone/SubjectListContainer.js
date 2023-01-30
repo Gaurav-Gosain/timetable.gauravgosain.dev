@@ -12,7 +12,7 @@ const SubjectListContainer = ({
 }) => {
   return (
     <div
-      className={`max-h-72 overflow-y-auto py-2 ${
+      className={`max-h-72 overflow-y-auto py-2 z-50 ${
         visible ? "visible" : "hidden"
       }`}
     >
