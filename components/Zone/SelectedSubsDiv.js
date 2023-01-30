@@ -7,19 +7,15 @@ export default function SelectedSubsDiv({
   setFilteredSubject,
   setSelectedSubs,
   openEditModal,
-  defaultVisiblity,
-  responsiveVisiblity,
 }) {
   return (
     <>
-      <div
-        className={`flex flex-col items-center ${defaultVisiblity} sm:${responsiveVisiblity} pt-8 pb-28 md:pb-0`}
-      >
+      <div className={`flex flex-col items-center pt-8 pb-28 md:pb-0`}>
         <h1 className="px-6 pb-2 font-[500] text-primary">
           Selected Subjects :
         </h1>
         <motion.div
-          className="flex flex-wrap justify-center overflow-auto md:max-h-48"
+          className="flex flex-wrap justify-center overflow-auto md:h-32"
           layout="position"
         >
           {
@@ -41,7 +37,7 @@ export default function SelectedSubsDiv({
                         type: "spring",
                       },
                     }}
-                    className="my-2 mx-6 flex items-center rounded-full bg-white/20 p-2"
+                    className="my-2 mx-6 flex h-fit items-center rounded-full bg-white/20 p-2"
                     key={currVal.code}
                   >
                     <motion.button

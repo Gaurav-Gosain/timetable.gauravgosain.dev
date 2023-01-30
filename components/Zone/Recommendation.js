@@ -1,29 +1,29 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 
-export default function Recommendation(props) {
+export default function Recommendation({ subjectType, selectedSubs, data }) {
+  if (subjectType === "Custom") {
+    return [];
+  }
 
-const [finalRecArr, setFinalRecArr] = useState([])
-let finalArr = []
+  const [finalArr, setFinalArr] = useState([]);
 
+  const olevelSubs = [
+    ["2058", "2059", "3247"],
+    ["2058", "2059", "3248"],
+    ["1123", "3247", "5054", "5070", "5090", "4024"],
+    ["1123", "3248", "5054", "5070", "5090", "4024"],
+    ["1123", "3248", "5054", "5070", "4024", "4037"],
+    ["1123", "3248", "5054", "5070", "4024", "4037"],
+    ["1123", "3247", "5054", "5070", "5090", "4024"],
+    ["1123", "3247", "5054", "5070", "4024", "4037"],
+    ["1123", "3247", "5054", "5070", "4024", "4037", "2210"],
+    ["1123", "3247", "2281", "7115", "7707", "4024"],
+    ["1123", "3247", "2281", "7115", "7707", "4024", "4037"],
+    ["1123", "3248", "2281", "7115", "7707", "4024"],
+    ["1123", "3248", "2281", "7115", "7707", "4024", "4037"],
+  ];
 
-const olevelSubs = [
-    [ '2058', '2059', '3247' ],
-    [ '2058', '2059', '3248' ],
-    [ '1123', '3247', '5054', '5070', '5090', '4024' ],
-    [ '1123', '3248', '5054', '5070', '5090', '4024' ],
-    [ '1123', '3248', '5054', '5070', '4024', '4037' ],
-    [ '1123', '3248', '5054', '5070', '4024', '4037' ],
-    [ '1123', '3247', '5054', '5070', '5090', '4024' ],
-    [ '1123', '3247', '5054', '5070', '4024', '4037' ],
-    ['1123', '3247','5054', '5070','4024', '4037','2210'],
-    [ '1123', '3247', '2281', '7115', '7707', '4024' ],
-    ['1123', '3247','2281', '7115','7707', '4024','4037'],
-    [ '1123', '3248', '2281', '7115', '7707', '4024' ],
-    ['1123', '3248','2281', '7115','7707', '4024','4037']
-  ]
-
-const igcseSubs = [
+  const igcseSubs = [
     ["0493", "0448", "0539"],
     ["0470", "0460"],
     ["0500", "0625", "0620", "0478", "0606", "0580"],
@@ -41,10 +41,10 @@ const igcseSubs = [
     ["0500", "0455", "0450", "0452", "0580", "0606"],
     ["0510", "0455", "0450", "0452", "0580", "0606"],
     ["0511", "0455", "0450", "0452", "0580", "0606"],
-    ["0472", "0455", "0450", "0452", "0580", "0606"]
-    ]
+    ["0472", "0455", "0450", "0452", "0580", "0606"],
+  ];
 
-const alevelSubs = [    
+  const alevelSubs = [
     ["9709", "9702", "9703", "9231"],
     ["9709", "9702", "9608", "9231"],
     ["9709", "9702", "9703", "9608"],
@@ -58,161 +58,100 @@ const alevelSubs = [
     ["9685", "9608", "9609"],
     ["9695", "9990", "9389", "9708", "9155"],
     ["9704", "9995", "9988"],
-    ["9152", "9155", "9609"]
-    ]
+    ["9152", "9155", "9609"],
+  ];
 
-
-
-// const [subjectType, setSubjectType] = useState("");
-
-//console.log(props.subjectType)
-// console.log(props.selectedSubs)
-// console.log(props.setSelectedSubs)
-//console.log(props.filteredData)
-// console.log(props.setFilteredData)
-
-
-//score calculator function
-const scoringFunc = (subjComb, selectedSubjects, scoresArr) => {
-
+  //score calculator function
+  const scoringFunc = (subjComb, selectedSubjects) => {
+    let scoresArr = [];
     let finalscore = 0;
 
     for (let i = 0; i < subjComb.length; i++) {
-        let score = 0
-        for (let j = 0; j<selectedSubjects.length; j++) {
-            
-            if ( subjComb[i].includes(selectedSubjects[j].code )) {
-                score = score  + 1
-            }
-                    
-        }
-        
-        finalscore = (score / subjComb[i].length) * 100
-        //scoresArr[i].push(finalscore)
-
-        //key-value pair where key is the index of the subject-combination array and value is score.
-        scoresArr = [...scoresArr, {key:i, score:finalscore}]
-    }
-        //sorts the array according to scores (high to low)
-        scoresArr = scoresArr.sort(
-        (p1, p2) => (p1.score < p2.score) ? 1 : (p1.score > p2.score) ? -1 : 0);
-        
-        //function to remove zero-score values
-        scoresArr = scoresArr.filter( (currVal) => {
-            if (currVal.score > 0) {
-                return true
-            }
-            else {
-                return false
-            }
-        })
-        
-        //function to keep the top 8 recommendations only
-        for (let i=0; i<scoresArr.length; i++) {
-            if (scoresArr.length <= 8) {
-                break
-            }
-            else {
-                scoresArr.pop()
-            }
-        }
-        
-        return scoresArr
-}
-
-
-let recArr = []
-
-//function to filter, clean, sort and map data
-const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
-    for (let i=0; i<scoresArr.length; i++) {
-        
-        
-        recArr = [...recArr, subjComb[scoresArr[i].key] ]
- 
-    }
-    //flatten the array from 2d to 1d mantaining the original order
-    recArr = recArr.flat()
-
-    //remove repeated values from the data
-    recArr = [...new Set(recArr)]
-    
-    //remove selected subjects values from the data
-    recArr = recArr.filter(code => {
-      for (let i = 0; i < selectedSubjects.length; i++) {
-        if (selectedSubjects[i].code === code) {
-          return false;
+      let score = 0;
+      for (let j = 0; j < selectedSubjects.length; j++) {
+        if (subjComb[i].includes(selectedSubjects[j].code)) {
+          score = score + 1;
         }
       }
-      return true;
-    });
 
-    recArr.forEach(code => {
-        const foundData = props.filteredData.find(data => data.code === code);
-        if (foundData) {
-          //console.log(foundData.commonSubstring);
-          finalArr = [...finalArr, {subject:foundData.commonSubstring,code:foundData.code}]
-        }
-      });
+      finalscore = (score / subjComb[i].length) * 100;
 
-      
-    return finalArr
-    //console.log(recArr)
-}
-
-
-
-//conditional scoring based upon subjectType
-useEffect(()=> {
-
-    console.log("asads")
-    if (props.selectedSubs.length !== 0) {
-        if (props.subjectType === "Cambridge IGCSE") {
-    
-            let igcseScores = []
-            igcseScores = scoringFunc(igcseSubs, props.selectedSubs, igcseScores)
-            finalArr = valueFindFunc(igcseScores, igcseSubs, props.selectedSubs)
-        }
-    
-        else if (props.subjectType === "Cambridge O Level" ) {
-            let olevelScores = []
-            olevelScores = scoringFunc(olevelSubs, props.selectedSubs, olevelScores)
-            finalArr = valueFindFunc(olevelScores, olevelSubs, props.selectedSubs)
-        }
-    
-        else if (props.subjectType === "Cambridge International A Level") {
-            let alevelScores = []
-            alevelScores = scoringFunc(alevelSubs, props.selectedSubs, alevelScores)
-            finalArr = valueFindFunc(alevelScores, alevelSubs, props.selectedSubs)
-        }
+      //key-value pair where key is the index of the subject-combination array and value is score.
+      scoresArr = [...scoresArr, { key: i, score: finalscore }];
     }
 
-    console.log(finalArr)
-    setFinalRecArr(finalArr)
-}, [props.selectedSubs])
+    //sorts the array according to scores (high to low)
+    //function to remove zero-score values
+    scoresArr = scoresArr
+      .filter((currVal) => {
+        if (currVal.score > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .sort((p1, p2) =>
+        p1.score < p2.score ? 1 : p1.score > p2.score ? -1 : 0
+      );
 
+    // slice the array to keep the top 8 recommendations only
+    scoresArr = scoresArr.slice(0, 8);
 
+    return scoresArr;
+  };
 
-    {/**
-    ERROR :
-    Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, 
-    but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
-    */}
-    // useEffect(() => {
-    //     setFinalRecArr(finalArr)
-    // }, [finalArr])
+  let recArr = [];
 
-  
-    return (
-    <>
+  //function to filter, clean, sort and map data
+  const valueFindFunc = (scoresArr, subjComb, selectedSubjects) => {
+    //map the subject-combination array to the scores array
+    recArr = scoresArr.map((score) => subjComb[score.key]);
 
-    {finalRecArr.map((currVal) =>
-        <div key={currVal.code} className="flex space-x-4 text-yellow-400">
-        <h1>{currVal.subject}</h1>
-        <h1>{currVal.code}</h1>
-        </div>
-    )}
-    
-    </>
-  )
+    //flatten the array from 2d to 1d mantaining the original order
+    recArr = recArr.flat();
+
+    //remove repeated values from the data
+    recArr = [...new Set(recArr)];
+
+    //remove selected subjects values from the data
+    recArr = recArr.filter((code) => {
+      const found = selectedSubjects.find((sub) => sub.code === code);
+      return !found;
+    });
+
+    //map the data to the subject-combination array
+    let filteredSubjectData = recArr.map((code) => {
+      const foundData = data.find((data) => data.code === code);
+      return foundData;
+    });
+
+    //remove undefined values from the data and slice the array to keep the top 8 recommendations only
+    filteredSubjectData = filteredSubjectData
+      .filter((data) => data !== undefined)
+      .slice(0, 8);
+
+    setFinalArr(filteredSubjectData);
+  };
+
+  //conditional scoring based upon subjectType
+  useEffect(() => {
+    if (selectedSubs.length !== 0) {
+      let currentLevelSubs = [];
+      if (subjectType === "Cambridge IGCSE") currentLevelSubs = igcseSubs;
+      else if (subjectType === "Cambridge O Level")
+        currentLevelSubs = olevelSubs;
+      else if (subjectType === "Cambridge International A Level")
+        currentLevelSubs = alevelSubs;
+      else currentLevelSubs = [];
+
+      console.log(subjectType);
+
+      let currentLevelScores = scoringFunc(currentLevelSubs, selectedSubs);
+      valueFindFunc(currentLevelScores, currentLevelSubs, selectedSubs);
+    } else {
+      setFinalArr([]);
+    }
+  }, [selectedSubs]);
+
+  return finalArr;
 }

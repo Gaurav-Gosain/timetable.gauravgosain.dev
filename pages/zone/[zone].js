@@ -102,7 +102,7 @@ const ZonePage = ({
           )
       );
     } else {
-      setFilteredData(data);
+      setFilteredData([]);
     }
 
     //console.log(tempFilteredData)
@@ -220,6 +220,7 @@ const ZonePage = ({
         setFilteredData,
         searchInput,
         setSearchInput,
+        data,
       }}
     />
   );

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Recommendation from "./Recommendation";
+import SubjectListContainer from "./SubjectListContainer";
 
 export default function SearchInputForm({
   showModal,
@@ -13,11 +14,21 @@ export default function SearchInputForm({
   searchInputRef,
   setSearchInput,
   selectedSubs,
-  setSelectedSubs
+  setSelectedSubs,
+  data,
 }) {
+  const RecommendedSubjects =
+    subjectType === "Custom"
+      ? []
+      : Recommendation({
+          subjectType,
+          selectedSubs,
+          data,
+        });
+
   return (
     <>
-      <div className="top-[40%] bottom-[50%] left-4 right-4 mb-8 flex flex-col justify-center text-center md:absolute lg:left-[15%] lg:right-[15%]">
+      <div className="pt-14 left-4 right-4 mb-8 flex flex-col text-center lg:left-[15%] lg:right-[15%]">
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
@@ -56,7 +67,7 @@ export default function SearchInputForm({
             },
           }}
         >
-          <div className="relative flex h-12 w-11/12 items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-2/3">
+          <div className="relative flex h-12 w-11/12 items-center overflow-hidden rounded-2xl bg-white focus-within:shadow-lg lg:w-[48%]">
             <div className="grid h-full w-12 place-items-center text-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,19 +136,25 @@ export default function SearchInputForm({
           </div>
 
           {/** Results Div Below Search Bar, Made Hidden when the search input is none*/}
-          <div
-            className={`top-[7rem] mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark md:absolute md:-mt-10 lg:w-[60%] ${
-              searchInput === "" ? "hidden" : "visible"
-            } `}
-          >
-            {/**Header inside the div containing two headings */}
-            <div className="flex flex-row justify-between text-sm text-gray-500 md:text-lg md:font-[500]">
-              <h1 className="pl-[5%]">Name</h1>
-              <h1 className="pr-[5%]">Code</h1>
-            </div>
+          {(filteredData.length > 0 || RecommendedSubjects.length > 0) && (
+            <div
+              className={`mt-1 w-[95%] items-start rounded-2xl bg-white py-4 text-lg text-dark lg:w-[50%] `}
+            >
+              {RecommendedSubjects.length > 0 && searchInput === "" && (
+                <div className="text-xs text-gray-400">Recommended</div>
+              )}
+              {/**Header inside the div containing two headings */}
+              <div className="flex flex-row justify-between text-sm text-gray-500 md:text-lg md:font-[500]">
+                <h1 className="pl-[5%]">Name</h1>
+                <h1 className="pr-[5%]">Code</h1>
+              </div>
 
-            {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
-            <div className="max-h-96 overflow-y-auto py-2">
+              {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
+              {/* <div
+              className={`max-h-96 overflow-y-auto py-2 ${
+                searchInput === "" ? "hidden" : "visible"
+              }`}
+            >
               {filteredData?.map((currVal) => {
                 if (
                   selectedSubs.some((arrItem) => arrItem.code == currVal.code)
@@ -189,17 +206,33 @@ export default function SearchInputForm({
                   </button>
                 );
               })}
-            </div>
-          </div>
+            </div> */}
+              <SubjectListContainer
+                {...{
+                  visible: filteredData.length > 0 && searchInput !== "",
+                  filteredData,
+                  selectedSubs,
+                  showModal,
+                  setFilteredSubject,
+                  addSubject,
+                  subjectType,
+                }}
+              />
 
-          {/**Recommendations Component */}
-          {/* <Recommendation
-            subjectType={subjectType}
-            selectedSubs={selectedSubs}
-            //setSelectedSubs={setSelectedSubs}
-            filteredData={filteredData}
-            //setFilteredData={setFilteredData}
-          /> */}
+              <SubjectListContainer
+                {...{
+                  visible: RecommendedSubjects.length > 0 && searchInput === "",
+                  filteredData: RecommendedSubjects,
+                  selectedSubs,
+                  showModal,
+                  setFilteredSubject,
+                  addSubject,
+                  subjectType,
+                }}
+              />
+              {/**Recommendations Component */}
+            </div>
+          )}
         </motion.div>
       </div>
     </>

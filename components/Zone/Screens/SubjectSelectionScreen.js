@@ -33,6 +33,7 @@ const SubjectSelectionScreen = ({
   setFilteredData,
   searchInput,
   setSearchInput,
+  data,
 }) => {
   const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
 
@@ -96,40 +97,32 @@ const SubjectSelectionScreen = ({
       </div>
 
       {/** Div Containing list of selected subjects on Top Left */}
-      <SelectedSubsDiv
-        defaultVisiblity={"hidden"}
-        responsiveVisiblity={""}
-        selectedSubs={selectedSubs}
-        setFilteredSubject={setFilteredSubject}
-        setSelectedSubs={setSelectedSubs}
-        openEditModal={openEditModal}
-      />
-
-      {/** Absolute Positioned Main Div containing Search Engine Front End*/}
-      <SearchInputForm
-        showModal={showModal}
-        openModal={openModal}
-        subjectType={subjectType}
-        addSubject={addSubject}
-        selectedSubject={selectedSubjects}
-        setFilteredSubject={setFilteredSubject}
-        filteredData={filteredData}
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-        searchInputRef={searchInputRef}
-        setFilteredData={setFilteredData}
-        selectedSubs={selectedSubs}
-        setSelectedSubs={setSelectedSubs}
-      />
-
-      <SelectedSubsDiv
-        defaultVisiblity={""}
-        responsiveVisiblity={"hidden"}
-        selectedSubs={selectedSubs}
-        setFilteredSubject={setFilteredSubject}
-        setSelectedSubs={setSelectedSubs}
-        openEditModal={openEditModal}
-      />
+  
+      <div className="flex flex-col-reverse md:flex-col">
+        <SelectedSubsDiv
+          selectedSubs={selectedSubs}
+          setFilteredSubject={setFilteredSubject}
+          setSelectedSubs={setSelectedSubs}
+          openEditModal={openEditModal}
+        />
+        {/** Absolute Positioned Main Div containing Search Engine Front End*/}
+        <SearchInputForm
+          showModal={showModal}
+          openModal={openModal}
+          subjectType={subjectType}
+          addSubject={addSubject}
+          selectedSubject={selectedSubjects}
+          setFilteredSubject={setFilteredSubject}
+          filteredData={filteredData}
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          searchInputRef={searchInputRef}
+          setFilteredData={setFilteredData}
+          selectedSubs={selectedSubs}
+          setSelectedSubs={setSelectedSubs}
+          data={data}
+        />
+      </div>
 
       <div className="fixed bottom-0 flex w-full flex-col items-center justify-center gap-2 bg-dark py-2 md:absolute md:py-8">
         {selectedSubs.length > 0 && (
