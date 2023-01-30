@@ -8,8 +8,8 @@ const SubjectListContainer = ({
   setFilteredSubject,
   addSubject,
   subjectType,
+  openModal,
 }) => {
-
   return (
     <div
       className={`max-h-72 overflow-y-auto py-2 ${

@@ -28,7 +28,7 @@ export default function SearchInputForm({
 
   return (
     <>
-      <div className="pt-14 left-4 right-4 mb-8 flex flex-col text-center lg:left-[15%] lg:right-[15%]">
+      <div className="left-4 right-4 mb-8 flex flex-col pt-14 text-center lg:left-[15%] lg:right-[15%]">
         {/** Heading above Search Bar */}
         <motion.h1
           initial={{
@@ -150,63 +150,7 @@ export default function SearchInputForm({
               </div>
 
               {/**divs containing subject name and codes. Shown below the Header. Being Filtered with SearchInput */}
-              {/* <div
-              className={`max-h-96 overflow-y-auto py-2 ${
-                searchInput === "" ? "hidden" : "visible"
-              }`}
-            >
-              {filteredData?.map((currVal) => {
-                if (
-                  selectedSubs.some((arrItem) => arrItem.code == currVal.code)
-                )
-                  return null;
-                return (
-                  <button
-                    key={currVal.code}
-                    className={
-                      "min-h-96 duration-300ms flex w-full flex-row justify-between bg-white py-2 text-sm font-[500] transition-colors ease-in-out hover:bg-gray-100 active:bg-primary lg:text-lg"
-                    }
-                    onClick={() => {
-                      let selectedSubject = currVal;
-                      if (showModal) {
-                        selectedSubject.group = selectedSubject.group.map(
-                          (group) => {
-                            return {
-                              ...group,
-                              selected: group.type.includes("AS")
-                                ? true
-                                : false,
-                            };
-                          }
-                        );
-                        setFilteredSubject(selectedSubject);
-                        openModal();
-                      } else {
-                        selectedSubject.group = selectedSubject.group.map(
-                          (group) => {
-                            return {
-                              ...group,
-                              selected: true,
-                            };
-                          }
-                        );
-                        addSubject(selectedSubject);
-                      }
-                    }}
-                  >
-                    <h1 className="flex max-w-[50%] flex-col pl-[5%] text-left">
-                      <span>{currVal.commonSubstring}</span>
-                      {subjectType === "custom" && (
-                        <span className="text-sm text-gray-500">
-                          {currVal.group[0].type.replace("AS Level", "A Level")}
-                        </span>
-                      )}
-                    </h1>
-                    <h1 className="pr-[5%]">{currVal.code}</h1>
-                  </button>
-                );
-              })}
-            </div> */}
+
               <SubjectListContainer
                 {...{
                   visible: filteredData.length > 0 && searchInput !== "",
@@ -216,6 +160,7 @@ export default function SearchInputForm({
                   setFilteredSubject,
                   addSubject,
                   subjectType,
+                  openModal,
                 }}
               />
 
@@ -228,6 +173,7 @@ export default function SearchInputForm({
                   setFilteredSubject,
                   addSubject,
                   subjectType,
+                  openModal,
                 }}
               />
               {/**Recommendations Component */}
