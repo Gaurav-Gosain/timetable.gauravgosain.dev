@@ -53,9 +53,14 @@ const TimetablePage = () => {
         </div>
       )}
 
-      <div className="flex max-h-[80vh] flex-col items-center justify-center gap-4">
+      <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-3xl font-bold text-white">My Timetable</h1>
-        <Table subjects={selectedSubjects} setSubjects={setSelectedSubjects} />
+        <div className="max-h-[80vh]">
+          <Table
+            subjects={selectedSubjects}
+            setSubjects={setSelectedSubjects}
+          />
+        </div>
       </div>
       <button
         className="mb-12 rounded-full bg-primary px-6 py-1 font-semibold text-dark"
