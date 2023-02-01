@@ -57,13 +57,21 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-8">
+      <ins
+        class="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-987************676"
+        data-ad-slot="776****95"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       {/* loading overlay */}
       {loading && (
         <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
           <div className="h-32 w-32 animate-spin rounded-full border-b-4 border-white" />
         </div>
       )}
-
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div className="flex items-center p-4">
         <canvas ref={canvasRef} />
