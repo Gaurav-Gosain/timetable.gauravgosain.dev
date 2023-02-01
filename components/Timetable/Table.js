@@ -264,16 +264,16 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <div className="mx-32 flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw] md:flex-row">
-        <SortByMenu />
+      <div className="mx-32 flex h-auto w-full flex-row items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
         <ins
-          className="adsbygoogle flex-1"
+          className="adsbygoogle"
           style={{ display: "block" }}
           data-ad-client="ca-pub-3525004719017767"
           data-ad-slot="3750156675"
           data-ad-format="auto"
           data-full-width-responsive="true"
         />
+        <SortByMenu />
       </div>
 
       <div className="relative mx-32 my-8 max-h-[80vh] overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
