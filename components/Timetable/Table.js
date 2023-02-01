@@ -265,6 +265,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
       </Transition>
 
       <div className="mx-32 flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw] md:flex-row">
+        <SortByMenu />
         <ins
           className="adsbygoogle flex-1"
           style={{ display: "block" }}
@@ -273,7 +274,6 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
           data-ad-format="auto"
           data-full-width-responsive="true"
         />
-        <SortByMenu />
       </div>
 
       <div className="relative mx-32 my-8 max-h-[80vh] overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
