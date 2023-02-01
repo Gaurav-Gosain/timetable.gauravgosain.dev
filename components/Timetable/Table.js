@@ -264,15 +264,18 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <div className="mx-32 flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-3525004719017767"
-          data-ad-slot="3750156675"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
+      <div className="flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
+        {/* TODO: fix this */}
+        {false && (
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-3525004719017767"
+            data-ad-slot="3750156675"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+        )}
         <SortByMenu />
       </div>
 
