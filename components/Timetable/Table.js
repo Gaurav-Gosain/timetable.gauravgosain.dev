@@ -14,7 +14,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
   const SortByMenu = () => {
     return (
       <div>
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative text-left">
           <div>
             <Menu.Button>
               {({ open }) => (
@@ -264,7 +264,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <div className="flex h-auto w-full items-center justify-between gap-4 p-2">
+      <div className="flex h-auto w-full items-center justify-between gap-4 p-2 md:max-w-[95vw]">
         <ins
           className="adsbygoogle h-auto w-full flex-1 items-center justify-center"
           style={{ display: "block" }}
