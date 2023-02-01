@@ -55,25 +55,22 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
 
   const router = useRouter();
 
-  const [showAds, setShowAds] = useState(false);
-
   useEffect(() => {
     setShowAds(true);
     // (adsbygoogle = window.adsbygoogle || []).push({});
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-8">
-      {showAds && (
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-3525004719017767"
-          data-ad-slot="3750156675"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      )}
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-3525004719017767"
+        data-ad-slot="3750156675"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
       {/* loading overlay */}
       {loading && (
         <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
