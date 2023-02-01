@@ -266,7 +266,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
 
       <div className="relative mx-32 my-8 rounded-2xl shadow-md md:w-auto md:max-w-[95vw]">
         <div className="flex h-auto w-full flex-col items-center justify-between gap-4 p-2 lg:flex-row lg:items-end">
-          <div className="lg:flex-1">
+          <div className="max-h-40 flex-1">
             <ins
               className="adsbygoogle"
               style={{ display: "block" }}
