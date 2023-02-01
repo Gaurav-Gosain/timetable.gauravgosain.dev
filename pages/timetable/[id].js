@@ -56,8 +56,6 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const router = useRouter();
 
   useEffect(() => {
-    setShowAds(true);
-    // (adsbygoogle = window.adsbygoogle || []).push({});
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
 
