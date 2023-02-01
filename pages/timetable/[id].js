@@ -60,8 +60,8 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
       <ins
         class="adsbygoogle"
         style={{ display: "block" }}
-        data-ad-client="ca-pub-987************676"
-        data-ad-slot="776****95"
+        data-ad-client="ca-pub-3525004719017767"
+        data-ad-slot="3750156675"
         data-ad-format="auto"
         data-full-width-responsive="true"
       />
