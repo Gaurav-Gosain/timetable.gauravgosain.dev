@@ -8,8 +8,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    // TODO: uncomment this when ad is fixed
-    // (window.adsbygoogle = window.adsbygoogle || []).push({});
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
 
   const SortByMenu = () => {
@@ -265,113 +264,113 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <div className="flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
-        {/* TODO: fix this */}
-        {false && (
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-3525004719017767"
-            data-ad-slot="3750156675"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-        )}
-        <SortByMenu />
-      </div>
+      <div className="relative mx-32 my-8 rounded-2xl shadow-md md:w-auto md:max-w-[95vw]">
+        <div className="flex h-auto w-full flex-col items-center justify-between gap-4 p-2 lg:flex-row lg:items-end">
+          <div className="lg:flex-1">
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-client="ca-pub-3525004719017767"
+              data-ad-slot="3750156675"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          </div>
+          <SortByMenu />
+        </div>
 
-      <div className="relative mx-32 my-8 max-h-[80vh] overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
-        <motion.table
-          className="w-[95vw] select-none text-left text-sm text-gray-400 md:w-full"
-          layout
-        >
-          <motion.thead
+        <div className="max-h-[80vh] overflow-auto rounded-xl md:overflow-x-auto">
+          <motion.table
+            className="w-[95vw] select-none  text-left text-sm text-gray-400 md:w-full "
             layout
-            className="sticky top-0 z-20 bg-gray-700 text-xs uppercase text-gray-400"
           >
-            <tr>
-              <th scope="col" className="py-3 px-6">
-                Subject Name
-              </th>
-              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
-                Type
-              </th>
-              <th scope="col" className="px-2 py-3 md:px-6">
-                Code
-              </th>
-              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
-                Duration
-              </th>
-              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
-                Date
-              </th>
-              <th scope="col" className="hidden px-6 py-3 lg:table-cell">
-                Session
-              </th>
-              {editable && (
-                <th
-                  scope="col"
-                  className="bg-gray-700 px-1 py-3 md:sticky md:right-0"
-                >
-                  Remove
+            <motion.thead
+              layout
+              className="sticky top-0 z-20 bg-gray-700 text-xs uppercase text-gray-400"
+            >
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  Subject Name
                 </th>
-              )}
-            </tr>
-          </motion.thead>
-
-          <tbody>
-            {subjects.map((subject) => (
-              <motion.tr
-                key={subject.code}
-                className="relative border-b border-gray-700 bg-gray-800"
-                layout
-              >
-                <th
-                  scope="row"
-                  className="flex items-center gap-4 px-2 py-4 text-xs font-medium text-white md:whitespace-nowrap md:px-6 md:text-base"
-                  onClick={() => {
-                    setSubject(subject);
-                    setIsOpen(true);
-                  }}
-                >
-                  <div className="text-lg md:text-2xl lg:hidden">
-                    <CgInfo />
-                  </div>
-                  {subject.subject}
+                <th scope="col" className="hidden px-6 py-3 lg:table-cell">
+                  Type
                 </th>
-                <td className="hidden px-6 py-4 lg:table-cell">
-                  {subject.type}
-                </td>
-                <td className="px-2 py-4 text-xs md:px-6 md:text-base">
-                  {subject.code}
-                </td>
-                <td className="hidden px-6 py-4 lg:table-cell">
-                  {subject.duration}
-                </td>
-                <td className="hidden px-6 py-4 lg:table-cell">
-                  {subject.date}
-                </td>
-                <td className="hidden px-6 py-4 lg:table-cell">
-                  {subject.date.split(" ").slice(-1)}
-                </td>
+                <th scope="col" className="px-2 py-3 md:px-6">
+                  Code
+                </th>
+                <th scope="col" className="hidden px-6 py-3 lg:table-cell">
+                  Duration
+                </th>
+                <th scope="col" className="hidden px-6 py-3 lg:table-cell">
+                  Date
+                </th>
+                <th scope="col" className="hidden px-6 py-3 lg:table-cell">
+                  Session
+                </th>
                 {editable && (
-                  <td className="bg-gray-800 px-1 py-4 md:sticky md:right-0">
-                    <button
-                      className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
-                      onClick={() =>
-                        setSubjects(
-                          subjects.filter((arrItem) => arrItem !== subject)
-                        )
-                      }
-                    >
-                      <HiTrash />
-                    </button>
-                  </td>
+                  <th
+                    scope="col"
+                    className="bg-gray-700 px-1 py-3 md:sticky md:right-0"
+                  >
+                    Remove
+                  </th>
                 )}
-              </motion.tr>
-            ))}
-          </tbody>
-        </motion.table>
+              </tr>
+            </motion.thead>
+            <tbody>
+              {subjects.map((subject) => (
+                <motion.tr
+                  key={subject.code}
+                  className="relative border-b border-gray-700 bg-gray-800"
+                  layout
+                >
+                  <th
+                    scope="row"
+                    className="flex items-center gap-4 px-2 py-4 text-xs font-medium text-white md:whitespace-nowrap md:px-6 md:text-base"
+                    onClick={() => {
+                      setSubject(subject);
+                      setIsOpen(true);
+                    }}
+                  >
+                    <div className="text-lg md:text-2xl lg:hidden">
+                      <CgInfo />
+                    </div>
+                    {subject.subject}
+                  </th>
+                  <td className="hidden px-6 py-4 lg:table-cell">
+                    {subject.type}
+                  </td>
+                  <td className="px-2 py-4 text-xs md:px-6 md:text-base">
+                    {subject.code}
+                  </td>
+                  <td className="hidden px-6 py-4 lg:table-cell">
+                    {subject.duration}
+                  </td>
+                  <td className="hidden px-6 py-4 lg:table-cell">
+                    {subject.date}
+                  </td>
+                  <td className="hidden px-6 py-4 lg:table-cell">
+                    {subject.date.split(" ").slice(-1)}
+                  </td>
+                  {editable && (
+                    <td className="bg-gray-800 px-1 py-4 md:sticky md:right-0">
+                      <button
+                        className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
+                        onClick={() =>
+                          setSubjects(
+                            subjects.filter((arrItem) => arrItem !== subject)
+                          )
+                        }
+                      >
+                        <HiTrash />
+                      </button>
+                    </td>
+                  )}
+                </motion.tr>
+              ))}
+            </tbody>
+          </motion.table>
+        </div>
       </div>
     </>
   );
