@@ -8,7 +8,8 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    // TODO: uncomment this when ad is fixed
+    // (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
 
   const SortByMenu = () => {
