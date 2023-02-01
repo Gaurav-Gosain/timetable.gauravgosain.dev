@@ -1,12 +1,15 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
-import React, { Fragment, useState } from "react";
-import { CgInfo, CgScrollH } from "react-icons/cg";
+import React, { Fragment, useEffect, useState } from "react";
+import { CgInfo } from "react-icons/cg";
 import { HiChevronDown, HiTrash } from "react-icons/hi2";
 
 const Table = ({ subjects, setSubjects, editable = true }) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }, []);
 
   const SortByMenu = () => {
     return (
@@ -261,7 +264,17 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <SortByMenu />
+      <div className="flex h-auto w-full items-center justify-between gap-4 p-2">
+        <ins
+          className="adsbygoogle h-auto w-full flex-1 items-center justify-center"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-3525004719017767"
+          data-ad-slot="3750156675"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+        <SortByMenu />
+      </div>
 
       <div className="relative mx-32 my-8 max-h-[80vh] overflow-auto rounded-2xl shadow-md md:w-auto md:max-w-[95vw] md:overflow-x-auto">
         <motion.table

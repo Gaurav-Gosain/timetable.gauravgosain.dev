@@ -55,22 +55,8 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-  }, []);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-8">
-      <div className="flex h-auto w-full min-w-[100vw] items-center justify-center">
-        <ins
-          className="adsbygoogle flex h-auto w-full items-center justify-center"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-3525004719017767"
-          data-ad-slot="3750156675"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </div>
       {/* loading overlay */}
       {loading && (
         <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
