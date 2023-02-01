@@ -63,7 +63,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
     <div className="flex min-h-screen flex-col items-center justify-center py-8">
       <div className="h-auto w-full">
         <ins
-          className="adsbygoogle"
+          className="adsbygoogle h-auto w-full"
           style={{ display: "block" }}
           data-ad-client="ca-pub-3525004719017767"
           data-ad-slot="3750156675"
