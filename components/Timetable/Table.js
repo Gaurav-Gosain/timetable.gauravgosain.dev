@@ -264,7 +264,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
         </Dialog>
       </Transition>
 
-      <div className="mx-32 flex h-auto w-full flex-row items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
+      <div className="mx-32 flex h-auto w-full flex-col items-center justify-evenly gap-4 p-2 md:max-w-[95vw]">
         <ins
           className="adsbygoogle"
           style={{ display: "block" }}
