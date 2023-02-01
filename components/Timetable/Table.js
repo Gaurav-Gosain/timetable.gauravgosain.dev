@@ -266,7 +266,7 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
 
       <div className="mx-32 flex h-auto w-full flex-col items-center justify-between gap-4 p-2 md:max-w-[95vw] md:flex-row">
         <ins
-          className="adsbygoogle flex-1"
+          className="adsbygoogle"
           style={{ display: "block" }}
           data-ad-client="ca-pub-3525004719017767"
           data-ad-slot="3750156675"
