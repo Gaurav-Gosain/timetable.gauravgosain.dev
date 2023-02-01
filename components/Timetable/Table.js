@@ -8,7 +8,8 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    // TODO: fix this
+    // (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
 
   const SortByMenu = () => {
@@ -267,6 +268,8 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
       <div className="relative mx-32 my-8 rounded-2xl shadow-md md:w-auto md:max-w-[95vw]">
         <div className="flex h-auto w-full flex-col items-center justify-between gap-4 p-2 lg:flex-row lg:items-end">
           <div className="max-h-40 flex-1">
+            {/* Uncomment later */}
+            {/*
             <ins
               className="adsbygoogle"
               style={{ display: "block" }}
@@ -275,11 +278,12 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
               data-ad-format="auto"
               data-full-width-responsive="true"
             />
+            */}
           </div>
           <SortByMenu />
         </div>
 
-        <div className="max-h-[80vh] overflow-auto rounded-xl md:overflow-x-auto">
+        <div className="max-h-[70vh] overflow-auto rounded-xl md:overflow-x-auto">
           <motion.table
             className="w-[95vw] select-none  text-left text-sm text-gray-400 md:w-full "
             layout

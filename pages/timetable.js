@@ -55,19 +55,19 @@ const TimetablePage = () => {
 
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-3xl font-bold text-white">My Timetable</h1>
-        <div className="max-h-[80vh]">
+        <div className="flex-1">
           <Table
             subjects={selectedSubjects}
             setSubjects={setSelectedSubjects}
           />
         </div>
-      </div>
       <button
-        className="mb-12 rounded-full bg-primary px-6 py-1 font-semibold text-dark"
+        className="rounded-full bg-primary px-6 py-1 font-semibold text-dark relative"
         onClick={saveTimetable}
       >
         Save
       </button>
+      </div>
     </div>
   );
 };
