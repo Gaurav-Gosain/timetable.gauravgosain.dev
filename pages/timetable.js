@@ -88,7 +88,7 @@ const TimetablePage = () => {
                     ...selectedSubjects,
                   ]);
                   //? update the removedSubjects array
-                  setRemovedSubjects([...removedSubjects.slice(0, -1)]);
+                  setRemovedSubjects(removedSubjects);
                 }}
               >
                 <CgUndo />
