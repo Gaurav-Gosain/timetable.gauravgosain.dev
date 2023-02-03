@@ -8,7 +8,7 @@ import { useSessionStorage } from "usehooks-ts";
 
 const TimetablePage = () => {
   const router = useRouter();
-  const [timetableData, _] = useSessionStorage("timetable", {});
+  const [timetableData, setTimetableData] = useSessionStorage("timetable", {});
   const user = useUser();
   const supabase = useSupabaseClient();
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +23,7 @@ const TimetablePage = () => {
     if (selectedSubjects === null) return;
     if (selectedSubjects.length === 0) {
       router.push("/");
+      setTimetableData({});
       // delete timetable from db
       supabase.from("timetables").delete().eq("id", user?.id);
     }

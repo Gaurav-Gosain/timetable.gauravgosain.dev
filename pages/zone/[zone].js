@@ -239,9 +239,7 @@ export const getServerSideProps = async (ctx) => {
 
   if (!id) {
     return {
-      props: {
-        filteredSubjects: [],
-      },
+      props: {},
     };
   }
 
@@ -266,9 +264,7 @@ export const getServerSideProps = async (ctx) => {
 
   if (error) {
     return {
-      props: {
-        filteredSubjects: [],
-      },
+      props: {},
     };
   }
 
