@@ -77,7 +77,7 @@ const TimetablePage = () => {
           {removedSubjects.length > 0 && (
             <div className="fixed bottom-4 right-4">
               <div
-                className="rounded-full bg-primary p-2 text-xl text-dark"
+                className="flex cursor-pointer items-center gap-1 rounded-full bg-primary p-2 text-xl text-dark"
                 onClick={() => {
                   //? pop the last element from the removedSubjects array
                   const lastRemovedSubject = removedSubjects.pop();
@@ -91,6 +91,7 @@ const TimetablePage = () => {
                 }}
               >
                 <CgUndo />
+                <div className="text-sm md:text-base">Undo</div>
               </div>
             </div>
           )}
