@@ -4,7 +4,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import { CgInfo } from "react-icons/cg";
 import { HiChevronDown, HiTrash } from "react-icons/hi2";
 
-const Table = ({ subjects, setSubjects, editable = true }) => {
+const Table = ({
+  subjects,
+  setSubjects,
+  editable = true,
+  removedSubjects,
+  setRemovedSubjects = () => {},
+}) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -360,11 +366,18 @@ const Table = ({ subjects, setSubjects, editable = true }) => {
                     <td className="bg-gray-800 px-1 py-4 md:sticky md:right-0">
                       <button
                         className="mx-4 rounded-full bg-red-500 p-2 font-bold text-white transition-all duration-300 hover:bg-red-400"
-                        onClick={() =>
+                        onClick={() => {
+                          // add the removed subject to the removedSubjects array
+                          setRemovedSubjects([
+                            ...removedSubjects,
+                            ...subjects.filter(
+                              (arrItem) => arrItem === subject
+                            ),
+                          ]);
                           setSubjects(
                             subjects.filter((arrItem) => arrItem !== subject)
-                          )
-                        }
+                          );
+                        }}
                       >
                         <HiTrash />
                       </button>
