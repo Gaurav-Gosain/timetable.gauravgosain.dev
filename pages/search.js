@@ -1,8 +1,8 @@
 import CountrySelector from "@/components/Home/CountrySelector";
 import SignOutButton from "@/components/SignOutButton";
 import logo from "@/public/logo_light.png";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import VerifySession from "@/utils/VerifySession";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
@@ -30,8 +30,9 @@ const SearchPage = () => {
           </Link>
           <div
             onClick={() => {
-              supabase.auth.signOut();
-              router.push("/");
+              supabase.auth.signOut().then(() => {
+                router.push("https://www.knowfly.org/tools");
+              });
             }}
           >
             {session && <SignOutButton />}
