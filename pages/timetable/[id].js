@@ -74,8 +74,9 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
         <div
           onClick={() => {
             supabase.auth.signOut().then(() => {
-              router.push("https://www.knowfly.org/tools");
-            })
+              // navigate to "https://www.knowfly.org/tools"
+              document.location.href = "https://www.knowfly.org/tools";
+            });
           }}
         >
           {session && <SignOutButton />}

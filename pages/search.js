@@ -31,7 +31,8 @@ const SearchPage = () => {
           <div
             onClick={() => {
               supabase.auth.signOut().then(() => {
-                router.push("https://www.knowfly.org/tools");
+                // navigate to "https://www.knowfly.org/tools"
+                document.location.href = "https://www.knowfly.org/tools";
               });
             }}
           >
