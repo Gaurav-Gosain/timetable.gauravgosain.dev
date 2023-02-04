@@ -1,7 +1,10 @@
+import SignOutButton from "@/components/SignOutButton";
 import Table from "@/components/Timetable/Table";
 import { ZoneMap } from "@/data/zone_map";
+import logo from "@/public/logo_light.png";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import QRCode from "qrcode";
@@ -17,6 +20,7 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
   const [_, setTimetableData] = useSessionStorage("timetable", {});
 
   const supabase = useSupabaseClient();
+  const session = useSession();
   const canvasRef = useRef();
 
   useEffect(() => {
@@ -63,6 +67,19 @@ const TimetablePage = ({ id, zone, codes, country, canEdit = false }) => {
           <div className="h-32 w-32 animate-spin rounded-full border-b-4 border-white" />
         </div>
       )}
+      <div className="flex w-full flex-row items-center justify-between px-4 md:absolute md:top-8 md:px-24">
+        <Link href={"https://www.knowfly.org/tools"}>
+          <Image src={logo} className="h-12 w-12" />
+        </Link>
+        <div
+          onClick={() => {
+            supabase.auth.signOut();
+            router.push("/");
+          }}
+        >
+          {session && <SignOutButton />}
+        </div>
+      </div>
       <Table subjects={subjects} setSubjects={setSubjects} editable={false} />
       <div className="flex items-center p-4">
         <canvas ref={canvasRef} />

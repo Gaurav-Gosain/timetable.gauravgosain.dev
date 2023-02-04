@@ -271,7 +271,7 @@ const Table = ({
         </Dialog>
       </Transition>
 
-      <div className="relative mx-32 my-8 rounded-2xl shadow-md md:w-auto md:max-w-[95vw]">
+      <div className="relative mx-32 my-12 rounded-2xl shadow-md md:w-auto md:max-w-[95vw]">
         <div className="flex h-auto w-full flex-col items-center justify-between gap-4 p-2 lg:flex-row lg:items-end">
           <div className="max-h-40 flex-1">
             {/* Uncomment later */}
