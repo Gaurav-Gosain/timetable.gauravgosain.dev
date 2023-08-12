@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
         }}
         strategy="afterInteractive"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3525004719017767"
-        crossorigin="anonymous"
+        crossOrigin="anonymous"
       />
       <NextNProgress color="#00ff85" />
       <SessionContextProvider
