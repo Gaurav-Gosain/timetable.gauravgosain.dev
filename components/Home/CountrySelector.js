@@ -16,6 +16,8 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
       ? CountriesToZoneMap
       : CountriesToZoneMap.filter((country) => {
           return country.country.toLowerCase().includes(query.toLowerCase());
+        }).sort((a, b) => {
+          return a.country.length - b.country.length;
         });
 
   const router = useRouter();

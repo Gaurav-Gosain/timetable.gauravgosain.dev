@@ -11,7 +11,7 @@ const ExaminationTypeSelectionScreen = ({ zone, clickHandler }) => {
       <div className="flex w-full flex-row p-4">
         <button
           className="z-50 bg-dark text-6xl text-white transition-all duration-300 hover:text-primary"
-          onClick={() => router.push("/search")}
+          onClick={() => router.push("/")}
         >
           <IoMdArrowRoundBack />
         </button>

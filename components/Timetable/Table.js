@@ -13,10 +13,6 @@ const Table = ({
 }) => {
   const [subject, setSubject] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    // TODO: fix this
-    // (window.adsbygoogle = window.adsbygoogle || []).push({});
-  }, []);
 
   const SortByMenu = () => {
     return (
@@ -247,7 +243,7 @@ const Table = ({
                         </div>
                         <div className="flex flex-col space-x-2 md:flex-row">
                           <div className="font-bold">Session</div>
-                          <div>{subject.date?.split(" ").slice(-1)}</div>
+                          <div>{subject.session}</div>
                         </div>
                       </div>
                     </div>
@@ -360,7 +356,7 @@ const Table = ({
                     {subject.date}
                   </td>
                   <td className="hidden px-6 py-4 lg:table-cell">
-                    {subject.date.split(" ").slice(-1)}
+                    {subject.session}
                   </td>
                   {editable && (
                     <td className="bg-gray-800 px-1 py-4 md:sticky md:right-0">
