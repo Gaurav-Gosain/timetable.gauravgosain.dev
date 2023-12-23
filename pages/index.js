@@ -10,16 +10,15 @@ const SearchPage = () => {
   return (
     <>
       <Head>
-        <title>Timetable</title>
-        <meta name="description" content="Knowfly Timetable" />
+        <title>CAIE Timetable</title>
+        <meta name="description" content="CAIE Timetable" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/logo_light.png" />
+        <link rel="icon" href="favicon-16x16.png" />
       </Head>
       <div className="flex w-screen flex-col items-center justify-center py-8 text-center md:min-h-screen lg:text-5xl">
         <div className="flex w-full flex-row items-center justify-between px-4 md:absolute md:top-8 md:px-24">
           <Link href={"/"} className="text-6xl">
-            {/* <Image src={logo} className="h-12 w-12" /> */}
-            🗓️ <span className="text-xl hidden md:block">CAIE Timetable</span>
+            🗓️ <span className="hidden text-xl md:block">CAIE Timetable</span>
           </Link>
         </div>
         <div className="mt-28 flex w-full flex-col gap-8 md:-mt-28">
