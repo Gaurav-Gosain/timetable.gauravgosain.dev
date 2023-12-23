@@ -2,14 +2,14 @@ import CountriesToZoneMap from "@/data/countries_to_zone_map.json";
 import { Combobox, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { HiChevronUpDown } from "react-icons/hi2";
-import { useSessionStorage } from "usehooks-ts";
+import { useLocalStorage } from "usehooks-ts";
 
 const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
   const [query, setQuery] = useState("");
-  const [timetableDate, setTimetableData] = useSessionStorage("timetable", {});
+  const [timetableDate, setTimetableData] = useLocalStorage("timetable", {});
 
   const filteredCountries =
     query === ""

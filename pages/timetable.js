@@ -2,11 +2,11 @@ import Table from "@/components/Timetable/Table";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { CgUndo } from "react-icons/cg";
-import { useSessionStorage } from "usehooks-ts";
+import { useLocalStorage } from "usehooks-ts";
 
 const TimetablePage = () => {
   const router = useRouter();
-  const [timetableData, _] = useSessionStorage("timetable", {});
+  const [timetableData, _] = useLocalStorage("timetable", {});
   const [selectedSubjects, setSelectedSubjects] = React.useState(null);
   const [removedSubjects, setRemovedSubjects] = React.useState([]);
 
