@@ -2,10 +2,22 @@ import CountrySelector from "@/components/Home/CountrySelector";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 const SearchPage = () => {
   const [selectedCountry, setSelectedCountry] = useState({});
+  const [timetableData, _] = useLocalStorage("timetable", {});
+
+  const router = useRouter();
+
+  useEffect(() => {
+    // redirect to the timetable page if the user already has a timetable
+    if (timetableData.selectedSubs !== undefined) {
+      router.push("/timetable");
+    }
+  }, [timetableData]);
 
   return (
     <>

@@ -6,12 +6,16 @@ import { useLocalStorage } from "usehooks-ts";
 
 const TimetablePage = () => {
   const router = useRouter();
-  const [timetableData, _] = useLocalStorage("timetable", {});
+  const [timetableData, setTimetableData] = useLocalStorage("timetable", {});
   const [selectedSubjects, setSelectedSubjects] = React.useState(null);
   const [removedSubjects, setRemovedSubjects] = React.useState([]);
 
   useEffect(() => {
-    setSelectedSubjects(timetableData.selectedSubs.map((x) => x.group).flat());
+    if (timetableData.selectedSubs !== undefined) {
+      setSelectedSubjects(
+        timetableData.selectedSubs.map((x) => x.group).flat()
+      );
+    }
   }, [timetableData]);
 
   return (
@@ -51,7 +55,10 @@ const TimetablePage = () => {
         </div>
         <button
           className="relative rounded-full bg-primary px-6 py-1 font-semibold text-dark"
-          onClick={() => router.push("/")}
+          onClick={() => {
+            router.push("/");
+            setTimetableData({});
+          }}
         >
           Restart
         </button>
