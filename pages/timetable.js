@@ -2,6 +2,7 @@ import Table from "@/components/Timetable/Table";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { CgUndo } from "react-icons/cg";
+import { HiSave } from "react-icons/hi";
 import { useLocalStorage } from "usehooks-ts";
 
 const TimetablePage = () => {
@@ -32,7 +33,25 @@ const TimetablePage = () => {
             />
           )}
           {removedSubjects.length > 0 && (
-            <div className="fixed bottom-4 right-4">
+            <div className="fixed bottom-4 right-4 flex gap-4">
+              <div
+                className="flex cursor-pointer items-center gap-1 rounded-full bg-primary p-2 text-xl text-dark"
+                onClick={() => {
+                  setTimetableData({
+                    ...timetableData,
+                    selectedSubs: [
+                      {
+                        group: selectedSubjects,
+                        removed: removedSubjects,
+                      },
+                    ],
+                  });
+                  setRemovedSubjects([]);
+                }}
+              >
+                <HiSave />
+                <div className="text-sm md:text-base">Save</div>
+              </div>
               <div
                 className="flex cursor-pointer items-center gap-1 rounded-full bg-primary p-2 text-xl text-dark"
                 onClick={() => {
