@@ -17,7 +17,19 @@ const CountrySelector = ({ selectedCountry, setSelectedCountry }) => {
       : CountriesToZoneMap.filter((country) => {
           return country.country.toLowerCase().includes(query.toLowerCase());
         }).sort((a, b) => {
-          return a.country.length - b.country.length;
+          if (a.country.toLowerCase().startsWith(query.toLowerCase())) {
+            if (b.country.toLowerCase().startsWith(query.toLowerCase())) {
+              return a.country.length - b.country.length;
+            } else {
+              return -1;
+            }
+          } else {
+            if (b.country.toLowerCase().startsWith(query.toLowerCase())) {
+              return 1;
+            } else {
+              return a.country.length - b.country.length;
+            }
+          }
         });
 
   const router = useRouter();
